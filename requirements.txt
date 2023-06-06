@@ -3,4 +3,4 @@ django-ckeditor==6.5.1
 django-filter==23.2
 djangorestframework==3.14.0
 Pillow==9.5.0
-Markdown==3.4.3
+django-sortedm2m==3.1.1

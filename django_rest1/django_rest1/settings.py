@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'sortedm2m',
 
     'shop.apps.ShopConfig',
+    'company_orders.apps.CompanyOrdersConfig'
 
 ]
 

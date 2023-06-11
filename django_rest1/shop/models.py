@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from sortedm2m.fields import SortedManyToManyField
 
 
-class User(AbstractUser):
+class Users(AbstractUser):
     Gender = (
         ('М', 'Мужчина'),
         ('Ж', 'Женщина'),
@@ -25,14 +25,19 @@ class User(AbstractUser):
 
 
 class Transactions(models.Model):
-    user = models.ForeignKey('User', on_delete=models.PROTECT, verbose_name="Пользователь", blank=True)
+    user = models.ForeignKey('Users', on_delete=models.PROTECT, verbose_name="Пользователь", blank=True)
     sum = models.IntegerField(verbose_name='Сумма', default=0)
     transaction_date = models.DateTimeField(verbose_name='Начало скидок', auto_now_add=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
 
+    def __str__(self):
+        return self.slug
+
     class Meta:
         verbose_name = 'Транзакция'
         verbose_name_plural = 'Транзакции'
+
+
 
 
 class Manufacturer(models.Model):
@@ -49,13 +54,20 @@ class Manufacturer(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True, verbose_name="Название категории", unique=True)
+    name = models.CharField(max_length=60, db_index=True, verbose_name="Название категории", )
     description = models.TextField(verbose_name="Описание", blank=True)
     manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
+    full_name = models.CharField(max_length=100, unique=True, verbose_name="Полное наименование", blank=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
 
     def __str__(self):
-        return self.name
+        return self.full_name
+
+    def save(self, *args, **kwargs):
+        name = self.name
+        manufacturers = Manufacturer.objects.get(manufacturer_name = self.manufacturer)
+        self.full_name = f"{str(manufacturers.manufacturer_name)}-{name}"
+        super(Category, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Категория продукта'
@@ -88,7 +100,7 @@ class Product_Images(models.Model):
         verbose_name_plural = 'Фотографии продуктов'
 
 
-class Product(models.Model):
+class Products(models.Model):
     product_name = models.CharField(max_length=70, verbose_name='Название продукта', unique=True, blank=True,
                                     db_index=True)
     first_price = models.FloatField(verbose_name='Первоначальная цена')
@@ -111,7 +123,7 @@ class Product(models.Model):
         else:
             self.last_price = first_price
 
-        super(Product, self).save(*args, **kwargs)
+        super(Products, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Продукт'
@@ -120,8 +132,8 @@ class Product(models.Model):
 
 
 class Comments(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, verbose_name="Пользователь")
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name="Продукты")
+    user = models.ForeignKey('Users', on_delete=models.CASCADE, verbose_name="Пользователь")
+    product = models.ForeignKey('Products', on_delete=models.CASCADE, verbose_name="Продукты")
     text = models.TextField(verbose_name="Комментарий", blank=True)
     rating = models.FloatField(verbose_name='Оценка от 1 до 10 ')
     date = models.DateTimeField(verbose_name='Время', auto_now_add=True)
@@ -133,21 +145,4 @@ class Comments(models.Model):
         ordering = ['rating']
 
 
-class Promotions(models.Model):
-    promotions_name = models.CharField(max_length=70, verbose_name='Название акции', unique=True, blank=True,
-                                       db_index=True)
-    price = models.FloatField(verbose_name='Цена акции')
-    products = SortedManyToManyField(Product, verbose_name='Продукты')
-    discount_start_date = models.DateField(verbose_name='Начало скидок', auto_now_add=True)
-    discount_end_date = models.DateField(verbose_name='Конец скидок')
-    slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )
-    description = models.TextField(verbose_name='Описание')
-    photo = models.ImageField(upload_to='img_product/%Y/%m/%d/', verbose_name='Картинка акции')
 
-    def __str__(self):
-        return self.promotions_name
-
-    class Meta:
-        verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукция'
-        ordering = ['promotions_name']

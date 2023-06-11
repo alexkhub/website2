@@ -1,9 +1,9 @@
 from django.db import models
-from shop.models import Product, Manufacturer
+from shop.models import Products, Manufacturer
 
 
 class Company_Orders(models.Model):
-    product = models.ForeignKey("shop.Product", on_delete=models.PROTECT, verbose_name='Продукт')
+    product = models.ForeignKey("shop.Products", on_delete=models.PROTECT, verbose_name='Продукт')
     manufacturer = models.ForeignKey("shop.Manufacturer", on_delete=models.PROTECT, verbose_name='Производитель')
     price_of_1_product = models.FloatField(verbose_name="Цена 1 продукта")
     numbers_of_product = models.IntegerField(verbose_name="Количество продуктов")

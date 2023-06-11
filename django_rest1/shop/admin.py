@@ -31,10 +31,10 @@ class ManufacturerAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'manufacturer')
-    list_display_links = ('name',)
+    list_display = ('id', 'name', 'full_name', 'manufacturer')
+    list_display_links = ('name', 'full_name')
     search_fields = ('name', 'manufacturer')
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name', 'manufacturer')}
     list_filter = ('name', 'manufacturer')
 
 
@@ -69,13 +69,6 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('product_name',)}
 
 
-class PromotionsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'promotion_name', 'price', 'products', 'discount_start_date', 'discount_end_date')
-    list_display_links = ('id', 'promotion_name')
-    search_fields = ('promotion_name',)
-    list_filter = ('price', 'discount_start_date', 'discount_end_date')
-    list_editable = ('price',)
-    prepopulated_fields = {'slug': ('promotion_name',)}
 
 
 class CommentsAdmin(admin.ModelAdmin):
@@ -84,11 +77,11 @@ class CommentsAdmin(admin.ModelAdmin):
     search_fields = ('user', 'product')
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(Users, UserAdmin)
 admin.site.register(Transactions, TransactionsAdmin)
 admin.site.register(Manufacturer, ManufacturerAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Discount_For_Product_Category, Discount_For_Product_CategoryAdmin)
 admin.site.register(Product_Images, Product_ImagesAdmin)
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Products, ProductAdmin)
 admin.site.register(Comments, CommentsAdmin)

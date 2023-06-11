@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'sortedm2m',
 
     'shop.apps.ShopConfig',
-    'company_orders.apps.CompanyOrdersConfig'
+    'company_orders.apps.CompanyOrdersConfig',
+    'working_with_orders.apps.WorkingWithOrdersConfig',
 
 ]
 
@@ -132,4 +133,4 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Расширение таблицы User
 
-AUTH_USER_MODEL = 'shop.User'
+AUTH_USER_MODEL = 'shop.Users'

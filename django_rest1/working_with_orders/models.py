@@ -1,7 +1,7 @@
 from django.db import models
 from sortedm2m.fields import SortedManyToManyField
 
-from shop.models import Products, Users
+from shop.models import Products, Users, Transactions
 
 
 # Create your models here.
@@ -89,5 +89,21 @@ class Cancelled_Orders(models.Model):
         verbose_name = 'Отмененный заказ'
         verbose_name_plural = 'Отменные заказы'
 
-class
 
+class Installments(models.Model):
+    order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
+    payment_per_month = models.FloatField(verbose_name='Месячная плата')
+    transactions = SortedManyToManyField(Transactions, verbose_name='Транзакции')
+
+    class Meta:
+        verbose_name = 'Заказ с рассрочкой'
+        verbose_name_plural = 'Заказы с рассрочкой'
+
+
+class Orders_With_Delivery(models.Model):
+    order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
+    condition = models.BooleanField(verbose_name='Состояние', default=False)
+
+    class Meta:
+        verbose_name = 'Заказ с доставкой'
+        verbose_name_plural = 'Заказы с доставкой'

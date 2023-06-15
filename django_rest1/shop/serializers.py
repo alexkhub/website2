@@ -6,4 +6,15 @@ from .models import *
 class ProductsListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
-        field = ('product_name', 'first_price', 'discount', 'last_price')
+        read_only = ('owner.username',)
+        fields = ('product_name', 'first_price', 'discount', 'last_price')
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Products
+        read_only = ('owner.username',)
+        exclude = ('description', 'slug', 'numbers')
+
+

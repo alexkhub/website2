@@ -1,5 +1,5 @@
 from django.db import models
-# from django.urls import reverse
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from sortedm2m.fields import SortedManyToManyField
 
@@ -66,7 +66,7 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         name = self.name
         manufacturers = Manufacturer.objects.get(manufacturer_name = self.manufacturer)
-        self.full_name = f"{str(manufacturers.manufacturer_name)}-{name}"
+        self.full_name = f"{name}-{str(manufacturers.manufacturer_name)}"
         super(Category, self).save(*args, **kwargs)
 
     class Meta:
@@ -114,6 +114,9 @@ class Products(models.Model):
 
     def __str__(self):
         return self.product_name
+
+    def get_absolute_url(self):
+        return reverse('home', kwargs={'product_slug': self.slug})
 
     def save(self, *args, **kwargs):
         discount = self.discount

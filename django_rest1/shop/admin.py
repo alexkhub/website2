@@ -72,7 +72,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'product', 'text', 'rating')
+    list_display = ('id', 'user', 'product', 'text', 'rating', 'date')
     list_filter = ('rating', 'product')
     search_fields = ('user', 'product')
 

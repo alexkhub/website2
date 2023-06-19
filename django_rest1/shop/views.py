@@ -1,4 +1,5 @@
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from .models import *
@@ -10,7 +11,6 @@ class ProductsListView(APIView):
     template_name = 'shop/home.html'
 
     def get(self, request):
-
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
         serializer = ProductsListSerializer(products, many=True)
@@ -21,8 +21,28 @@ class ProductsListView(APIView):
 class ProductDetailView(APIView):
 
     def get(self, request, product_slug):
+        products = Products.objects.get(slug=product_slug)  # товары без скидки
 
-        products = Products.objects.get(slug = product_slug)  # товары без скидки
-
-        serializer = ProductsListSerializer(products)
+        serializer = ProductDetailSerializer(products)
         return Response(serializer.data)
+
+
+class CreateCommentView(APIView):
+
+    def post(self, request):
+        serializer = CreateCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=201)
+        else:
+            return Response(status=400)
+
+    def put(self, request, id=None ):
+        comment = Comments.objects.filter(id=id)
+        serializer = CreateCommentSerializer(comment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+

@@ -1,5 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST
+# from django.http.response import JsonResponse
+# from rest_framework.parsers import JSONParser
+# from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from .models import *
@@ -37,12 +39,12 @@ class CreateCommentView(APIView):
         else:
             return Response(status=400)
 
-    def put(self, request, id=None ):
-        comment = Comments.objects.filter(id=id)
-        serializer = CreateCommentSerializer(comment, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    # def put(self, request, id=None ):
+    #     comment = Comments.objects.filter(id=id)
+    #     serializer = CreateCommentSerializer(comment, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

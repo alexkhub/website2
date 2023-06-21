@@ -15,13 +15,13 @@ class CreateCommentSerializer(serializers.ModelSerializer):
         model = Comments
         exclude = ('date',)
 
-    # def create(self, validated_data):
-    #     comment = Comments.objects.update_or_create(
-    #         user=validated_data.get('user', None),
-    #         product=validated_data.get('product', None),
-    #         defaults={'text': validated_data.get('text'), 'rating': validated_data.get('rating')}
-    #     )
-    #     return comment
+    def create(self, validated_data):
+        comment = Comments.objects.update_or_create(
+            user=validated_data.get('user', None),
+            product=validated_data.get('product', None),
+            defaults={'text': validated_data.get('text'), 'rating': validated_data.get('rating')}
+        )
+        return comment
 
 
 class CommentSerializer(serializers.ModelSerializer):

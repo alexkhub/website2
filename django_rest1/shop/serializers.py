@@ -10,6 +10,12 @@ class ProductsListSerializer(serializers.ModelSerializer):
         fields = ('product_name', 'first_price', 'discount', 'last_price',)
 
 
+class CategoryListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('__all__')
+
+
 class CreateCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
@@ -39,4 +45,5 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Products
         read_only = ('owner.username',)
         exclude = ('description', 'slug', 'numbers')
+
 

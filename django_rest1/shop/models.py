@@ -56,18 +56,13 @@ class Manufacturer(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=60, db_index=True, verbose_name="Название категории", )
     description = models.TextField(verbose_name="Описание", blank=True)
-    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
-    full_name = models.CharField(max_length=100, unique=True, verbose_name="Полное наименование", blank=True)
+
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
+    product_photos = models.ImageField(upload_to='img_category/%Y/%m/%d/', verbose_name='Изображение продукта')
 
     def __str__(self):
-        return self.full_name
+        return self.name
 
-    def save(self, *args, **kwargs):
-        name = self.name
-        manufacturers = Manufacturer.objects.get(manufacturer_name = self.manufacturer)
-        self.full_name = f"{name}-{str(manufacturers.manufacturer_name)}"
-        super(Category, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Категория продукта'
@@ -110,6 +105,7 @@ class Products(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Категория')
     slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )
     description = models.TextField(verbose_name="О продукте", blank=True)
+    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
     product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения')
 
     def __str__(self):

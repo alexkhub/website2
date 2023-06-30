@@ -1,11 +1,10 @@
+from rest_framework import generics
 from rest_framework.response import Response
-# from django.http.response import JsonResponse
-# from rest_framework.parsers import JSONParser
-# from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from .models import *
 from .serializers import *
+from rest_framework.status import HTTP_200_OK
 
 
 class ProductsListView(APIView):
@@ -13,11 +12,22 @@ class ProductsListView(APIView):
     template_name = 'shop/home.html'
 
     def get(self, request):
+
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
+        categories = Category.objects.all()
         serializer = ProductsListSerializer(products, many=True)
+        category_serializer = CategoryListSerializer(categories, many=True)
+
         return Response(
-            {'serializer': serializer, 'products': products, 'products_with_discount': products_with_discount})
+            {'serializer': serializer, 'products': products,
+            'products_with_discount': products_with_discount,
+             'category_serializer' : category_serializer, 'categories' :categories
+            }
+             )
+
+
+
 
 
 class ProductDetailView(APIView):

@@ -1,23 +1,93 @@
 {% load static %}
 
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
-    <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+    <!-- Sansation Font-->
+    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />
+
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/media-query.css' %}">
+
+    <title>Главная</title>
+
 </head>
 <body>
-    <h1>Работаю</h1>
-    {%for product in products%}
-    <h3>{{product.product_name}}</h3>
-    {%endfor%}
 
-    <h1>Продукты со скидкой</h1>
-    {%for product in products_with_discount%}
-    <h3>{{product.product_name}}</h3>
-    {%endfor%}
+     <header class="header" id="header">
+       <div class="header-left-content__wrapper">
+            <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
+            <div class="search">
+                <form class="search" action="search">
+                    <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="header-menu">
+            <a href=""><i class="fas fa-user-plus"></i></a>
+            <a href=""><i class="fas fa-user"></i></a>
+            <a href=""><i class="fas fa-shopping-cart"></i></a>
+            <a href=""><i class="fas fa-headphones-alt"></i></a>
+        </div>
+    </header>
 
+    <main class="main">
+        <div class="item">
+            <h3>Категории</h3>
+            <div class="item__element"><img src="assets/img/categories/categorie-img-mouse.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/categories/categorie-img-stand.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/categories/categorie-img-laptop.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/categories/categorie-img-pc.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/categories/categorie-img-keyboard.webp" alt=""></div>
+        </div>
+        <div class="item">
+            <h3>Скидки</h3>
+            <div class="item__element"><img src="assets/img/sales/sales-img-laptop.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/sales/sales-img-laptop2.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/sales/sales-img-laptop3.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/sales/sales-img-stand.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/sales/sales-img-stand2.webp" alt=""></div>
+        </div>
+        <div class="item">
+            <h3>Товары</h3>
+            <div class="item__element"><img src="assets/img/products/product-img-headphones.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/products/product-img-mouse.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/products/product-img-mousepad.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/products/product-img-videocard.webp" alt=""></div>
+            <div class="item__element"><img src="assets/img/products/product-img-cpu.webp" alt=""></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="#">О нас</a>
+            <a href="#">Поставщики</a>
+            <a href="#">Связаться с нами</a>
+        </div>
+    </footer>
+
+    <p class="created">Designed and created by Brahma & Alexandr Khubaev</p>
+
+    <script src="{% static 'js/main.js'%}"></script>
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
 </body>
 </html>
+

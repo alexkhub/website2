@@ -20,8 +20,6 @@ class TransactionsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ('user', 'sum', 'transaction_date')}
 
 
-
-
 class ManufacturerAdmin(admin.ModelAdmin):
     list_display = ('id', 'manufacturer_name', 'country')
     list_display_links = ('manufacturer_name',)
@@ -31,11 +29,11 @@ class ManufacturerAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'full_name', 'manufacturer')
-    list_display_links = ('name', 'full_name')
-    search_fields = ('name', 'manufacturer')
-    prepopulated_fields = {'slug': ('name', 'manufacturer')}
-    list_filter = ('name', 'manufacturer')
+    list_display = ('id', 'name', )
+    list_display_links = ('name', )
+    search_fields = ('name', )
+    prepopulated_fields = {'slug': ('name', )}
+    list_filter = ('name', )
 
 
 class Discount_For_Product_CategoryAdmin(admin.ModelAdmin):
@@ -61,14 +59,12 @@ class Product_ImagesAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category')
+    list_display = ('id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category', 'manufacturer')
     list_display_links = ('id', 'product_name')
     search_fields = ('product_name',)
-    list_filter = ('last_price',  'discount', 'category')
+    list_filter = ('last_price', 'discount', 'category')
     list_editable = ('first_price', 'last_price', 'numbers', 'discount')
     prepopulated_fields = {'slug': ('product_name',)}
-
-
 
 
 class CommentsAdmin(admin.ModelAdmin):

@@ -52,11 +52,9 @@
     <main class="main">
         <div class="item">
             <h3>Категории</h3>
-            <div class="item__element"><img src="assets/img/categories/categorie-img-mouse.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/categories/categorie-img-stand.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/categories/categorie-img-laptop.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/categories/categorie-img-pc.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/categories/categorie-img-keyboard.webp" alt=""></div>
+            {%for category in categories%}
+            <div class="item__element"><img src="{{category.category_photo.url}}" alt=""></div>
+            {%endfor%}
         </div>
         <div class="item">
             <h3>Скидки</h3>

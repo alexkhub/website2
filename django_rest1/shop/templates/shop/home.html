@@ -52,8 +52,8 @@
     <main class="main">
         <div class="item">
             <h3>Категории</h3>
-            {%for category in categories%}
-            <div class="item__element"><img src="{{category.category_photo.url}}" alt=""></div>
+            {%for category in category_serializer%}
+            <div class="item__element"><img src="{{category.category_photo}}" alt=""></div>
             {%endfor%}
         </div>
         <div class="item">

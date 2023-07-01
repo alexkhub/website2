@@ -22,7 +22,7 @@ class ProductsListView(APIView):
         return Response(
             {'serializer': serializer, 'products': products,
             'products_with_discount': products_with_discount,
-             'category_serializer' : category_serializer, 'categories' :categories
+             'category_serializer' : category_serializer.data, 'categories' :categories
             }
              )
 

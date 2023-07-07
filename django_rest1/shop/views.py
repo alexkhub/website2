@@ -12,22 +12,20 @@ class ProductsListView(APIView):
     template_name = 'shop/home.html'
 
     def get(self, request):
-
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
         categories = Category.objects.all()
-        serializer = ProductsListSerializer(products, many=True)
+
+        products_serializer = ProductsListSerializer(products, many=True)
+        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
         category_serializer = CategoryListSerializer(categories, many=True)
 
         return Response(
-            {'serializer': serializer, 'products': products,
-            'products_with_discount': products_with_discount,
-             'category_serializer' : category_serializer.data, 'categories' :categories
-            }
-             )
-
-
-
+            {'serializer': products_serializer.data,
+             'products_with_discount': products_with_discount_serializer.data,
+             'category_serializer': category_serializer.data,
+             }
+        )
 
 
 class ProductDetailView(APIView):
@@ -57,4 +55,3 @@ class CreateCommentView(APIView):
     #         return Response(serializer.data)
     #     else:
     #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-

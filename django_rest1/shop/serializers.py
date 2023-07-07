@@ -7,7 +7,7 @@ class ProductsListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        fields = ('product_name', 'first_price', 'discount', 'last_price',)
+        fields = ('product_name', 'first_price', 'discount', 'last_price', 'product_photos')
 
 
 class CategoryListSerializer(serializers.ModelSerializer):

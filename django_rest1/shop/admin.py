@@ -46,11 +46,12 @@ class Discount_For_Product_CategoryAdmin(admin.ModelAdmin):
 
 
 class Product_ImagesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'img_name', 'get_image')
+    list_display = ('id', 'img_name', 'first_img','get_image')
     readonly_fields = ('get_image',)
     list_display_links = ('img_name',)
     prepopulated_fields = {'slug': ('img_name',)}
     search_fields = ('img_name',)
+    list_editable = ('first_img',)
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.img.url} width="60" height="60"')

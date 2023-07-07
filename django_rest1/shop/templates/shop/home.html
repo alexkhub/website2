@@ -58,11 +58,9 @@
         </div>
         <div class="item">
             <h3>Скидки</h3>
-            <div class="item__element"><img src="assets/img/sales/sales-img-laptop.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/sales/sales-img-laptop2.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/sales/sales-img-laptop3.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/sales/sales-img-stand.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/sales/sales-img-stand2.webp" alt=""></div>
+            {%for product in products_with_discount%}
+            <div class="item__element"><img src="{{product.product_photos}}" alt="{{product.product_name}}"></div>
+            {%endfor%}
         </div>
         <div class="item">
             <h3>Товары</h3>

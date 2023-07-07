@@ -85,6 +85,7 @@ class Discount_For_Product_Category(models.Model):
 class Product_Images(models.Model):
     img_name = models.CharField(max_length=50, verbose_name='Картинка изображения', blank=True)
     img = models.ImageField(upload_to='img_product/%Y/%m/%d/', verbose_name='Изображение продукта')
+    first_img = models.BooleanField(default=False, verbose_name='Главная картинка')
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')
 
     def __str__(self):

@@ -2,7 +2,14 @@ from rest_framework import serializers
 
 from .models import *
 
+#вспомогательные сериализаторы
+class FilterImagesSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        data = data.filter(first_img=True)
+        return super().to_representation(data)
 
+
+#сериализаторы отрисовки страниц
 class ProductsListSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продуктов"""
     class Meta:
@@ -14,6 +21,7 @@ class ProductImagesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product_Images
         fields = '__all__'
+        list_serializer_class = FilterImagesSerializer
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
@@ -54,7 +62,6 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Products
         read_only = ('owner.username',)
         exclude = ('description', 'slug', 'numbers')
-
 
 
 class TestSerializer(serializers.ModelSerializer):

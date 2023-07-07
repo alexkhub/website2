@@ -59,7 +59,7 @@
         <div class="item">
             <h3>Скидки</h3>
             {%for product in products_with_discount%}
-            <div class="item__element"><img src="{{product.product_photos}}" alt="{{product.product_name}}"></div>
+            <div class="item__element"><img src="{{product.product_photos.url}}" alt="{{product.product_name}}"></div>
             {%endfor%}
         </div>
         <div class="item">

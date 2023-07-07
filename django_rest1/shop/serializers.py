@@ -4,16 +4,23 @@ from .models import *
 
 
 class ProductsListSerializer(serializers.ModelSerializer):
+    """сериализатор для вывода продуктов"""
     class Meta:
         model = Products
         read_only = ('owner.username',)
         fields = ('product_name', 'first_price', 'discount', 'last_price', 'product_photos')
 
+class ProductImagesListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product_Images
+        fields = '__all__'
+
 
 class CategoryListSerializer(serializers.ModelSerializer):
+    """сериализатор для вывода категорий"""
     class Meta:
         model = Category
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class CreateCommentSerializer(serializers.ModelSerializer):
@@ -31,12 +38,14 @@ class CreateCommentSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """сериализатор для вывода комментариев """
     class Meta:
         model = Comments
         fields = ('user', 'text', 'rating', 'date')
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
+    """сериализатор для вывода продукта"""
     category = serializers.SlugRelatedField(slug_field='name', read_only=True)
     product_photos = serializers.SlugRelatedField(slug_field='img_name', read_only=True, many=True)
     comments = CommentSerializer(many=True)
@@ -47,3 +56,9 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         exclude = ('description', 'slug', 'numbers')
 
 
+
+class TestSerializer(serializers.ModelSerializer):
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
+    class Meta:
+        model = Products
+        fields = '__all__'

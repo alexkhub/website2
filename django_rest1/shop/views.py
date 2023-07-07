@@ -55,3 +55,11 @@ class CreateCommentView(APIView):
     #         return Response(serializer.data)
     #     else:
     #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class TestView(APIView):
+    def get(self , request):
+        product = Products.objects.all()
+        serializer = TestSerializer(product, many=True)
+        return Response(serializer.data)

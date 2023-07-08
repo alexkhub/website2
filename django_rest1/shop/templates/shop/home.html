@@ -53,14 +53,16 @@
         <div class="item">
             <h3>Категории</h3>
             {%for category in category_serializer%}
-            <div class="item__element"><img src="{{category.category_photo}}" alt=""></div>
+            <div class="item__element"> <img src="{{category.category_photo}}" alt=""></div>
             {%endfor%}
         </div>
         <div class="item">
             <h3>Скидки</h3>
             {%for product in products_with_discount_serializer%}
                 {%for img in product.product_photos%}
-                <div class="item__element"><img src="{{img.img}}" alt="{{img.img_name}}"></div>
+                <div class="item__element">
+                    <a href="{%url 'show_product' product.slug%}"><img src="{{img.img}}" alt="{{img.img_name}}"></a>
+                </div>
 
                 {%endfor%}
             {%endfor%}
@@ -69,7 +71,9 @@
             <h3>Товары</h3>
             {%for product in products_serializer%}
                 {%for img in product.product_photos%}
-                <div class="item__element"><img src="{{img.img}}" alt="{{img.img_name}}"></div>
+                <div class="item__element">
+                    <a href="{%url 'show_product' product.slug%}"><img src="{{img.img}}" alt="{{img.img_name}}"></a>
+                </div>
 
                 {%endfor%}
             {%endfor%}

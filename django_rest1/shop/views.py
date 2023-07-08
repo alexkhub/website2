@@ -21,8 +21,8 @@ class ProductsListView(APIView):
         category_serializer = CategoryListSerializer(categories, many=True)
 
         return Response(
-            {'serializer': products_serializer.data,
-             'products_with_discount': products_with_discount_serializer.data,
+            {'products_serializer': products_serializer.data,
+             'products_with_discount_serializer': products_with_discount_serializer.data,
              'category_serializer': category_serializer.data,
              }
         )

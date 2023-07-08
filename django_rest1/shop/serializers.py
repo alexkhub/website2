@@ -2,30 +2,37 @@ from rest_framework import serializers
 
 from .models import *
 
-#вспомогательные сериализаторы
+
+# вспомогательные сериализаторы
 class FilterImagesSerializer(serializers.ListSerializer):
     def to_representation(self, data):
         data = data.filter(first_img=True)
         return super().to_representation(data)
 
 
-#сериализаторы отрисовки страниц
+# сериализаторы отрисовки страниц
+
+class ProductMainImagesListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product_Images
+        fields = ('img', 'first_img', 'img_name')
+        list_serializer_class = FilterImagesSerializer
+
 class ProductsListSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продуктов"""
+    product_photos = ProductMainImagesListSerializer(many=True, read_only=True)
+
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        fields = ('product_name', 'first_price', 'discount', 'last_price', 'product_photos')
-
-class ProductImagesListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product_Images
         fields = '__all__'
-        list_serializer_class = FilterImagesSerializer
+
+
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
     """сериализатор для вывода категорий"""
+
     class Meta:
         model = Category
         fields = '__all__'
@@ -47,6 +54,7 @@ class CreateCommentSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     """сериализатор для вывода комментариев """
+
     class Meta:
         model = Comments
         fields = ('user', 'text', 'rating', 'date')
@@ -65,7 +73,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
 
 class TestSerializer(serializers.ModelSerializer):
-    product_photos = ProductImagesListSerializer(many=True, read_only=True)
+    product_photos = ProductMainImagesListSerializer(many=True, read_only=True)
+
     class Meta:
         model = Products
         fields = '__all__'

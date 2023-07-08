@@ -58,17 +58,22 @@
         </div>
         <div class="item">
             <h3>Скидки</h3>
-            {%for product in products_with_discount%}
-            <div class="item__element"><img src="{{product.product_photos.url}}" alt="{{product.product_name}}"></div>
+            {%for product in products_with_discount_serializer%}
+                {%for img in product.product_photos%}
+                <div class="item__element"><img src="{{img.img}}" alt="{{img.img_name}}"></div>
+
+                {%endfor%}
             {%endfor%}
         </div>
         <div class="item">
             <h3>Товары</h3>
-            <div class="item__element"><img src="assets/img/products/product-img-headphones.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/products/product-img-mouse.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/products/product-img-mousepad.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/products/product-img-videocard.webp" alt=""></div>
-            <div class="item__element"><img src="assets/img/products/product-img-cpu.webp" alt=""></div>
+            {%for product in products_serializer%}
+                {%for img in product.product_photos%}
+                <div class="item__element"><img src="{{img.img}}" alt="{{img.img_name}}"></div>
+
+                {%endfor%}
+            {%endfor%}
+
         </div>
     </main>
 

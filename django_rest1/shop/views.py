@@ -60,18 +60,9 @@ class CreateCommentView(APIView):
 class TestView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'
-    def get(self, request):
-        products = Products.objects.filter(discount=0)  # товары без скидки
-        products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
-        categories = Category.objects.all()
 
-        products_serializer = ProductsListSerializer(products, many=True)
-        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
-        category_serializer = CategoryListSerializer(categories, many=True)
+    def get(self, request, product_slug):
+        products = Products.objects.get(slug=product_slug)
 
-        return Response(
-            {'products_serializer': products_serializer.data,
-             'products_with_discount_serializer': products_with_discount_serializer.data,
-             'category_serializer': category_serializer.data,
-             }
-        )
+        product_serializer = TestSerializer(products)
+        return Response({'product': product_serializer.data})

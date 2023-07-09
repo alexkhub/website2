@@ -69,12 +69,15 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        exclude = ('description', 'slug', 'numbers')
+        exclude = ('numbers',)
 
 
 class TestSerializer(serializers.ModelSerializer):
-    product_photos = ProductMainImagesListSerializer(many=True, read_only=True)
+    category = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    product_photos = serializers.SlugRelatedField(slug_field='img_name', read_only=True, many=True)
+    comments = CommentSerializer(many=True)
 
     class Meta:
         model = Products
-        fields = '__all__'
+        read_only = ('owner.username',)
+        exclude = ('numbers',)

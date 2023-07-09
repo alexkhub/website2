@@ -1,0 +1,88 @@
+{% extends 'shop/base.html' %}
+{%load static%}
+
+{%block headblock%}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+    <!-- Sansation Font-->
+    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link type="text/css"  rel="stylesheet" href="{% static 'css/media-query-product.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/media-query-header.css' %}">
+
+    <title>Название продукта</title>
+{%endblock headblock%}
+
+    {%block content%}
+
+    <main class="main">
+        <div class="product">
+            <div class="product-img">
+                <img src="assets/img/products/product-img-headphones.webp" alt="product__photo">
+            </div>
+            <div class="product-description">
+                <p class="product-title">Yowu RGB Cat Ear Headphone 3G Wireless 5.0 Foldable Gaming Headset with 7.1 Surround Sound, Built-in Mic & Customizable Lighting and Effect via APP</p>
+                <p class="product-description__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                    mollit anim id est laborum.</p>
+                    <div class="line"></div>
+                    <div class="add-to-cart__button">
+                        <a href="#"><button>Добавить в корзину</button></a>
+                    </div>
+            </div>
+        </div>
+        <div class="comments">
+            <div class="users-comments">
+                   <div class="user-comments__wrapper">
+                       <div class="user-comments-title">
+                            <h3 id="users-comments__title">Комментарии</h3>
+                       </div>
+                        <div class="user-comments__button">
+                            <a href="#form-name"><button id="leave-a-comment__link">Оставьте комментарий</button></a>
+                        </div>
+                   </div>
+                    <div class="users-comments__item">
+                        <p class="user-name">Игорь Ермолаев</p>
+                        <p class="user-rating">8.7</p>
+                        <p class="comment-date"></p>
+                        <p class="comment-text">Вкусно</p>
+                    </div>
+            </div>
+            <div class="leave-a-comment">
+                <form action="" class="leave-a-comment__form">
+                    <div class="name-rating-wrapper">
+                        <input type="text" name="" id="form-name" placeholder="Введите имя и фамилию">
+                        <input type="number" name="" id="form-rating" placeholder="Введите вашу оценку (1-10)">
+                    </div>
+                    <textarea name="" id="form-text" cols="30" rows="10" placeholder="Введите текст"></textarea>
+                    <button id="leave-a-comment__button" type="button">Опубликовать</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/product.js"></script>
+    {%endblock%}

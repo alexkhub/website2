@@ -1,8 +1,7 @@
-{% load static %}
+{% extends 'shop/base.html' %}
+{%load static%}
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
+{%block headblock%}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,32 +21,14 @@
     <!-- Font Awesome -->
 
     <link type="text/css" rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'css/media-query.css' %}">
 
     <title>Главная</title>
 
-</head>
-<body>
+{%endblock headblock%}
 
-     <header class="header" id="header">
-       <div class="header-left-content__wrapper">
-            <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
-            <div class="search">
-                <form class="search" action="search">
-                    <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="header-menu">
-            <a href=""><i class="fas fa-user-plus"></i></a>
-            <a href=""><i class="fas fa-user"></i></a>
-            <a href=""><i class="fas fa-shopping-cart"></i></a>
-            <a href=""><i class="fas fa-headphones-alt"></i></a>
-        </div>
-    </header>
+    {%block content %}
 
     <main class="main">
         <div class="item">
@@ -81,18 +62,8 @@
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <a href="#">О нас</a>
-            <a href="#">Поставщики</a>
-            <a href="#">Связаться с нами</a>
-        </div>
-    </footer>
-
-    <p class="created">Designed and created by Brahma & Alexandr Khubaev</p>
-
     <script src="{% static 'js/main.js'%}"></script>
     <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
-</body>
-</html>
+    {%endblock%}
+
 

@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {%block headblock%}
+
+    {%endblock headblock%}
+</head>
+<body>
+    {%block menu%}
+     <header class="header" id="header">
+       <div class="header-left-content__wrapper">
+           <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
+           <div class="search">
+               <form class="search" action="search">
+                   <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
+                   <div class="search-icon">
+                       <i class="fas fa-search"></i>
+                   </div>
+               </form>
+           </div>
+       </div>
+       <div class="header-menu">
+           <a href=""><i class="fas fa-user-plus"></i></a>
+           <a href=""><i class="fas fa-user"></i></a>
+           <a href=""><i class="fas fa-shopping-cart"></i></a>
+           <a href=""><i class="fas fa-headphones-alt"></i></a>
+       </div>
+    </header>
+    {%endblock menu%}
+
+    {%block content%}
+    {%endblock content%}
+
+    {%block footer%}
+     <footer class="footer">
+        <div class="footer-content">
+            <a href="#">О нас</a>
+            <a href="#">Поставщики</a>
+            <a href="#">Связаться с нами</a>
+        </div>
+    </footer>
+
+    <p class="created">Designed and created by Brahma & Alexandr Khubaev</p>
+    {%endblock footer%}
+</body>
+</html>

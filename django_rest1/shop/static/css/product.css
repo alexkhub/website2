@@ -1,0 +1,184 @@
+html {
+    scroll-padding-top: 20vh;
+}
+
+button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    padding: 15px 25px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 100px;
+    transition: .3s linear all;
+}
+
+button:hover {
+    background-color: black;
+}
+
+.product-img {
+    position: relative;
+    width: 450px;
+    height: 450px;
+    background-color: #373737;
+    overflow: hidden;
+    padding: 25px;
+    transition: .3s ease-in-out width;
+}
+
+.product-img img {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+}
+
+.product {
+    padding: 40px 72px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+.line {
+    position: absolute;
+    height: 600px;
+    width: 1px;
+    background-color: white;
+    top: 120px;
+    left: 50%;
+}
+
+.product-description__text {
+    font-size: 18px;
+    line-height: 45px;
+    width: 570px;
+    margin-top: 35px;
+}
+
+.product-title {
+    width: 500px;
+    text-overflow: ellipsis;
+    font-size: 32px;
+}
+
+.add-to-cart__button {
+    margin-top: 100px;
+}
+
+.add-to-cart__button button {
+    border: 2px solid #FF307A;
+}
+
+.comments {
+    margin-top: 50px;
+    border-top: 1px solid white;
+    padding: 65px 75px;
+    color: white;
+}
+
+.user-comments__wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+#users-comments__title {
+    font-size: 36px;
+}
+
+.users-comments__item {
+    margin-top: 30px;
+}
+
+.users-comments__item p {
+    margin-top: 10px;
+}
+
+.comment-date {
+    color: #656565;
+}
+
+#leave-a-comment__link {
+    border: 2px solid #CC00FF;
+    transition: .3s ease-in-out;
+}
+
+.leave-a-comment {
+    margin-top: 60px;
+}
+
+.leave-a-comment__form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.leave-a-comment__form input, textarea {
+    background-color: transparent;
+    border: 2px solid #3F3F3F;
+    resize: none;
+    padding: 10px 0;
+    font-size: 16px;
+    color: white;
+    outline: none;
+    transition: .3s ease-in-out background-color;
+    padding-left: 20px;
+}
+
+.leave-a-comment__form input:hover, textarea:hover {
+    background-color: black;
+}
+
+.leave-a-comment__form input:focus, textarea:focus {
+    background-color: black;
+}
+
+.name-rating-wrapper {
+    display: flex;
+}
+
+.name-rating-wrapper input {
+    width: 250px;
+    border-bottom: none;
+}
+
+#form-name {
+    border-right: none;
+}
+
+#form-text {
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+#leave-a-comment__button {
+    position: absolute;
+    border: 2px solid #7230FF;
+    width: 150px;
+    margin-top: 30px;
+    top: 100%;
+    left: 88%;
+}
+
+.comment-publish-success {
+    position: fixed;
+    display: flex;
+    column-gap: 15px;
+    background-color: #373737;
+    color: greenyellow;
+    padding: 20px;
+    right: -180px;
+    top: 705px;
+    transition: .3s linear all;
+}
+
+/* delete arrows from input [type="number"] */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

@@ -29,12 +29,14 @@ class ProductsListView(APIView):
 
 
 class ProductDetailView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/product.html'
 
     def get(self, request, product_slug):
-        products = Products.objects.get(slug=product_slug)  # товары без скидки
+        products = Products.objects.get(slug=product_slug)
 
-        serializer = ProductDetailSerializer(products)
-        return Response(serializer.data)
+        product_serializer = ProductDetailSerializer(products)
+        return Response({'product': product_serializer.data})
 
 
 class CreateCommentView(APIView):

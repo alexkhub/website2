@@ -13,10 +13,16 @@ class FilterImagesSerializer(serializers.ListSerializer):
 # сериализаторы отрисовки страниц
 
 class ProductMainImagesListSerializer(serializers.ModelSerializer):
+    '''вывод главной картинки '''
     class Meta:
         model = Product_Images
         fields = ('img', 'first_img', 'img_name')
         list_serializer_class = FilterImagesSerializer
+
+class ProductImagesListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product_Images
+        fields = ('img', 'first_img', 'img_name')
 
 class ProductsListSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продуктов"""
@@ -54,16 +60,17 @@ class CreateCommentSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     """сериализатор для вывода комментариев """
+    user = serializers.SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
         model = Comments
-        fields = ('user', 'text', 'rating', 'date')
+        fields = '__all__'
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продукта"""
     category = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    product_photos = serializers.SlugRelatedField(slug_field='img_name', read_only=True, many=True)
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True)
 
     class Meta:
@@ -74,7 +81,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
 class TestSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    product_photos = serializers.SlugRelatedField(slug_field='img_name', read_only=True, many=True)
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
+
     comments = CommentSerializer(many=True)
 
     class Meta:

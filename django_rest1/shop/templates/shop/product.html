@@ -36,9 +36,9 @@
         <div class="product">
 
             <div class="product-img">
-
-
-                <img src="{{product.0}}" alt="{{product.product_name}}">
+                {%for img_item in product.product_photos%}
+                <img src="{{img_item.img}}" alt="{{product.product_photos.1}}">
+                {%endfor%}
 
 
             </div>
@@ -64,9 +64,10 @@
                     <div class="users-comments__item">
                         {%for comment in product.comments%}
                         <p class="user-name">{{comment.user}}</p>
-                        <p class="user-rating">8.7</p>
-                        <p class="comment-date"></p>
-                        <p class="comment-text">Вкусно</p>
+                        <p class="user-rating"> Оценка: {{comment.rating}}/10</p>
+                        <p class="comment-date">{{comment.date}}</p>
+                        <p class="comment-text">{{comment.text}}</p>
+                        <br>
                         {%endfor%}
                     </div>
             </div>
@@ -85,6 +86,6 @@
 
 
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/product.js"></script>
+    <script src="{%static 'js/main.js'%}"></script>
+    <script src="{% static 'js/product.js'%}"></script>
     {%endblock%}

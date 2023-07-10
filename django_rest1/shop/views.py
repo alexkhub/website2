@@ -59,6 +59,20 @@ class CreateCommentView(APIView):
     #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+class LoginView(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/login.html'
+
+    def get(self, request):
+        pass
+
+
+
+
+
+
+
 class TestView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'

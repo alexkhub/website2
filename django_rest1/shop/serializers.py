@@ -89,3 +89,7 @@ class TestSerializer(serializers.ModelSerializer):
         model = Products
         read_only = ('owner.username',)
         exclude = ('numbers',)
+
+class LoginSerializer(serializers.Serializer):
+    model = Users
+    fields = ('username', 'password')

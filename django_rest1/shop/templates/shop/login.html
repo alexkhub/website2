@@ -6,6 +6,13 @@
 </head>
 <body>
 <h1>Привет</h1>
+<form  method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+    <div class="form-input">
+        <input type="submit" value="Войти">
+    </div>
+</form>
 <h3><a href="">регистрация</a></h3>
 </body>
 </html>

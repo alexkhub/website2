@@ -1,10 +1,16 @@
+from django.urls import reverse_lazy
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
-from .models import *
-from .serializers import *
 from rest_framework.status import HTTP_200_OK
+from django.contrib.auth.views import LoginView
+
+
+from .models import *
+from .forms import *
+from .serializers import *
+
 
 
 class ProductsListView(APIView):
@@ -60,12 +66,14 @@ class CreateCommentView(APIView):
 
 
 
-class LoginView(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
+class Login(LoginView):
+
+    form_class = LoginForm
     template_name = 'shop/login.html'
 
-    def get(self, request):
-        pass
+    def get_success_url(self):
+        return reverse_lazy('home')
+
 
 
 

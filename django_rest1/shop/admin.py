@@ -5,12 +5,12 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'last_login', 'username', 'email', 'gender', 'phone', 'is_staff')
+    list_display = ('id', 'last_login', 'username', 'email', 'gender', 'phone', 'is_staff', 'slug')
     list_display_links = ('id', 'last_login', 'username', 'email', 'phone',)
-    prepopulated_fields = {"slug": ("username",)}
+
     search_fields = ('id', 'username', 'phone', 'email')
     list_filter = ('is_staff',)
-    list_editable = ('is_staff',)
+    list_editable = ('is_staff', )
 
 
 class TransactionsAdmin(admin.ModelAdmin):

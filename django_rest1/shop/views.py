@@ -1,4 +1,7 @@
 from django.urls import reverse_lazy
+from django.http import HttpResponse, HttpResponseRedirect
+from formtools.wizard.views import SessionWizardView
+
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -74,6 +77,29 @@ class Login(LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+
+
+class RegistrationWizardForm(SessionWizardView):
+    form_list = [RegisterForm1, RegisterForm2]
+    template_name = 'shop/register_step1.html'
+    success_url = reverse_lazy('home')
+
+    def done(self, form_list,  **kwargs):
+        form1 = form_list[0].cleaned_data
+        form2 = form_list[1].cleaned_data
+        user = Users.objects.create(
+            first_name=form1['first_name'],
+            last_name=form1['last_name'],
+            username =form1['username'],
+            password = form1['password1'],
+            gender = form1['gender'],
+            birthday = form1['birthday'],
+            email = form2['email'],
+            phone = form2['phone'],
+            mailing_list = form2['mailing_list'],
+            address = form2['address']
+        )
+        return HttpResponseRedirect(reverse('home'))
 
 
 

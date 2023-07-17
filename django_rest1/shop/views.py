@@ -1,3 +1,5 @@
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
@@ -97,15 +99,27 @@ class RegistrationWizardForm(SessionWizardView):
 
 
 
+def logout_user(request):
+    logout(request)
+    return redirect('home')
 
 
-
-class TestView(APIView):
+class TestView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/test.html'
+    serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    def get(self, request, product_slug):
-        products = Products.objects.get(slug=product_slug)
+    def list(self, request):
+        products = Products.objects.filter(discount=0)  # товары без скидки
+        products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
+        categories = Category.objects.all()
+        products_serializer = ProductsListSerializer(products, many=True)
+        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
+        category_serializer = CategoryListSerializer(categories, many=True)
 
-        product_serializer = ProductDetailSerializer(products)
-        return Response({'product': product_serializer.data})
+        return Response(
+            {'products_serializer': products_serializer.data,
+             'products_with_discount_serializer': products_with_discount_serializer.data,
+             'category_serializer': category_serializer.data,
+             }
+        )

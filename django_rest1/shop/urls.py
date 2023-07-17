@@ -9,5 +9,6 @@ urlpatterns = [
     path('comment/', CreateCommentView.as_view(), name='comment'),
     path('login/', Login.as_view(), name='login'),
     path('registration/', RegistrationWizardForm.as_view(), name='registration'),
-    path('test/<slug:product_slug>/', TestView.as_view(), name='test')
+    path('logout/', logout_user, name='logout'),
+    path('test/', TestView.as_view(), name='test')
 ]

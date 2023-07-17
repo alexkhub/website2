@@ -101,9 +101,9 @@ class Product_Images(models.Model):
 class Products(models.Model):
     product_name = models.CharField(max_length=70, verbose_name='Название продукта', unique=True, blank=True,
                                     db_index=True)
-    first_price = models.FloatField(verbose_name='Первоначальная цена')
+    first_price = models.IntegerField(verbose_name='Первоначальная цена')
     discount = models.FloatField(verbose_name='Скидка', default=0, blank=True)
-    last_price = models.FloatField(verbose_name='Конечная  цена', blank=True)
+    last_price = models.IntegerField(verbose_name='Конечная  цена', blank=True)
     numbers = models.IntegerField(verbose_name='Количество продуктов')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Категория')
     slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )

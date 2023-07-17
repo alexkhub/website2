@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
 
-from rest_framework import generics
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -16,15 +16,15 @@ from .serializers import *
 
 
 
-class ProductsListView(APIView):
+class ProductsListView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/home.html'
+    serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    def get(self, request):
+    def list(self, request):
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
         categories = Category.objects.all()
-
         products_serializer = ProductsListSerializer(products, many=True)
         products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
         category_serializer = CategoryListSerializer(categories, many=True)
@@ -58,14 +58,7 @@ class CreateCommentView(APIView):
         else:
             return Response(status=400)
 
-    # def put(self, request, id=None ):
-    #     comment = Comments.objects.filter(id=id)
-    #     serializer = CreateCommentSerializer(comment, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     else:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -109,10 +102,10 @@ class RegistrationWizardForm(SessionWizardView):
 
 class TestView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/product.html'
+    template_name = 'shop/test.html'
 
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
 
-        product_serializer = TestSerializer(products)
+        product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})

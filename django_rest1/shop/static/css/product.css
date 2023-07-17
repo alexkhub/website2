@@ -26,7 +26,6 @@ button:hover {
     width: 450px;
     height: 450px;
     background-color: #373737;
-    overflow: hidden;
     padding: 25px;
     transition: .3s ease-in-out width;
 }
@@ -37,25 +36,60 @@ button:hover {
     height: 450px;
 }
 
+.slider-line {
+    position: absolute;
+    padding: 10px 20px;
+    left: 0;
+    top: calc(100% + 20px);
+    height: 60px;
+    width: calc(100% - 40px);
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.slider__item {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.slider__item img {
+    height: 60px;
+    width: 75px;
+}
+
+.slider-line i {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.slider-line .slider__item:last-of-type {
+    display: none;
+}
+
+.active-slide {
+    position: relative;
+    border: 2px solid #303030;
+    border-radius: 15px;
+    padding: 3px;
+    background-color: #202020;
+}
+
 .product {
     padding: 40px 72px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    column-gap: 40px;
     color: white;
-}
-
-.line {
-    position: absolute;
-    height: 600px;
-    width: 1px;
-    background-color: white;
-    top: 120px;
-    left: 50%;
 }
 
 .product-description__text {
     font-size: 18px;
-    line-height: 45px;
+    line-height: 30px;
     width: 570px;
     margin-top: 35px;
 }
@@ -66,8 +100,44 @@ button:hover {
     font-size: 32px;
 }
 
+.price {
+    font-size: 22px;
+    margin-top: 20px;
+    line-height: 30px;
+}
+
+#start-price-number {
+    color: #656565;
+    text-decoration: line-through;
+    font-size: 18px;
+    margin-left: 15px;
+}
+
+#start-price-number::after {
+    content: '₽';
+}
+
+#discount-number {
+    color: yellow;
+}
+
+#discount-number::after {
+    content: '%';
+}
+
+#finish-price-number {
+}
+
+#finish-price-number::after {
+    content: '₽';
+}
+
+.manufacturer {
+    margin-top: 15px;
+}
+
 .add-to-cart__button {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .add-to-cart__button button {
@@ -147,7 +217,12 @@ button:hover {
 }
 
 #form-name {
+    position: relative;
     border-right: none;
+}
+
+#form-rating {
+    position: relative;
 }
 
 #form-text {
@@ -164,20 +239,7 @@ button:hover {
     left: 88%;
 }
 
-.comment-publish-success {
-    position: fixed;
-    display: flex;
-    column-gap: 15px;
-    background-color: #373737;
-    color: greenyellow;
-    padding: 20px;
-    right: -180px;
-    top: 705px;
-    transition: .3s linear all;
-}
-
 /* delete arrows from input [type="number"] */
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;

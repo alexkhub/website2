@@ -56,7 +56,6 @@ if (window.pageYOffset > sticky) {
     logoIcon.classList.add('logo-icon-minimized');
 
     searchInput.classList.add('header-search-minimized');
-    searchInput.classList.remove('header-search');
 
     headerMenu.classList.add('header-menu-minimized');
     headerMenu.classList.remove('header-menu');
@@ -67,6 +66,8 @@ if (window.pageYOffset > sticky) {
     header.classList.add("header");
 
     logoText.classList.remove('logo-hidden');
+    logoText.style.fontSize = '40px';
+    logoText.style.transition = '.3s linear font-size';
 
     logoIcon.classList.add('logo-icon');
     logoIcon.classList.remove('logo-icon-minimized');

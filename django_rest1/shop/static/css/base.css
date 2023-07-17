@@ -25,10 +25,6 @@ header {
     transition: .3s linear;
 }
 
-.header-minimized + .main {
-    padding-top: 150px;
-}
-
 /* MINIMIZED */
 
 .header-minimized {
@@ -42,8 +38,14 @@ header {
 }
 
 .logo-hidden {
-    font-size: 0;
+    font-size: 0 !important;
     transition: .3s  ease-in-out font-size;
+}
+
+.logo-show {
+    font-size: 40px;
+    transition: .3s  ease-in-out font-size;
+
 }
 
 .logo-icon-minimized {
@@ -69,8 +71,8 @@ header {
     column-gap: 50px;
     color: white;
     font-size: 20px;
-    transition: .3s linear font-size;
     margin-right: 50px;
+    transition: .3s linear font-size;
 }
 /* --- */
 
@@ -140,7 +142,6 @@ body::-webkit-scrollbar-thumb {
     border-radius: 100%;
     transition: .3s ease-in-out border;
     margin-left: 5px;
-    cursor: pointer;
 }
 
 .search-icon-right {
@@ -154,6 +155,7 @@ body::-webkit-scrollbar-thumb {
     column-gap: 50px;
     color: white;
     font-size:  28px;
+    transition: .3s ease-in-out font-size;
 }
 
 .header-menu, .header-menu-minimized {

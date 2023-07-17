@@ -70,6 +70,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ProductDetailSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продукта"""
     category = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    manufacturer = serializers.SlugRelatedField(slug_field='manufacturer_name', read_only=True)
     product_photos = ProductImagesListSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True)
 

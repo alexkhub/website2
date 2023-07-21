@@ -230,6 +230,7 @@ button:hover {
     border-bottom-right-radius: 50px;
 }
 
+
 #leave-a-comment__button {
     position: absolute;
     border: 2px solid #7230FF;
@@ -243,4 +244,8 @@ button:hover {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+}
+
+#product{
+    opacity: 0;
 }

@@ -82,19 +82,23 @@
                         {%for comment in product.comments%}
                         <p class="user-name">{{comment.user}}</p>
                         <p class="user-rating"> Оценка: {{comment.rating}}/10</p>
-                        <p class="comment-date">{{comment.date}}</p>
+                        <p class="comment-date">{{comment.date)}}</p>
                         <p class="comment-text">{{comment.text}}</p>
                         <br>
                         {%endfor%}
                     </div>
             </div>
             <div class="leave-a-comment">
-                <form action="" class="leave-a-comment__form">
-                    <div class="name-rating-wrapper">
-                        <input type="text" name="" class="field" id="form-name" placeholder="Введите имя и фамилию" oninput="this.value=this.value.replace(/[^a-zA-Z А-ЯЁа-яё]/g,'');">
-                        <input type="number" name="" class="field" id="form-rating" placeholder="Введите вашу оценку (1-10)" data-min="1" data-max="50">
+                <form action="{% url 'add_comment'  %}" method="post" class="leave-a-comment__form">
+                    {%csrf_token%}
+                   <div class="name-rating-wrapper">
+
+                        <input type="text" value="{{ user.username }}" name="username" class="field" id="form-name" placeholder="Введите имя и фамилию"  oninput="this.value=this.value.replace(/[^a-zA-Z А-ЯЁа-яё]/g,'');">
+                        <input type="number" name="rating" class="field" id="form-rating" placeholder="Введите вашу оценку (1-10)" data-min="1" data-max="50">
+                        <input type="number" name="product" class="field" id="product" value="{{product.id}}">
                     </div>
-                    <textarea name="" id="form-text" cols="30" rows="10" placeholder="Введите текст"></textarea>
+                    <textarea name="text" id="form-text" cols="30" rows="10" placeholder="Введите текст"></textarea>
+
                     <button id="leave-a-comment__button" type="submit">Опубликовать</button>
                 </form>
             </div>
@@ -106,6 +110,6 @@
     <script src="{%static 'js/main.js'%}"></script>
     <script src="{% static 'js/product-js/product.js'%}"></script>
     <script src="{% static 'js/product-js/product-slider.js'%}"></script>
-    <script src="{% static 'js/product-js/commentsButton.js'%}"></script>
+<!--    <script src="{% static 'js/product-js/commentsButton.js'%}"></script>-->
 
     {%endblock%}

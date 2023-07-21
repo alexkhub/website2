@@ -1,4 +1,5 @@
 from django import forms
+
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from .models import *
 
@@ -21,15 +22,16 @@ class RegisterForm1(UserCreationForm):
 
 
 class RegisterForm2(forms.ModelForm):
-    # email = forms.EmailField(label='Почта', widget=forms.EmailField())
-    # phone = forms.CharField(label='Номер телефона', widget=forms.TextInput())
-    # mailing_list = forms.BooleanField(label='Разрешить отправлять сообщения', widget=forms.CheckboxInput())
-    # address = forms.CharField(label='Адрес', widget=forms.TextInput())
+
     class Meta:
         model = Users
         fields = ['email', 'phone', 'mailing_list', 'address']
 
+class CreateComment(forms.Form):
+    # user = forms.CharField(widget=forms.TextInput(attrs={'class' :"field" , 'id': "form-name" , 'placeholder' :"Введите имя и фамилию",  'oninput' :"this.value=this.value.replace(/[^a-zA-Z А-ЯЁа-яё]/g,'')"}))
+    rating = forms.IntegerField(widget=forms.TextInput(attrs={'class': "field", 'id': "form-rating", 'placeholder': "Введите вашу оценку (1-10)", 'data-min': "1", 'data-max': "50"}))
+    product = forms.IntegerField( widget=forms.TextInput(attrs={'class' :"field", 'id' :"product",    }))
 
 
-
+    text = forms.CharField(widget=forms.Textarea(attrs={'id': "form-text", 'cols': "30", 'rows': "10"}))
 

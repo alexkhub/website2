@@ -1,10 +1,11 @@
 from django.contrib.auth import logout
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic.base import View
 from formtools.wizard.views import SessionWizardView
 
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -50,16 +51,6 @@ class ProductDetailView(APIView):
         return Response({'product': product_serializer.data})
 
 
-class CreateCommentView(APIView):
-
-    def post(self, request):
-        serializer = CreateCommentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=201)
-        else:
-            return Response(status=400)
-
 
 
 
@@ -104,22 +95,61 @@ def logout_user(request):
     return redirect('home')
 
 
-class TestView(ListAPIView):
+
+class TestView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/test.html'
-    serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    def list(self, request):
-        products = Products.objects.filter(discount=0)  # товары без скидки
-        products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
-        categories = Category.objects.all()
-        products_serializer = ProductsListSerializer(products, many=True)
-        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
-        category_serializer = CategoryListSerializer(categories, many=True)
+    def get(self, request, product_slug):
+        products = Products.objects.get(slug=product_slug)
+        form = CreateComment()
 
-        return Response(
-            {'products_serializer': products_serializer.data,
-             'products_with_discount_serializer': products_with_discount_serializer.data,
-             'category_serializer': category_serializer.data,
-             }
-        )
+        product_serializer = ProductDetailSerializer(products)
+
+        return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})
+
+def add_comment(request):
+    if request.POST:
+
+        form = CreateComment(request.POST)
+        url = request.META.get('HTTP_REFERER')
+        if form.is_valid():
+            user = request.user
+            rating = form.data['rating']
+            product_1 = int(form.data['product'])
+            product = Products.objects.get(id = product_1)
+
+            text = form.data['text']
+            comment = Comments.objects.create(
+                user=user,
+                rating=rating,
+                product=product,
+                text=text
+            )
+
+
+        return redirect(url)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

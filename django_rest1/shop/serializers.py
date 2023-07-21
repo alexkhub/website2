@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+# from drf_braces.forms.serializer_form import SerializerForm
 from .models import *
 
 
@@ -47,15 +47,13 @@ class CategoryListSerializer(serializers.ModelSerializer):
 class CreateCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
-        exclude = ('date',)
+        fields = '__all__'
 
-    def create(self, validated_data):
-        comment = Comments.objects.update_or_create(
-            user=validated_data.get('user', None),
-            product=validated_data.get('product', None),
-            defaults={'text': validated_data.get('text'), 'rating': validated_data.get('rating')}
-        )
-        return comment
+# class CreateCommentForm(SerializerForm):
+#     class Meta(object):
+#
+#         serializer = CreateCommentSerializer
+
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -80,16 +78,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         exclude = ('numbers',)
 
 
-class TestSerializer(serializers.ModelSerializer):
-    category = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    product_photos = ProductImagesListSerializer(many=True, read_only=True)
 
-    comments = CommentSerializer(many=True)
-
-    class Meta:
-        model = Products
-        read_only = ('owner.username',)
-        exclude = ('numbers',)
 
 class LoginSerializer(serializers.Serializer):
     model = Users

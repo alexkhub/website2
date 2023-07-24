@@ -2,6 +2,19 @@ const arrowNext = document.querySelector('.fa-chevron-right');
 const arrowPrev = document.querySelector('.fa-chevron-left')
 const productImg = document.querySelector('.product-img img');
 const sliderItemArr = document.querySelectorAll('.slider__item');
+const activeSlide = document.querySelector('.active-slide')
+
+const clicked = [sliderItemArr[0]]
+
+for (i = 0; i < sliderItemArr.length; i++) {
+    sliderItemArr[i].addEventListener('click', function () {
+        clicked.unshift(this);
+        clicked[i].classList.remove('active-slide');
+        sliderItemArr[0].classList.remove('active-slide');
+        this.classList.add('active-slide');
+        productImg.setAttribute('src', this.firstChild.getAttribute('src'));
+    });
+};
 
 let nextArrowClickCount = 2;
 arrowNext.addEventListener('click', function () {
@@ -14,6 +27,7 @@ arrowNext.addEventListener('click', function () {
         sliderItem.classList.add('active-slide');
         productImg.setAttribute('src', sliderItem.firstChild.getAttribute('src'));
     }
+
     prevSliderItem.classList.remove('active-slide');
     if (nextArrowClickCount > sliderItemArr.length) {
         nextArrowClickCount = 2;

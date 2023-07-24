@@ -1,17 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'shop/base.html' %}
+{%load static%}
+{%block headblock%}
     <meta charset="UTF-8">
-    <title>login</title>
-</head>
-<body>
-<form  method="post">
-    {%csrf_token%}
-    {{form.as_p}}
-    <div class="form-input">
-        <input type="submit" value="Войти">
-    </div>
-</form>
-<h3><a href="">регистрация</a></h3>
-</body>
-</html>
+    <title>Войти</title>
+    <script type="text/javascript" src="/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=O7t9G7xBTVnWSOkEYI62FRyOlQTBAP3Bd9NCHChSdv0yN3_MfK7pGkggackZ8EfT" charset="UTF-8"></script>
+
+
+<!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+    <!-- Sansation Font-->
+    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+
+    <link type="text/css" rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/media-query.css' %}">
+
+    <title>Главная</title>
+
+{%endblock headblock%}
+
+{%block content%}
+<div class="content">
+    <h3>Вход</h3>
+    <form  method="post">
+
+            {%csrf_token%}
+            {{form.as_p}}
+            <div class="form-input">
+                <button type="submit">Войти</button>
+            </div>
+
+    </form>
+    <a href="{%url 'registration'%}">Регистрация</a>
+</div>
+<script src="{% static 'js/main.js'%}"></script>
+{%endblock%}

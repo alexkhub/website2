@@ -9,7 +9,7 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('registration/', RegistrationWizardForm.as_view(), name='registration'),
     path('logout/', logout_user, name='logout'),
-path('add_comment/', add_comment, name='add_comment'),
+    path('add_comment/', add_comment, name='add_comment'),
     path('test/<slug:product_slug>/', TestView.as_view(), name='test'),
 
 ]

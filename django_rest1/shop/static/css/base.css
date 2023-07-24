@@ -4,6 +4,10 @@
     font-family: 'Sansation Regular', arial;
 }
 
+*::selection {
+    background-color: rgba(5, 0, 161, 0.7);
+}
+
 a {
     text-decoration: none;
     color: white;
@@ -164,12 +168,12 @@ body::-webkit-scrollbar-thumb {
 
 .header-menu a:hover {
     color: gray;
-    transition: .3s ease-in-out;
+    transition: .3s ease-in-out color, .3s ease transform;
 }
 
 .header-menu-minimized a:hover {
     color: gray;
-    transition: .3s ease-in-out;
+    transition: .3s ease-in-out color;
 }
 
 footer {

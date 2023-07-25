@@ -78,13 +78,13 @@ class RegistrationWizardForm(SessionWizardView):
             last_name=form1['last_name'],
             username =form1['username'],
             password = form1['password1'],
-            gender = form1['gender'],
             birthday = form1['birthday'],
             email = form2['email'],
             phone = form2['phone'],
             mailing_list = form2['mailing_list'],
             address = form2['address']
         )
+        print(form2['mailing_list'])
         return HttpResponseRedirect(reverse('home'))
 
 
@@ -118,7 +118,6 @@ def add_comment(request):
             rating = form.data['rating']
             product_1 = int(form.data['product'])
             product = Products.objects.get(id = product_1)
-
             text = form.data['text']
             comment = Comments.objects.create(
                 user=user,

@@ -5,7 +5,7 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'last_login', 'username', 'email', 'gender', 'phone', 'is_staff', 'slug')
+    list_display = ('id', 'last_login', 'username', 'email', 'phone', 'is_staff', 'slug')
     list_display_links = ('id', 'last_login', 'username', 'email', 'phone',)
 
     search_fields = ('id', 'username', 'phone', 'email')

@@ -6,11 +6,7 @@ from autoslug import AutoSlugField
 
 
 class Users(AbstractUser):
-    Gender = (
-        ('М', 'Мужчина'),
-        ('Ж', 'Женщина'),
-    )
-    gender = models.CharField(max_length=1, verbose_name="Пол", choices=Gender, blank=True)
+
     phone = models.CharField(max_length=20, verbose_name="Телефон", unique=True, blank=True)
     slug = AutoSlugField(populate_from='username', unique=True, db_index=True, verbose_name='URL', )
     birthday = models.DateTimeField(verbose_name='Дата рождения', blank=True, null=True)

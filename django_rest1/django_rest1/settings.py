@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+from .juzmin import JAZZMIN_SETTINGS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'ckeditor',
     'sortedm2m',
 
     'shop.apps.ShopConfig',
@@ -135,3 +136,6 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 # Расширение таблицы User
 
 AUTH_USER_MODEL = 'shop.Users'
+
+
+JAZZMIN_SETTINGS=JAZZMIN_SETTINGS

@@ -16,6 +16,7 @@ from django.contrib.auth.views import LoginView
 from .models import *
 from .forms import *
 from .serializers import *
+from .service import *
 
 
 
@@ -84,7 +85,8 @@ class RegistrationWizardForm(SessionWizardView):
             mailing_list = form2['mailing_list'],
             address = form2['address']
         )
-        print(form2['mailing_list'])
+        send(form2['email'])
+
         return HttpResponseRedirect(reverse('home'))
 
 

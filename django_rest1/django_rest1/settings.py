@@ -137,5 +137,13 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 AUTH_USER_MODEL = 'shop.Users'
 
-
+# расширение админки
 JAZZMIN_SETTINGS=JAZZMIN_SETTINGS
+
+#подключение почты
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER= 'aleksandrkhubaevwork@gmail.com'
+EMAIL_HOST_PASSWORD = 'qdfgbwcyublqpler'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'company_orders.apps.CompanyOrdersConfig',
     'working_with_orders.apps.WorkingWithOrdersConfig',
-    'delivery.apps.DeliveryConfig'
+    'delivery.apps.DeliveryConfig',
+    'additional_admin_features.apps.AdditionalAdminFeaturesConfig',
 
 ]
 

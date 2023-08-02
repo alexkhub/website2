@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{%static 'img/favicon.svg'%}" type="image/x-icon">
+    <link rel="shortcut icon" href="{%static 'shop/img/favicon.svg'%}" type="image/x-icon">
 
     <!-- Sansation Font-->
     <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
@@ -22,10 +22,10 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
 
-    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
-    <link type="text/css"  rel="stylesheet" href="{% static 'css/media-query-product.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/media-query-header.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/product.css' %}">
+    <link type="text/css"  rel="stylesheet" href="{% static 'shop/css/media-query-product.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/media-query-header.css' %}">
 
     <title>Название продукта</title>
 {%endblock headblock%}
@@ -64,7 +64,11 @@
                         {%endif%}
                     </div>
                     <div class="add-to-cart__button">
+                        {%if request.user.is_authenticated%}
                         <button type="button">Добавить в корзину</button>
+                        {%else%}
+                        <a href="{%url 'login'%}"><button type="button">Авторизация</button></a>
+                        {%endif%}
                     </div>
             </div>
         </div>
@@ -74,9 +78,15 @@
                        <div class="user-comments-title">
                             <h3 id="users-comments__title">Комментарии</h3>
                        </div>
+                       {%if request.user.is_authenticated%}
                         <div class="user-comments__button">
                             <a href="#form-name"><button id="leave-a-comment__link">Оставьте комментарий</button></a>
                         </div>
+                       {%else%}
+                       <div class="user-comments__button">
+                            <a href="{%url 'login'%}"><button id="leave-a-comment__link">Авторизация</button></a>
+                        </div>
+                       {%endif%}
                    </div>
                     <div class="users-comments__item">
                         {%for comment in product.comments%}
@@ -88,8 +98,9 @@
                         {%endfor%}
                     </div>
             </div>
+            {%if request.user.is_authenticated%}
             <div class="leave-a-comment">
-                <form action="{% url 'add_comment'  %}" method="post" class="leave-a-comment__form">
+                <form action="{% url 'add_comment'%}" method="post" class="leave-a-comment__form">
                     {%csrf_token%}
                    <div class="name-rating-wrapper">
 
@@ -102,14 +113,15 @@
                     <button id="leave-a-comment__button" type="submit">Опубликовать</button>
                 </form>
             </div>
+            {%endif%}
         </div>
     </main>
 
 
 
-    <script src="{%static 'js/main.js'%}"></script>
-    <script src="{% static 'js/product-js/product.js'%}"></script>
-    <script src="{% static 'js/product-js/product-slider.js'%}"></script>
-<!--    <script src="{% static 'js/product-js/commentsButton.js'%}"></script>-->
+    <script src="{%static 'shop/js/main.js'%}"></script>
+    <script src="{% static 'shop/js/product-js/product.js'%}"></script>
+    <script src="{% static 'shop/js/product-js/product-slider.js'%}"></script>
+<!--    <script src="{% static 'shop/js/product-js/commentsButton.js'%}"></script>-->
 
     {%endblock%}

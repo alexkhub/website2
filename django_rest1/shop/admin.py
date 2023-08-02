@@ -5,12 +5,12 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'last_login', 'username', 'email', 'phone', 'is_staff', 'slug')
+    list_display = ('id', 'last_login', 'username', 'email', 'phone', 'is_staff', 'mailing_list')
     list_display_links = ('id', 'last_login', 'username', 'email', 'phone',)
 
     search_fields = ('id', 'username', 'phone', 'email')
     list_filter = ('is_staff',)
-    list_editable = ('is_staff', )
+    list_editable = ('is_staff', 'mailing_list' )
 
 
 class TransactionsAdmin(admin.ModelAdmin):

@@ -1,0 +1,231 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+    <!-- Sansation Font-->
+    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/media-query-header.css' %}">
+    <link rel="stylesheet" href="{% static 'working_with_orders/css/basket.css' %}">
+    <link rel="stylesheet" href="{% static 'working_with_orders/css/media-query-basket.css' %}">
+
+    <title>Корзина</title>
+</head>
+
+<body>
+
+    <header class="header" id="header">
+        <div class="header-left-content__wrapper">
+            <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
+            <div class="search">
+                <form class="search" action="search">
+                    <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="header-menu">
+            <a href=""><i class="fas fa-sign-out-alt"></i></a>
+            <a href="/registration-first-step.html"><i class="fas fa-user-plus"></i></a>
+            <a href="/login.html"><i class="fas fa-user"></i></a>
+            <a href=""><i class="fas fa-headphones-alt"></i></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="main-content__wrapper">
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">7690</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">5000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">5000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">5000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">5000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">5000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item__img-container">
+                    <img src="assets/img/products/headphones/product-img-headphones-black.webp" alt="">
+                </div>
+                <div class="item__text-container">
+                    <p class="item__title">15.6" Ноутбук Irbis NB260 черный</p>
+                    <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa recusandae modi, facilis quaerat ab dolor porro veritatis delectus asperiores perferendis. Molestias totam sit consequuntur recusandae iure, magni itaque minus ipsa? Commodi odit sed harum libero? Impedit eveniet cumque excepturi veniam architecto. Sapiente eaque, sit consequuntur quisquam unde quos deleniti.</p>
+                    <div class="item__buttons-container">
+                        <div class="item__counter-container">
+                            <i class="fas fa-plus"></i>
+                            <p class="item__counter">1</p>
+                            <i class="fas fa-minus"></i>
+                        </div>
+                        <div class="item__action-buttons-container">
+                            <i class="fas fa-cart-arrow-down"></i>
+                            <i class="fas fa-trash"></i>
+                        </div>
+                    </div>
+                    <div class="item__price">
+                        <p class="price">Цена: <span class="price__text">5000</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buy-action-wrapper">
+            <p class="total">Итоговая цена: <span class="total__price"></span></p>
+            <button id="total__button">Заказать всё</button>
+        </div>
+    </main>
+
+    <script src="{%static 'shop/js/main.js'%}"></script>
+    <script src="{%static 'working_with_orders/js/basket.js'%}"></script>
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+.main-content__wrapper {
+    padding: 30px 140px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px 200px;
+}
+
+.item {
+    display: flex;
+    background-color: #252525;
+    color: white;
+    width: 500px;
+    border-radius: 20px;
+    border: 2px solid none;
+    padding: 0 20px 0 0;
+    transition: .3s ease background-color,
+                        .3s ease box-shadow,
+                        .3s ease transform;
+}
+
+.item img {
+    height: 230px;
+}
+
+.item__text-container {
+    padding: 20px 50px 30px 20px;
+}
+
+.item__title {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item__description {
+    font-size: 14px;
+    width: 250px;
+    margin-top: 15px;
+}
+
+.item__buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.item__buttons-container i {
+    cursor: pointer;
+}
+
+.item__counter {
+    margin: 0 12px;
+}
+
+.item__counter-container {
+    display: flex;
+}
+
+.item__counter-container i {
+    transition: .3s ease color;
+}
+
+.item__counter-container i:hover {
+    color: rgb(135, 135, 135);
+}
+
+.item__action-buttons-container i {
+    margin: 0 7.5px;
+}
+
+.fa-trash {
+    transition: .3s ease color;
+}
+
+.fa-cart-arrow-down {
+    transition: .3s ease color;
+}
+
+.fa-trash:hover {
+    color: red;
+}
+
+.fa-cart-arrow-down:hover {
+    color: green;
+}
+
+.price {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.price__text::after {
+    content: ' ₽';
+}
+
+.item:hover {
+    background-color: transparent;
+    box-shadow: 0 0 0 1px #CC00FF;
+}
+
+.buy-action-wrapper {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    right: 140px;
+    bottom: 10px;
+}
+
+.total::after {
+    content: ' ₽';
+}
+
+#total__button {
+    position: relative;
+    margin: 10px;
+    padding: 10px 30px;
+    color: white;
+    border-radius: 30px;
+    background-color: transparent;
+    border: 2px solid white;
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    margin-left: 20px;
+    transition: .3s ease box-shadow,
+    .3s ease transform;
+}
+
+#total__button:hover {
+    box-shadow: 0 0 0 3px #2CC283;
+    transform: scale(1.1);
+}
+
+#total__button::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    bottom: -100%;
+    left: 0;
+    background-color: #2CC283;
+    border-radius:  30px;
+    z-index: -1;
+
+    transition: .3s ease bottom;
+}
+
+#total__button:hover::before {
+    bottom: 0;
+}

@@ -12,15 +12,18 @@ class Order_Points(models.Model):
 
     amount = models.IntegerField(verbose_name='Количество', default=1)
     price = models.IntegerField(verbose_name='Цена', blank=True)
+    in_orders = models.BooleanField(verbose_name='Участвует в заказе ', default=False, blank=True)
 
     def __str__(self):
         return str(self.pk)
 
     def save(self, *args, **kwargs):
-        amount = self.amount
-        product = Products.objects.get(product_name=self.product)
-        product_price = float(product.last_price)
-        self.price = product_price * amount
+        if not self.in_orders:
+
+            amount = self.amount
+            product = Products.objects.get(product_name=self.product)
+            product_price = float(product.last_price)
+            self.price = product_price * amount
         super(Order_Points, self).save(*args, **kwargs)
 
     class Meta:

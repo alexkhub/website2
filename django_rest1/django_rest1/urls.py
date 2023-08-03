@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('shop.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('additional_admin_features/', include('additional_admin_features.urls')),
+    path('shopping_cart/', include('working_with_orders.urls'))
 ]
 
 if settings.DEBUG:

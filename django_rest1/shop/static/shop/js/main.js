@@ -6,6 +6,10 @@ const logoText = document.querySelector('.logo span');
 const headerMenu = document.querySelector('.header-menu');
 const searchInputMinimized = document.querySelector('.header-search-minimized');
 
+searchIcon.addEventListener('click', function () {
+    searchInput.focus;
+});
+
 // Search animation
 searchInput.addEventListener('focus', function() {
     searchIcon.classList.toggle('search-icon-right');

@@ -6,4 +6,6 @@ django-sortedm2m==3.1.1
 django-formtools==2.4.1
 django-autoslug==1.9.9
 django-jazzmin==2.6.0
+celery==5.3.1
+django-redis==5.3.0
 

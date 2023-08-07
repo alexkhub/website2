@@ -152,7 +152,7 @@ EMAIL_USE_TLS = True
 # Celery
 
 
-REDIS_HOST = 'O.O.O.O'
+REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_BROKEN_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}

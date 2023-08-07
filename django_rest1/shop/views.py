@@ -15,6 +15,7 @@ from .models import *
 from .forms import *
 from .serializers import *
 from .service import *
+from .tasks import *
 
 
 class ProductsListView(ListAPIView):
@@ -22,7 +23,7 @@ class ProductsListView(ListAPIView):
     template_name = 'shop/home.html'
     serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    def list(self, request):
+    def list(self, request, **kwargs):
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
         categories = Category.objects.all()
@@ -76,7 +77,7 @@ class RegistrationWizardForm(SessionWizardView):
             mailing_list=form2['mailing_list'],
             address=form2['address']
         )
-        send(form2['email'])
+        send_email.delay(form2['email'])
 
         return HttpResponseRedirect(reverse('home'))
 

@@ -39,6 +39,6 @@ class MailingForm(UserPassesTestMixin, FormView):
         mail_text = clean_form['mail_text']
         users = Users.objects.filter(mailing_list=True)
         for user in users:
-            send_emails(mail_text=mail_text, user_email=user.email)
+            send_emails.delay(mail_text=mail_text, user_email=user.email)
 
         return super(MailingForm, self).form_valid(form)

@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from .forms import *
 from .service import *
 from .tasks import *
-from shop.models import Users
+
 
 
 # Create your views here.
@@ -37,8 +37,7 @@ class MailingForm(UserPassesTestMixin, FormView):
     def form_valid(self, form):
         clean_form = form.cleaned_data
         mail_text = clean_form['mail_text']
-        users = Users.objects.filter(mailing_list=True)
-        for user in users:
-            send_emails.delay(mail_text=mail_text, user_email=user.email)
+        print(mail_text)
+        send_emails.delay(mail_text)
 
         return super(MailingForm, self).form_valid(form)

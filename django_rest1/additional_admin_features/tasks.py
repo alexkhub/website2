@@ -1,8 +1,18 @@
 from django_rest1.celery import app
-
+from shop.models import Users
 from .service import *
-
+from django.core.mail import send_mail
 @app.task
-def send_emails(mail_text, user_email):
-    send(mail_text, user_email)
+def send_emails(mail_text):
+    users = Users.objects.filter(mailing_list=True)
+    for user in users:
+        send_mail(
+            'Акции',
+            mail_text,
+            'aleksandrkhubaevwork@gmail.com',
+            [user.email],
+            fail_silently=False
 
+        )
+
+    return None

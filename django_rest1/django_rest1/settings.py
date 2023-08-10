@@ -39,15 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'sortedm2m',
-
-
+    'django_celery_results',
+    'django_celery_beat',
 
     'shop.apps.ShopConfig',
     'company_orders.apps.CompanyOrdersConfig',
     'working_with_orders.apps.WorkingWithOrdersConfig',
     'delivery.apps.DeliveryConfig',
     'additional_admin_features.apps.AdditionalAdminFeaturesConfig',
-    'django_celery_results',
+
 
 ]
 

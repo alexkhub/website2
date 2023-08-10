@@ -14,5 +14,14 @@ def send_emails(mail_text):
             fail_silently=False
 
         )
-
     return None
+@app.task
+def send_spam():
+        send_mail(
+            'Акции',
+            'хай бебра',
+            'aleksandrkhubaevwork@gmail.com',
+            ['aleksandrkhubaev04@gmail.com'],
+            fail_silently=False
+            )
+

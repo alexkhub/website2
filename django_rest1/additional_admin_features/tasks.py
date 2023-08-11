@@ -2,6 +2,8 @@ from django_rest1.celery import app
 from shop.models import Users
 from .service import *
 from django.core.mail import send_mail
+
+
 @app.task
 def send_emails(mail_text):
     users = Users.objects.filter(mailing_list=True)
@@ -15,13 +17,23 @@ def send_emails(mail_text):
 
         )
     return None
+
+
 @app.task
 def send_spam():
-        send_mail(
-            'Акции',
-            'хай бебра',
-            'aleksandrkhubaevwork@gmail.com',
-            ['aleksandrkhubaev04@gmail.com'],
-            fail_silently=False
-            )
+    send_mail(
+        'Акции',
+        'хай бебра',
+        'aleksandrkhubaevwork@gmail.com',
+        ['aleksandrkhubaev04@gmail.com'],
+        fail_silently=False
+    )
+
+
+@app.task(bind=True, default_retry_delay=5 * 60)  # таска будет перезапускаться каждые 5 минут
+def plus(self, x, y):
+    try:
+        return x + y
+    except Exception as exc:
+        raise self.retry(exc=exc, countdown=60)
 

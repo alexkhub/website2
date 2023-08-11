@@ -37,7 +37,6 @@ class MailingForm(UserPassesTestMixin, FormView):
     def form_valid(self, form):
         clean_form = form.cleaned_data
         mail_text = clean_form['mail_text']
-        print(mail_text)
         send_emails.delay(mail_text)
 
         return super(MailingForm, self).form_valid(form)

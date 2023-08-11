@@ -12,7 +12,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send-spam-email':{
         'task': 'additional_admin_features.tasks.send_spam',
-        'schedule' : crontab(minute='*/5')
+        'schedule' : crontab(hour='*/5')
     }
 
 }

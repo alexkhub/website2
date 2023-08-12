@@ -16,6 +16,7 @@ from .forms import *
 from .serializers import *
 from .service import *
 from .tasks import *
+from working_with_orders.models import Order_Points
 
 
 class ProductsListView(ListAPIView):
@@ -119,3 +120,18 @@ def add_comment(request):
             )
 
         return redirect(url)
+
+def add_product(request, id):
+    url = request.META.get('HTTP_REFERER')
+    product = Products.objects.get(id=id)
+    user = request.user
+    if not Order_Points.objects.filter(user=user, product=product,  in_orders=False):
+        point = Order_Points.objects.create(
+            user=user,
+            product=product
+        )
+        return redirect(url)
+    else:
+
+
+        return redirect('home')

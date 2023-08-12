@@ -1,8 +1,8 @@
+{% extends 'shop/base.html' %}
 {%load static%}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
+
+{%block headblock%}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,29 +30,12 @@
     <link rel="stylesheet" href="{% static 'working_with_orders/css/media-query-basket.css' %}">
 
     <title>Корзина</title>
-</head>
+{%endblock headblock%}
 
+{%block content %}
 <body>
 
-    <header class="header" id="header">
-        <div class="header-left-content__wrapper">
-            <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
-            <div class="search">
-                <form class="search" action="search">
-                    <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="header-menu">
-            <a href=""><i class="fas fa-sign-out-alt"></i></a>
-            <a href="/registration-first-step.html"><i class="fas fa-user-plus"></i></a>
-            <a href="/login.html"><i class="fas fa-user"></i></a>
-            <a href=""><i class="fas fa-headphones-alt"></i></a>
-        </div>
-    </header>
+
 
     <main>
         <div class="main-content__wrapper">
@@ -228,4 +211,4 @@
     <script src="{%static 'working_with_orders/js/basket.js'%}"></script>
 </body>
 
-</html>
+{%endblock%}

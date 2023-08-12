@@ -3,7 +3,7 @@ from .models import *
 
 
 class Order_PointsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product', 'amount', 'price')
+    list_display = ('id','user', 'product', 'amount', 'price')
     list_display_links = ('product', 'user')
     list_filter = ('product', 'user')
     search_fields = ('product', 'user')

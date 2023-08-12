@@ -65,7 +65,10 @@
                     </div>
                     <div class="add-to-cart__button">
                         {%if request.user.is_authenticated%}
-                        <button type="button">Добавить в корзину</button>
+
+
+                        <a href="{%url 'add_product' product.id%}"><button type="button">Добавить в корзину</button></a>
+
                         {%else%}
                         <a href="{%url 'login'%}"><button type="button">Авторизация</button></a>
                         {%endif%}

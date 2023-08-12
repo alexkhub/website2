@@ -10,6 +10,7 @@ urlpatterns = [
     path('registration/', RegistrationWizardForm.as_view(), name='registration'),
     path('logout/', logout_user, name='logout'),
     path('add_comment/', add_comment, name='add_comment'),
+    path('add_product/<int:id>/', add_product, name='add_product'),
     path('test/<slug:product_slug>/', TestView.as_view(), name='test'),
 
 ]

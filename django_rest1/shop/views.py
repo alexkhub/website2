@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
+from django.contrib.auth.decorators import login_required
 
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
@@ -100,7 +101,7 @@ class TestView(APIView):
 
         return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})
 
-
+@login_required(login_url='login')
 def add_comment(request):
     if request.POST:
 
@@ -121,17 +122,17 @@ def add_comment(request):
 
         return redirect(url)
 
+@login_required(login_url='login')
 def add_product(request, id):
     url = request.META.get('HTTP_REFERER')
     product = Products.objects.get(id=id)
     user = request.user
     if not Order_Points.objects.filter(user=user, product=product,  in_orders=False):
-        point = Order_Points.objects.create(
+        Order_Points.objects.create(
             user=user,
             product=product
         )
         return redirect(url)
     else:
 
-
-        return redirect('home')
+        return redirect('basket')

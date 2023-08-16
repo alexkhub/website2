@@ -3,10 +3,11 @@ from .models import *
 
 
 class Order_PointsAdmin(admin.ModelAdmin):
-    list_display = ('id','user', 'product', 'amount', 'price')
+    list_display = ('id','user', 'product', 'amount', 'price' , 'in_orders')
     list_display_links = ('product', 'user')
     list_filter = ('product', 'user')
     search_fields = ('product', 'user')
+    list_editable = ('in_orders',)
 
 
 class Payment_MethodAdmin(admin.ModelAdmin):

@@ -15,7 +15,7 @@ class Order_Points(models.Model):
     in_orders = models.BooleanField(verbose_name='Участвует в заказе ', default=False, blank=True)
 
     def __str__(self):
-        return str(self.pk)
+        return f"пользователель {self.user} продукт {self.product}"
 
     def save(self, *args, **kwargs):
         if not self.in_orders:

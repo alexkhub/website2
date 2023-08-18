@@ -89,23 +89,23 @@ class Paid_Orders(models.Model):
         verbose_name_plural = 'Оплаченные заказы'
 
 
-class Cancelled_Orders(models.Model):
-    order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
-    reason = models.TextField(verbose_name="Причина", blank=True)
-
-    class Meta:
-        verbose_name = 'Отмененный заказ'
-        verbose_name_plural = 'Отменные заказы'
-
-
-class Installments(models.Model):
-    order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
-    payment_per_month = models.FloatField(verbose_name='Месячная плата')
-    transactions = SortedManyToManyField(Transactions, verbose_name='Транзакции')
-
-    class Meta:
-        verbose_name = 'Заказ с рассрочкой'
-        verbose_name_plural = 'Заказы с рассрочкой'
+# class Cancelled_Orders(models.Model):
+#     order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
+#     reason = models.TextField(verbose_name="Причина", blank=True)
+#
+#     class Meta:
+#         verbose_name = 'Отмененный заказ'
+#         verbose_name_plural = 'Отменные заказы'
+#
+#
+# class Installments(models.Model):
+#     order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
+#     payment_per_month = models.FloatField(verbose_name='Месячная плата')
+#     transactions = SortedManyToManyField(Transactions, verbose_name='Транзакции')
+#
+#     class Meta:
+#         verbose_name = 'Заказ с рассрочкой'
+#         verbose_name_plural = 'Заказы с рассрочкой'
 
 
 class Orders_With_Delivery(models.Model):

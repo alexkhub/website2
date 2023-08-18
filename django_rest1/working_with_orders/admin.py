@@ -35,18 +35,18 @@ class Paid_OrdersAdmin(admin.ModelAdmin):
     search_fields = ('id', 'order', 'transactions')
 
 
-class Cancelled_OrdersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order',)
-    list_display_links = ('id', 'order',)
-
-
-class InstallmentsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order', 'payment_per_month', 'get_transactions')
-    list_display_links = ('id', 'order', 'payment_per_month', 'get_transactions')
-
-    @admin.display(description='Транзакции')
-    def get_transactions(self, obj):
-        return [transaction.pk for transaction in obj.transactions.all()]
+# class Cancelled_OrdersAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'order',)
+#     list_display_links = ('id', 'order',)
+#
+#
+# class InstallmentsAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'order', 'payment_per_month', 'get_transactions')
+#     list_display_links = ('id', 'order', 'payment_per_month', 'get_transactions')
+#
+#     @admin.display(description='Транзакции')
+#     def get_transactions(self, obj):
+#         return [transaction.pk for transaction in obj.transactions.all()]
 
 
 class Orders_With_DeliveryAdmin(admin.ModelAdmin):
@@ -59,6 +59,6 @@ admin.site.register(Order_Points, Order_PointsAdmin)
 admin.site.register(Payment_Method, Payment_MethodAdmin)
 admin.site.register(Orders, OrdersAdmin)
 admin.site.register(Paid_Orders, Paid_OrdersAdmin)
-admin.site.register(Cancelled_Orders, Cancelled_OrdersAdmin)
-admin.site.register(Installments, InstallmentsAdmin)
+# admin.site.register(Cancelled_Orders, Cancelled_OrdersAdmin)
+# admin.site.register(Installments, InstallmentsAdmin)
 admin.site.register(Orders_With_Delivery, Orders_With_DeliveryAdmin)

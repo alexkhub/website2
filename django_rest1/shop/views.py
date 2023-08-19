@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -56,6 +57,7 @@ class Login(LoginView):
     form_class = LoginForm
     template_name = 'shop/login.html'
 
+
     def get_success_url(self):
         return reverse_lazy('home')
 
@@ -72,7 +74,7 @@ class RegistrationWizardForm(SessionWizardView):
             first_name=form1['first_name'],
             last_name=form1['last_name'],
             username=form1['username'],
-            password=form1['password1'],
+            password=make_password(form1['password1']),
             birthday=form1['birthday'],
             email=form2['email'],
             phone=form2['phone'],
@@ -96,7 +98,11 @@ class TestView(APIView):
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
         form = CreateComment()
-
+        day = yesterday()
+        user = Users.objects.filter(is_staff=True)
+        for u in user:
+            print(u.last_login)
+        print(Users.objects.filter(last_login__contains =day ))
         product_serializer = ProductDetailSerializer(products)
 
         return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})

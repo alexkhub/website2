@@ -1,8 +1,8 @@
 from django_rest1.celery import app
-from shop.models import Users
+from shop.models import Users, Transactions
 from .service import *
 from django.core.mail import send_mail
-
+from .models import *
 
 @app.task
 def send_emails(mail_text):
@@ -36,4 +36,19 @@ def plus(self, x, y):
         return x + y
     except Exception as exc:
         raise self.retry(exc=exc, countdown=60)
+
+
+@app.task
+def sales_analysis():
+    day = yesterday()
+    transactions = Transactions.objects.filter(transaction_date__contains =day)
+    sum = 0
+    for transaction in transactions:
+        sum += transaction.sum
+
+    Sales_Analysis.objects.create(
+        earnings=sum
+    )
+
+    return None
 

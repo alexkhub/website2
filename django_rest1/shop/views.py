@@ -13,6 +13,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.status import HTTP_200_OK
 from django.contrib.auth.views import LoginView
 
+from additional_admin_features.models import Sales_Analysis
 from .models import *
 from .forms import *
 from .serializers import *
@@ -99,10 +100,15 @@ class TestView(APIView):
         products = Products.objects.get(slug=product_slug)
         form = CreateComment()
         day = yesterday()
-        user = Users.objects.filter(is_staff=True)
-        for u in user:
-            print(u.last_login)
-        print(Users.objects.filter(last_login__contains =day ))
+        transactions = Transactions.objects.filter(transaction_date__contains=day)
+        sum = 0
+        for transaction in transactions:
+            sum += transaction.sum
+
+        Sales_Analysis.objects.create(
+            earnings=sum
+        )
+        print(sum)
         product_serializer = ProductDetailSerializer(products)
 
         return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})

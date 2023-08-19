@@ -25,11 +25,10 @@ class Users(AbstractUser):
 class Transactions(models.Model):
     user = models.ForeignKey('Users', on_delete=models.PROTECT, verbose_name="Пользователь", blank=True)
     sum = models.IntegerField(verbose_name='Сумма', default=0)
-    transaction_date = models.DateTimeField(verbose_name='Начало скидок', auto_now_add=True)
-    slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
+    transaction_date = models.DateTimeField(verbose_name='Дата транзакции', auto_now_add=True)
 
     def __str__(self):
-        return self.slug
+        return f'Пользователь {self.user} дата {self.transaction_date}'
 
     class Meta:
         verbose_name = 'Транзакция'

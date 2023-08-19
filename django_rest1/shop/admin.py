@@ -17,7 +17,7 @@ class TransactionsAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'sum', 'transaction_date')
     list_display_links = ('id', 'user')
     search_fields = ('user', 'transaction_date')
-    prepopulated_fields = {"slug": ('user', 'sum', 'transaction_date')}
+
 
 
 class ManufacturerAdmin(admin.ModelAdmin):

@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 
-from datetime import date , timedelta
+from datetime import date, timedelta
 
 
 def send(user_email):
@@ -12,6 +12,8 @@ def send(user_email):
         fail_silently=False
 
     )
+
+
 def yesterday():
     day = date.today()
     yesterday = day - timedelta(days=1)

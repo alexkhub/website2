@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from kombu.exceptions import OperationalError
 
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
@@ -82,7 +83,10 @@ class RegistrationWizardForm(SessionWizardView):
             mailing_list=form2['mailing_list'],
             address=form2['address']
         )
-        send_email.delay(form2['email'])
+        try:
+            send_email.delay(form2['email'])
+        except OperationalError:
+            send(form2['email'])
 
         return HttpResponseRedirect(reverse('home'))
 

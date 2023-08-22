@@ -1,6 +1,5 @@
 from django.db import models
 
-
 from sortedm2m.fields import SortedManyToManyField
 
 from shop.models import Products, Users, Transactions
@@ -21,7 +20,6 @@ class Order_Points(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.in_orders:
-
             amount = self.amount
             product = Products.objects.get(product_name=self.product)
             product_price = float(product.last_price)
@@ -36,7 +34,7 @@ class Order_Points(models.Model):
 class Payment_Method(models.Model):
     name = models.CharField(max_length=50, verbose_name="Способ оплаты", unique=True)
     discount = models.FloatField(verbose_name="Доп проценты")
-    description= models.TextField(verbose_name="Условия")
+    description = models.TextField(verbose_name="Условия")
     slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )
 
     def __str__(self):
@@ -55,28 +53,23 @@ class Orders(models.Model):
     price = models.FloatField(blank=True, verbose_name='Цена заказа')
     date = models.DateTimeField(auto_now_add=True, verbose_name="Время заказа")
 
-
-    def save(self, *args, **kwargs):
-
-
-        # payment_method = Payment_Method.objects.get(name=self.payment_method)
-        # payment_method_discount = payment_method.discount
-        # price_orders_points = 0
-        # for order_point in self.order_points.all():
-        #     price_orders_points += order_point.price
-        # price = price_orders_points
-        # if payment_method_discount > 0:
-        #     price = price * (1 + payment_method_discount / 100)
-        # if self.delivery:
-        #     price += 300
-        # self.price = price
-        super(Orders, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    # payment_method = Payment_Method.objects.get(name=self.payment_method)
+    # payment_method_discount = payment_method.discount
+    # price_orders_points = 0
+    # for order_point in self.order_points.all():
+    #     price_orders_points += order_point.price
+    # price = price_orders_points
+    # if payment_method_discount > 0:
+    #     price = price * (1 + payment_method_discount / 100)
+    # if self.delivery:
+    #     price += 300
+    # self.price = price
+    # super(Orders, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-
-
 
 
 class Paid_Orders(models.Model):

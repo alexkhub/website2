@@ -49,10 +49,7 @@ class CreateCommentSerializer(serializers.ModelSerializer):
         model = Comments
         fields = '__all__'
 
-# class CreateCommentForm(SerializerForm):
-#     class Meta(object):
-#
-#         serializer = CreateCommentSerializer
+
 
 
 

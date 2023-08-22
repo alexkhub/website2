@@ -13,6 +13,10 @@ app.conf.beat_schedule = {
     'send-spam-email': {
         'task': 'additional_admin_features.tasks.send_spam',
         'schedule': crontab(minute=0, hour='*/3')
+    },
+    'analysis': {
+        'task': ['sales_analysis'],
+        'schedule': crontab(minute=30, hour=0)
     }
 
 }

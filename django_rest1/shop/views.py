@@ -7,14 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from kombu.exceptions import OperationalError
 
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.status import HTTP_200_OK
 from django.contrib.auth.views import LoginView
 
-from additional_admin_features.models import Sales_Analysis
+
 from .models import *
 from .forms import *
 from .serializers import *
@@ -59,7 +59,6 @@ class Login(LoginView):
     form_class = LoginForm
     template_name = 'shop/login.html'
 
-
     def get_success_url(self):
         return reverse_lazy('home')
 
@@ -91,6 +90,15 @@ class RegistrationWizardForm(SessionWizardView):
         return HttpResponseRedirect(reverse('home'))
 
 
+class SearchProductListView(ListAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductsListSerializer
+
+    def get_queryset(self):
+        self.queryset = self.queryset.filter(product_name__contains=self.request.GET.get('header-search'))
+        return self.queryset
+
+
 def logout_user(request):
     logout(request)
     return redirect('home')
@@ -104,18 +112,12 @@ class TestView(APIView):
         products = Products.objects.get(slug=product_slug)
         form = CreateComment()
         day = yesterday()
-        transactions = Transactions.objects.filter(transaction_date__contains=day)
-        sum = 0
-        for transaction in transactions:
-            sum += transaction.sum
 
-        Sales_Analysis.objects.create(
-            earnings=sum
-        )
-        print(sum)
+
         product_serializer = ProductDetailSerializer(products)
 
         return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})
+
 
 @login_required(login_url='login')
 def add_comment(request):
@@ -138,17 +140,28 @@ def add_comment(request):
 
         return redirect(url)
 
+class Profile(RetrieveAPIView):
+
+    #check permissions для проверки request
+    def check_object_permissions(self, request, obj):
+        pass
+
+
+
+
+
+
+
 @login_required(login_url='login')
 def add_product(request, id):
     url = request.META.get('HTTP_REFERER')
     product = Products.objects.get(id=id)
     user = request.user
-    if not Order_Points.objects.filter(user=user, product=product,  in_orders=False):
+    if not Order_Points.objects.filter(user=user, product=product, in_orders=False):
         Order_Points.objects.create(
             user=user,
             product=product
         )
         return redirect(url)
     else:
-
         return redirect('basket')

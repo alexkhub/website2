@@ -14,7 +14,6 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.status import HTTP_200_OK
 from django.contrib.auth.views import LoginView
 
-
 from .models import *
 from .forms import *
 from .serializers import *
@@ -140,14 +139,23 @@ def add_comment(request):
 
         return redirect(url)
 
-class Profile(RetrieveAPIView):
 
-    #check permissions для проверки request
+class ProfileRetrieveAPIView(RetrieveAPIView):
+    queryset = Users.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = "slug"
+
+
+    # check permissions для проверки request
     def check_object_permissions(self, request, obj):
-        pass
 
-
-
+        # print(obj.slug)
+        print(obj.slug)
+        print(request.user.slug)
+        if obj.slug == request.user.slug:
+            return True
+        else:
+            return False
 
 
 

@@ -23,8 +23,8 @@
        </div>
        <div class="header-menu">
            {%if request.user.is_authenticated %}
-           <a href=""><i class="fas fa-user"></i></a>
-           <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
+           <a href="{%url 'profile' request.user.slug %}"><i class="fas fa-user"></i></a>
+           <a href="{%url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
            <a href="{%url 'basket' %}"><i class="fas fa-shopping-cart"></i></a>
            {%else%}
            <a href="{%url 'login'%}"><i class="fas fa-user-plus"></i></a>

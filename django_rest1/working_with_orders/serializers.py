@@ -38,3 +38,6 @@ class Order_PointsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order_Points
         fields = '__all__'
+
+
+

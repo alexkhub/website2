@@ -1,5 +1,4 @@
 from rest_framework import serializers
-# from drf_braces.forms.serializer_form import SerializerForm
 from .models import *
 
 
@@ -74,9 +73,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         read_only = ('owner.username',)
         exclude = ('numbers',)
 
-
-
-
-class LoginSerializer(serializers.Serializer):
-    model = Users
-    fields = ('username', 'password')
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        read_only = ('owner.username',)
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address')

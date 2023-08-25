@@ -51,6 +51,13 @@ INSTALLED_APPS = [
 
 ]
 
+# DJANGO_REST SETTINGS
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'shop.views.tr_handler403',
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

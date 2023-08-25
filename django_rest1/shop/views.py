@@ -6,12 +6,12 @@ from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from kombu.exceptions import OperationalError
+from rest_framework.exceptions import PermissionDenied
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.views import APIView, exception_handler
 from rest_framework.renderers import TemplateHTMLRenderer
-from rest_framework.status import HTTP_200_OK
 from django.contrib.auth.views import LoginView
 
 from .models import *
@@ -19,6 +19,7 @@ from .forms import *
 from .serializers import *
 from .service import *
 from .tasks import *
+from .permissions import ProfilePermission
 from working_with_orders.models import Order_Points
 
 
@@ -112,7 +113,6 @@ class TestView(APIView):
         form = CreateComment()
         day = yesterday()
 
-
         product_serializer = ProductDetailSerializer(products)
 
         return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})
@@ -144,18 +144,16 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
     lookup_field = "slug"
+    permission_classes = (ProfilePermission,)
 
 
-    # check permissions для проверки request
-    def check_object_permissions(self, request, obj):
 
-        # print(obj.slug)
-        print(obj.slug)
-        print(request.user.slug)
-        if obj.slug == request.user.slug:
-            return True
-        else:
-            return False
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     return Response(serializer.data)
+
+
 
 
 
@@ -173,3 +171,36 @@ def add_product(request, id):
         return redirect(url)
     else:
         return redirect('basket')
+
+def tr_handler500(request):
+    """
+    Обработка ошибки 500
+    """
+    return render(request=request, template_name='shop/error_page.html', status=500, context={
+        'title': 'Ошибка сервера: 500',
+        'error_message': 'Внутренняя ошибка сайта, вернитесь на главную страницу, отчет об ошибке мы направим администрации сайта',
+    })
+
+def tr_handler403(exc, context):
+    """Обработка ошибки 403"""
+    if isinstance(exc, PermissionDenied):
+        return render( context['request'],  template_name='shop/error_page.html', status=403, context={
+            'title': 'Ошибка доступа: 403',
+            'error_message': 'Доступ к этой странице ограничен',
+        })
+
+    response = exception_handler(exc, context)
+    return response
+
+def tr_handler404(request, exception):
+    """
+    Обработка ошибки 404
+    """
+    return render(request=request, template_name='shop/error_page.html', status=404, context={
+        'title': 'Страница не найдена: 404',
+        'error_message': 'К сожалению такая страница была не найдена, или перемещена',
+    })
+
+
+
+

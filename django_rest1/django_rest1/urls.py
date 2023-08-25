@@ -21,6 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls')),
@@ -28,6 +29,10 @@ urlpatterns = [
     path('additional_admin_features/', include('additional_admin_features.urls')),
     path('shopping_cart/', include('working_with_orders.urls'))
 ]
+
+handler403 = 'shop.views.tr_handler403'
+handler404 = 'shop.views.tr_handler404'
+handler500 = 'shop.views.tr_handler500'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

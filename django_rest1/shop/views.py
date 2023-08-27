@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import logout
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -21,7 +23,10 @@ from .service import *
 from .tasks import *
 from .permissions import ProfilePermission
 from working_with_orders.models import Order_Points
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 class ProductsListView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -48,9 +53,10 @@ class ProductDetailView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'
 
+
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
-
+        logger.warning('hi')
         product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})
 
@@ -146,16 +152,10 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)
 
-
-
     # def retrieve(self, request, *args, **kwargs):
     #     instance = self.get_object()
     #     serializer = self.get_serializer(instance)
     #     return Response(serializer.data)
-
-
-
-
 
 
 @login_required(login_url='login')
@@ -172,19 +172,19 @@ def add_product(request, id):
     else:
         return redirect('basket')
 
+
 def tr_handler500(request):
-    """
-    Обработка ошибки 500
-    """
+    """Обработка ошибки 500"""
     return render(request=request, template_name='shop/error_page.html', status=500, context={
         'title': 'Ошибка сервера: 500',
         'error_message': 'Внутренняя ошибка сайта, вернитесь на главную страницу, отчет об ошибке мы направим администрации сайта',
     })
 
+
 def tr_handler403(exc, context):
     """Обработка ошибки 403"""
     if isinstance(exc, PermissionDenied):
-        return render( context['request'],  template_name='shop/error_page.html', status=403, context={
+        return render(context['request'], template_name='shop/error_page.html', status=403, context={
             'title': 'Ошибка доступа: 403',
             'error_message': 'Доступ к этой странице ограничен',
         })
@@ -192,15 +192,10 @@ def tr_handler403(exc, context):
     response = exception_handler(exc, context)
     return response
 
+
 def tr_handler404(request, exception):
-    """
-    Обработка ошибки 404
-    """
+    """ Обработка ошибки 404"""
     return render(request=request, template_name='shop/error_page.html', status=404, context={
         'title': 'Страница не найдена: 404',
         'error_message': 'К сожалению такая страница была не найдена, или перемещена',
     })
-
-
-
-

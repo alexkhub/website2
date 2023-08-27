@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'delivery.apps.DeliveryConfig',
     'additional_admin_features.apps.AdditionalAdminFeaturesConfig',
 
-
 ]
 
 # DJANGO_REST SETTINGS
@@ -56,7 +55,6 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'shop.views.tr_handler403',
 }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -172,3 +170,24 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
+# LOGGING
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "WARNING",
+            "class": "logging.FileHandler",
+            "filename": "logging.log"
+
+        },
+    },
+    "loggers": {
+        "shop.views":{
+            "handlers" : ['file'],
+            "level": "WARNING",
+            "propagate": True,
+        },
+    },
+}

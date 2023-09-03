@@ -23,7 +23,7 @@ from .service import *
 from .tasks import *
 from .permissions import ProfilePermission
 from working_with_orders.models import Order_Points
-import logging
+
 
 
 logger = logging.getLogger(__name__)
@@ -114,7 +114,8 @@ class TestView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/test.html'
 
-    def get(self, request, product_slug):
+
+    def get(request, product_slug):
         products = Products.objects.get(slug=product_slug)
         form = CreateComment()
         day = yesterday()

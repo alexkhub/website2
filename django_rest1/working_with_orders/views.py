@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .serializers import *
 from .models import *
+from django.db.models import Q
 from shop.models import Products
 
 
@@ -39,6 +40,8 @@ def order_point_remove(request, id):
 
 class Unpaid_Orders(APIView):
     def get(self, request):
-        queryset = Orders.objects.filter(user=request.user)
+        queryset = Orders.objects.filter(
+            Q(user=request.user) & Q(paid_order=False) & Q( delivery = False)
+                                         )
         serializers = Unpaid_OrderSerializer(queryset, many=True)
         return Response(serializers.data)

@@ -10,22 +10,7 @@ class FilterImagesSerializer(serializers.ListSerializer):
         data = data.filter(first_img=True)
         return super().to_representation(data)
 
-# class FilterUnpaidOrdersSerializer(serializers.ListSerializer):
-#
-#     def to_representation(self, data):
-#         print(data)
-#         data = data.filter(paid_order=False)
-#         data = data.filter(delivery=False)
-#
-#         return super().to_representation(data)
-#
-#
-#
-# class Id_Unpaid_OrderSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Orders
-#         fields = '__all__'
-#         list_serializer_class = FilterUnpaidOrdersSerializer
+
 
 
 class ProductMainImagesListSerializer(serializers.ModelSerializer):
@@ -63,17 +48,10 @@ class Order_PointsSerializer(serializers.ModelSerializer):
 
 
 class Unpaid_OrderSerializer(serializers.ModelSerializer):
-    # id = Id_Unpaid_OrderSerializer(many=True, read_only=True)
 
     class Meta:
         model = Orders
-        fields = '__all__'
+        fields = ('id', 'date')
         read_only= True
 
-    # def to_representation(self, instance):
-    #     data = super(Unpaid_OrderSerializer, self).to_representation(instance)
-    #     print(data)
-    #     data = data.filter(paid_order=False)
-    #     data = data.filter(delivery=False)
-    #     return data
 

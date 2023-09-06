@@ -56,7 +56,7 @@ class ProductDetailView(APIView):
 
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
-        logger.warning('hi')
+
         product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})
 
@@ -91,6 +91,8 @@ class RegistrationWizardForm(SessionWizardView):
         try:
             send_email.delay(form2['email'])
         except OperationalError:
+            logger.critical('sending email is suspended')
+            #создать таблицу для временного хранения email
             send(form2['email'])
 
         return HttpResponseRedirect(reverse('home'))

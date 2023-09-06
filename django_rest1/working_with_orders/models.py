@@ -51,6 +51,7 @@ class Orders(models.Model):
     payment_method = models.ForeignKey("Payment_Method", on_delete=models.PROTECT, verbose_name="Способ оплаты")
     delivery = models.BooleanField(default=False, verbose_name="Доставка")
     price = models.FloatField(blank=True, verbose_name='Цена заказа')
+    paid_order = models.BooleanField(default=False, verbose_name='Оплачен')
     date = models.DateTimeField(auto_now_add=True, verbose_name="Время заказа")
 
     # def save(self, *args, **kwargs):

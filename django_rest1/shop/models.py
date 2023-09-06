@@ -21,7 +21,6 @@ class Users(AbstractUser):
 
 
 
-
 class Transactions(models.Model):
     user = models.ForeignKey('Users', on_delete=models.PROTECT, verbose_name="Пользователь", blank=True)
     sum = models.IntegerField(verbose_name='Сумма', default=0)

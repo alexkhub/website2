@@ -17,11 +17,11 @@ class Payment_MethodAdmin(admin.ModelAdmin):
 
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'payment_method', 'get_order_points', 'delivery', 'price', 'date')
+    list_display = ('id', 'user', 'payment_method', 'get_order_points', 'paid_order', 'delivery', 'price', 'date')
     list_display_links = ('id', 'user', 'payment_method',)
     search_fields = ('id', 'user')
     list_filter = ('payment_method', 'delivery', 'price', 'date')
-    list_editable = ('delivery',)
+    list_editable = ('delivery', 'paid_order')
 
     @admin.display(description='пункты заказа')
     def get_order_points(self, obj):

@@ -37,3 +37,8 @@ def order_point_remove(request, id):
     else:
         return redirect("home")
 
+class Unpaid_Orders(APIView):
+    def get(self, request):
+        queryset = Orders.objects.filter(user=request.user)
+        serializers = Unpaid_OrderSerializer(queryset, many=True)
+        return Response(serializers.data)

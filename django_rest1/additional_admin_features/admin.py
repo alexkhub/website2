@@ -30,7 +30,7 @@ class User_AnalysisAdmin(admin.ModelAdmin):
     list_filter = ('unique_visitors', 'new_user')
 
 
-class Orders_AnalysysAdmin(admin.ModelAdmin):
+class Orders_AnalysisAdmin(admin.ModelAdmin):
     list_display = ('id', 'count_paid_orders', 'count_paid_orders_with_delivery', 'date')
     list_display_links = ('id',)
     search_fields = ('date',)
@@ -41,4 +41,4 @@ admin.site.register(Products_Sales_Analysis, Products_Sales_AnalysisAdmin)
 admin.site.register(Categorys_Sales_Analysis, Categorys_Sales_AnalysisAdmin)
 admin.site.register(Sales_Analysis, Sales_AnalysisAdmin)
 admin.site.register(Users_Analysis, User_AnalysisAdmin)
-admin.site.register(Orders_Analysys, Orders_AnalysysAdmin)
+admin.site.register(Orders_Analysis, Orders_AnalysisAdmin)

@@ -60,7 +60,7 @@ class Users_Analysis(models.Model):
 
 
 
-class Orders_Analysys(models.Model):
+class Orders_Analysis(models.Model):
     count_paid_orders = models.IntegerField(default=0, verbose_name='Число обычных заказов')
     count_paid_orders_with_delivery = models.IntegerField(default=0, verbose_name='Заказы с доставкой')
     date = models.DateField(auto_now_add=True, verbose_name='Дата')
@@ -71,3 +71,4 @@ class Orders_Analysys(models.Model):
 
     def __str__(self):
         return f'Анализ заказов на {self.date}'
+

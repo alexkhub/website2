@@ -72,6 +72,9 @@ class Orders(models.Model):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
 
+    def __str__(self):
+        return f"пользователь-{self.user} заказ-{self.id}"
+
 
 class Paid_Orders(models.Model):
     order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
@@ -81,6 +84,9 @@ class Paid_Orders(models.Model):
     class Meta:
         verbose_name = 'Оплаченный заказ'
         verbose_name_plural = 'Оплаченные заказы'
+
+    def __str__(self):
+        return self.id
 
 
 # class Cancelled_Orders(models.Model):
@@ -109,3 +115,6 @@ class Orders_With_Delivery(models.Model):
     class Meta:
         verbose_name = 'Заказ с доставкой'
         verbose_name_plural = 'Заказы с доставкой'
+
+    def __str__(self):
+        return self.id

@@ -6,12 +6,13 @@ from autoslug import AutoSlugField
 
 
 class Users(AbstractUser):
-
     phone = models.CharField(max_length=20, verbose_name="Телефон", unique=True, blank=True)
     slug = AutoSlugField(populate_from='username', unique=True, db_index=True, verbose_name='URL', )
     birthday = models.DateTimeField(verbose_name='Дата рождения', blank=True, null=True)
-    mailing_list = models.BooleanField(default=False , blank=True, verbose_name='Рассылка')
-    address =  models.CharField(max_length=150, blank=True, verbose_name='Адрес', )
+    mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
+    address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', )
+    photo = models.ImageField(upload_to='user_avatar/%Y/%m/%d/', verbose_name='Фотография', default='shop/static/img/favicon.svg')
+
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
@@ -19,6 +20,17 @@ class Users(AbstractUser):
     def __str__(self):
         return self.username
 
+
+class Characteristic(models.Model):
+    characteristic_name = models.CharField(max_length=30, verbose_name='Название характеристки')
+    value = models.CharField(max_length=20, verbose_name='Значение')
+
+    def __str__(self):
+        return f"{self.characteristic_name} {self.value}"
+
+    class Meta:
+        verbose_name = 'Характеристика товара'
+        verbose_name_plural = 'Характеристи товаров'
 
 
 class Transactions(models.Model):
@@ -34,12 +46,11 @@ class Transactions(models.Model):
         verbose_name_plural = 'Транзакции'
 
 
-
-
 class Manufacturer(models.Model):
     manufacturer_name = models.CharField(max_length=100, verbose_name="Наименование производителя", unique=True)
     country = models.CharField(max_length=40, verbose_name='Страна', blank=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
+    photo = models.ImageField(upload_to='img_category/%Y/%m/%d/', verbose_name='Фотография', default='shop/static/img/favicon.svg')
 
     def __str__(self):
         return self.manufacturer_name
@@ -57,7 +68,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
 
     class Meta:
         verbose_name = 'Категория продукта'
@@ -103,6 +113,7 @@ class Products(models.Model):
     description = models.TextField(verbose_name="О продукте", blank=True)
     manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
     product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения')
+    product_characteristic = SortedManyToManyField(Characteristic, verbose_name='Характеристики')
 
     def __str__(self):
         return self.product_name
@@ -133,11 +144,18 @@ class Comments(models.Model):
     rating = models.IntegerField(verbose_name='Оценка от 1 до 10 ')
     date = models.DateField(verbose_name='Время', auto_now_add=True, blank=True)
 
-
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
         ordering = ['rating']
 
 
+class Emails(models.Model):
+    email = models.EmailField(verbose_name='Почта')
 
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Неоправленное письмо'
+        verbose_name_plural = 'Неоправленные письма'

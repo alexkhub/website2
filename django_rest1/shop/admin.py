@@ -21,19 +21,30 @@ class TransactionsAdmin(admin.ModelAdmin):
 
 
 class ManufacturerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'manufacturer_name', 'country')
+    list_display = ('id', 'manufacturer_name', 'country', 'get_image')
     list_display_links = ('manufacturer_name',)
     search_fields = ('manufacturer_name', 'country')
     list_filter = ('country',)
     prepopulated_fields = {"slug": ("manufacturer_name",)}
 
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.photo.url} width="60" height="60"')
+
+    get_image.short_description = "Логотип"
+
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', )
+    list_display = ('id', 'name', 'get_image')
+    readonly_fields = ('get_image',)
     list_display_links = ('name', )
     search_fields = ('name', )
     prepopulated_fields = {'slug': ('name', )}
     list_filter = ('name', )
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.category_photo.url} width="60" height="60"')
+
+    get_image.short_description = "Изображение категории "
 
 
 class Discount_For_Product_CategoryAdmin(admin.ModelAdmin):
@@ -63,7 +74,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category', 'manufacturer')
     list_display_links = ('id', 'product_name')
     search_fields = ('product_name',)
-    list_filter = ( 'discount', 'category', 'manufacturer', 'last_price',)
+    list_filter = ('discount', 'category', 'manufacturer', 'last_price',)
     list_editable = ('first_price', 'last_price', 'numbers', 'discount')
     prepopulated_fields = {'slug': ('product_name',)}
 
@@ -72,6 +83,14 @@ class CommentsAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'product', 'text', 'rating', 'date')
     list_filter = ('rating', 'product')
     search_fields = ('user', 'product')
+
+class EmailsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'email')
+    list_display_links = ('id', 'email')
+
+class CharacteristicAdmin(admin.ModelAdmin):
+    list_display = ('id', 'characteristic_name', 'value')
+    list_display_links = ('id', 'characteristic_name')
 
 
 admin.site.register(Users, UserAdmin)
@@ -82,3 +101,5 @@ admin.site.register(Discount_For_Product_Category, Discount_For_Product_Category
 admin.site.register(Product_Images, Product_ImagesAdmin)
 admin.site.register(Products, ProductAdmin)
 admin.site.register(Comments, CommentsAdmin)
+admin.site.register(Emails, EmailsAdmin)
+admin.site.register(Characteristic, CharacteristicAdmin)

@@ -41,7 +41,7 @@ def order_point_remove(request, id):
 class Unpaid_Orders(APIView):
     def get(self, request):
         queryset = Orders.objects.filter(
-            Q(user=request.user) & Q(paid_order=False) & Q( delivery = False)
+            Q(user=request.user) & Q(paid_order=False) & Q(delivery = False)
                                          )
         serializers = Unpaid_OrderSerializer(queryset, many=True)
         return Response(serializers.data)

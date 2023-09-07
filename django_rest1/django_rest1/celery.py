@@ -12,11 +12,16 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send-spam-email': {
         'task': 'additional_admin_features.tasks.send_spam',
-        'schedule': crontab(minute=0, hour='*/3')
+        'schedule': crontab(minute='0', hour='*/3')
     },
     'analysis': {
         'task': ['sales_analysis'],
-        'schedule': crontab(minute=30, hour=0)
+        'schedule': crontab(minute='30', hour='0')
+    },
+    'sending_delayed_emails':{
+        'task': 'shop.tasks.sending_delayed_emails',
+        'schedule': crontab(minute='*/15')
+
     }
 
 }

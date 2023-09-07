@@ -1,6 +1,6 @@
 import logging
 
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
@@ -92,9 +92,11 @@ class RegistrationWizardForm(SessionWizardView):
             send_email.delay(form2['email'])
         except OperationalError:
             logger.critical('sending email is suspended')
-            #создать таблицу для временного хранения email
-            send(form2['email'])
 
+            Emails.objects.create(
+                email=form2['email']
+            )
+        login(self.request, user)
         return HttpResponseRedirect(reverse('home'))
 
 

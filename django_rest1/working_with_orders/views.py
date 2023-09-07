@@ -43,5 +43,5 @@ class Unpaid_Orders(APIView):
         queryset = Orders.objects.filter(
             Q(user=request.user) & Q(paid_order=False) & Q(delivery = False)
                                          )
-        serializers = Unpaid_OrderSerializer(queryset, many=True)
-        return Response(serializers.data)
+        serializer = Unpaid_OrderSerializer(queryset, many=True)
+        return Response(serializer.data)

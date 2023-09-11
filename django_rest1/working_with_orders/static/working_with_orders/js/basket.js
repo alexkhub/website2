@@ -1,4 +1,3 @@
-// Crop items description text
 const itemDescription = document.querySelectorAll('.item__description');
 
 for (i = 0; i < itemDescription.length; i++) {
@@ -94,14 +93,20 @@ for (i = 0; i < 15; i++) {
         }
     })
 
-    // Order one item
+    // Change save changes && order icon on click
     const orderOneItem = document.querySelectorAll('.fa-cart-arrow-down');
     const orderOneItemIndex = orderOneItem[i];
     orderOneItemIndex.addEventListener('click', () => {
-        orderOneItemIndex.classList.remove('fa-cart-arrow-down')
-        orderOneItemIndex.classList.add('fa-check')
+        orderOneItemIndex.classList.remove('fa-cart-arrow-down');
+        orderOneItemIndex.classList.add('fa-check');
         orderOneItemIndex.style.color = 'green';
     });
+
+    const saveChanges = document.querySelectorAll('.fa-save');
+    const saveChangesIndex = saveChanges[i];
+    saveChangesIndex.addEventListener('click', () => {
+        saveChangesIndex.style.color = 'green';
+    })
 
     deleteIcon[i].addEventListener('click', () => {
         itemIndex.style.transform = `translateX(${-window.innerWidth}px)`;

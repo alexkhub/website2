@@ -1,6 +1,7 @@
 .main-content__wrapper {
-    padding: 30px 140px;
     display: flex;
+    justify-content: center;
+    padding: 30px 140px;
     flex-wrap: wrap;
     gap: 80px 200px;
 }
@@ -20,6 +21,11 @@
 
 .item img {
     height: 230px;
+    border-radius: 20px;
+}
+
+.item__img-container {
+    font-size: 0;
 }
 
 .item__text-container {
@@ -63,28 +69,24 @@
     transition: .3s ease color;
 }
 
-.item__counter-container i:hover {
-    color: rgb(135, 135, 135);
+.item__counter-container .fa-plus:hover {
+    color: green;
+}
+
+.item__counter-container .fa-minus:hover {
+    color: red;
 }
 
 .item__action-buttons-container i {
     margin: 0 7.5px;
 }
 
-.fa-trash {
+.fa-trash, .fa-cart-arrow-down, .fa-save {
     transition: .3s ease color;
 }
 
-.fa-cart-arrow-down {
-    transition: .3s ease color;
-}
-
-.fa-trash:hover {
-    color: red;
-}
-
-.fa-cart-arrow-down:hover {
-    color: green;
+.fa-trash:hover, .fa-cart-arrow-down:hover, .fa-save:hover {
+    color: gray;
 }
 
 .price {
@@ -102,11 +104,12 @@
 }
 
 .buy-action-wrapper {
+    position: relative;
     display: flex;
     align-items: center;
+    justify-content: right;
     color: white;
     font-size: 20px;
-    position: absolute;
     right: 140px;
     bottom: 10px;
 }
@@ -128,7 +131,8 @@
     overflow: hidden;
     margin-left: 20px;
     transition: .3s ease box-shadow,
-    .3s ease transform;
+                        .3s ease transform,
+                        .3s ease background-color;
 }
 
 #total__button:hover {

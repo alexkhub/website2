@@ -78,3 +78,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = Users
         read_only = ('owner.username',)
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address')
+
+class ManufacturerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Manufacturer
+        read_only = ('owner.username',)
+        fields = ("manufacturer_name", "slug", "photo")

@@ -37,6 +37,9 @@ class ProductsListView(ListAPIView):
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
         categories = Category.objects.all()
+        manufacturer = Manufacturer.objects.all()
+
+        manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
         products_serializer = ProductsListSerializer(products, many=True)
         products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
         category_serializer = CategoryListSerializer(categories, many=True)
@@ -45,6 +48,7 @@ class ProductsListView(ListAPIView):
             {'products_serializer': products_serializer.data,
              'products_with_discount_serializer': products_with_discount_serializer.data,
              'category_serializer': category_serializer.data,
+             'manufacturer_serializer' : manufacturer_serializer.data
              }
         )
 

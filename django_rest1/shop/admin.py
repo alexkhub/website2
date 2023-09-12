@@ -10,14 +10,13 @@ class UserAdmin(admin.ModelAdmin):
 
     search_fields = ('id', 'username', 'phone', 'email')
     list_filter = ('is_staff',)
-    list_editable = ('is_staff', 'mailing_list' )
+    list_editable = ('is_staff', 'mailing_list')
 
 
 class TransactionsAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'sum', 'transaction_date')
     list_display_links = ('id', 'user')
     search_fields = ('user', 'transaction_date')
-
 
 
 class ManufacturerAdmin(admin.ModelAdmin):
@@ -36,10 +35,10 @@ class ManufacturerAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'get_image')
     readonly_fields = ('get_image',)
-    list_display_links = ('name', )
-    search_fields = ('name', )
-    prepopulated_fields = {'slug': ('name', )}
-    list_filter = ('name', )
+    list_display_links = ('name',)
+    search_fields = ('name',)
+    prepopulated_fields = {'slug': ('name',)}
+    list_filter = ('name',)
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.category_photo.url} width="60" height="60"')
@@ -57,7 +56,7 @@ class Discount_For_Product_CategoryAdmin(admin.ModelAdmin):
 
 
 class Product_ImagesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'img_name', 'first_img','get_image')
+    list_display = ('id', 'img_name', 'first_img', 'get_image')
     readonly_fields = ('get_image',)
     list_display_links = ('img_name',)
     prepopulated_fields = {'slug': ('img_name',)}
@@ -71,7 +70,8 @@ class Product_ImagesAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category', 'manufacturer')
+    list_display = (
+    'id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category', 'manufacturer')
     list_display_links = ('id', 'product_name')
     search_fields = ('product_name',)
     list_filter = ('discount', 'category', 'manufacturer', 'last_price',)
@@ -84,9 +84,11 @@ class CommentsAdmin(admin.ModelAdmin):
     list_filter = ('rating', 'product')
     search_fields = ('user', 'product')
 
+
 class EmailsAdmin(admin.ModelAdmin):
     list_display = ('id', 'email')
     list_display_links = ('id', 'email')
+
 
 class CharacteristicAdmin(admin.ModelAdmin):
     list_display = ('id', 'characteristic_name', 'value')

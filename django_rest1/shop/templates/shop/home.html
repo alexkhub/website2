@@ -70,6 +70,15 @@
             {%endfor%}
 
         </div>
+        <div class="item">
+            <h3>Производители</h3>
+            {%for manufacturer in manufacturer_serializer%}
+            <div class="item__element"><img src="{{manufacturer.photo}}" alt="">
+                <p>{{manufacturer.manufacturer_name}}</p>
+            </div>
+            {%endfor%}
+
+        </div>
     </main>
 
     <script src="{% static 'shop/js/main.js'%}"></script>

@@ -1,0 +1,154 @@
+{% extends 'shop/base.html' %}
+{%load static%
+
+
+
+{%block headblock%}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{%static 'shop/img/favicon.svg'%}" type="image/x-icon">
+
+    <!-- Sansation Font-->
+    <!-- <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
+<link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
+<link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" /> -->
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'shop/css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/media-query-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/media-query-header.css' %}">
+
+{%endblock headblock%}
+{%block content %}
+
+    <header class="header" id="header">
+        <div class="header-left-content__wrapper">
+            <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
+            <div class="search">
+                <form class="search" action="search">
+                    <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="header-menu">
+            <a href=""><i class="fas fa-sign-out-alt"></i></a>
+            <a href="/registration-first-step.html"><i class="fas fa-user-plus"></i></a>
+            <a href="/login.html"><i class="fas fa-user"></i></a>
+            <a href="/basket.html"><i class="fas fa-shopping-cart"></i></a>
+            <a href=""><i class="fas fa-headphones-alt"></i></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="profile-settings__container">
+            <div class="profile-settings">
+                <p class="profile-settings__title">Настройки профиля</p>
+                <form action="" class="profile-settings__form-item change-name__form">
+                   <div>
+                        <input type="text" placeholder="Введите новое имя">
+                   </div>
+                    <div>
+                        <input type="text" placeholder="Введите новую фамилию">
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Введите новый никнейм">
+                    </div>
+                </form>
+                <form action="" class="profile-settings__form-item change-password__form">
+                    <div>
+                        <input type="password" name="" id="password__input" placeholder="Введите новый пароль">
+                    </div>
+                    <div>
+                        <input type="password" name="" id="confirm-password__input" placeholder="Подтвердите новый пароль">
+                    </div>
+                </form>
+                <form action="" class="profile-settings__form-item change-email__form">
+                   <div>
+                        <input type="email" name="" id="email__input" placeholder="Введите новый e-mail">
+                   </div>
+                    <div>
+                        <input type="email" name="" id="confirm-email__input" placeholder="Подтвердите новые e-mail">
+                    </div>
+                </form>
+                <form action="" class="profile-settings__form-item change-other__form">
+                    <div>
+                        <input type="tel" name="" id="tel__input" placeholder="Изменить номер телефона">
+                    </div>
+                    <div>
+                        <input type="tel" name="" id="adress__input" placeholder="Изменить адрес доставки">
+                    </div>
+                </form>
+                <button id="confirm">Подтвердить</button>
+            </div>
+        </div>
+
+        <i class="fas fa-cogs"></i>
+
+
+        <div class="profile-info">
+            <div class="profile-img__wrapper">
+                <img src="assets/img/profile/avatar.png" alt="">
+                <div class="profile-img-hover">
+                    <i class="fas fa-edit"></i>
+                </div>
+            </div>
+            <p class="registration-date">Дата регистрации: <span>01.01.2000</span></p>
+        </div>
+
+        <div class="orders">
+            <div class="orders__item">
+                <p class="orders-item__title paid">Оплачено</p>
+                <div class="orders__container">
+                    <div>
+                        <p class="item-id">ID заказа: <span>12</span></p>
+                        <p class="item-delivery-date">Дата заказа: <span>01.02.2000</span></p>
+                    </div>
+                    <div>
+                        <p class="item-id">ID заказа: <span>13</span></p>
+                        <p class="item-delivery-date">Дата заказа: <span>02.02.2000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="orders__item">
+                <p class="orders-item__title not-paid">Не оплачено</p>
+                <div class="orders__container">
+                    <div>
+                        <p class="item-id">ID заказа: <span>2</span></p>
+                        <p class="item-delivery-date">Дата заказа: <span>01.03.2000</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="orders__item">
+                <p class="orders-item__title delivery">Доставка</p>
+                <div class="orders__container">
+                    <div>
+                        <p class="item-id">ID заказа: <span>1</span></p>
+                        <p class="item-delivery-date">Дата заказа: <span>01.02.2000</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+
+
+    <script src="{% static 'shop/js/main.js' %}"></script>
+    <script src="{% static 'shop/js/profile.js' %}"></script>
+{%endblock%}

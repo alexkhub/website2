@@ -156,15 +156,15 @@ def add_comment(request):
 
 
 class ProfileRetrieveAPIView(RetrieveAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/profile.html'
+
     queryset = Users.objects.all()
     serializer_class = UserSerializer
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     serializer = self.get_serializer(instance)
-    #     return Response(serializer.data)
+
 
 
 @login_required(login_url='login')

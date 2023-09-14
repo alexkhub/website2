@@ -12,5 +12,3 @@ def sending_delayed_emails():
     emails = Emails.objects.all()
     for email in emails:
         send(email)
-        print(email)
-        email.delete()

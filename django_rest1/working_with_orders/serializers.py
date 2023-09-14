@@ -47,7 +47,7 @@ class Order_PointsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class Unpaid_OrderSerializer(serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Orders

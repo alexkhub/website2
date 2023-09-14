@@ -30,12 +30,12 @@ def send_spam():
     )
 
 
-@app.task(bind=True, default_retry_delay=5 * 60)  # таска будет перезапускаться каждые 5 минут
-def plus(self, x, y):
-    try:
-        return x + y
-    except Exception as exc:
-        raise self.retry(exc=exc, countdown=60)
+# @app.task(bind=True, default_retry_delay=5 * 60)  # таска будет перезапускаться каждые 5 минут
+# def plus(self, x, y):
+#     try:
+#         return x + y
+#     except Exception as exc:
+#         raise self.retry(exc=exc, countdown=60)
 
 
 @app.task
@@ -50,5 +50,4 @@ def sales_analysis():
         earnings=sum
     )
 
-    return None
 

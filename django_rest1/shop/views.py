@@ -22,11 +22,12 @@ from .serializers import *
 from .service import *
 from .tasks import *
 from .permissions import ProfilePermission
-from working_with_orders.models import Order_Points
-
+from working_with_orders.models import Order_Points, Orders
+from working_with_orders.serializers import  OrderSerializer
 
 
 logger = logging.getLogger(__name__)
+
 
 class ProductsListView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
@@ -48,7 +49,7 @@ class ProductsListView(ListAPIView):
             {'products_serializer': products_serializer.data,
              'products_with_discount_serializer': products_with_discount_serializer.data,
              'category_serializer': category_serializer.data,
-             'manufacturer_serializer' : manufacturer_serializer.data
+             'manufacturer_serializer': manufacturer_serializer.data
              }
         )
 
@@ -56,7 +57,6 @@ class ProductsListView(ListAPIView):
 class ProductDetailView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'
-
 
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
@@ -122,7 +122,6 @@ class TestView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/test.html'
 
-
     def get(request, product_slug):
         products = Products.objects.get(slug=product_slug)
         form = CreateComment()
@@ -163,6 +162,10 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     serializer_class = UserSerializer
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)
+
+    # def retrieve(self, request, *args, **kwargs):
+    #
+    #     return
 
 
 

@@ -11,7 +11,7 @@ class Users(AbstractUser):
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
     address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', null=True)
-
+    user_photo = models.ImageField(upload_to='user_photo/%Y/%m/%d/', verbose_name='Изображение продукта', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Пользователь'

@@ -1,5 +1,5 @@
 import logging
-
+from django.db.models import Q
 from django.contrib.auth import logout, login
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -154,6 +154,9 @@ def add_comment(request):
         return redirect(url)
 
 
+
+
+
 class ProfileRetrieveAPIView(RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
@@ -163,10 +166,26 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)
 
-    # def retrieve(self, request, *args, **kwargs):
-    #
-    #     return
+    def retrieve(self, request, *args, **kwargs):
+        unpaid = Orders.objects.filter(
+            Q(user=request.user) & Q(paid_order = False) & Q(delivery = False)
+                                         )
+        paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
+        delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
 
+        unpaid_serializer = OrderSerializer(unpaid, many=True)
+        paid_serializer = OrderSerializer(paid, many=True)
+        delivery_serializer = OrderSerializer(delivery, many = True)
+
+
+        return Response(
+            {
+                'unpaid_order': unpaid_serializer.data,
+                'paid_serializer': paid_serializer.data,
+                'delivery_serializer' : delivery_serializer.data
+            }
+
+        )
 
 
 

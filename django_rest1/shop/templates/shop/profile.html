@@ -1,6 +1,6 @@
 {% extends 'shop/base.html' %}
 {%load static%}
-
+{%load reverse_text%}
 
 
 {%block headblock%}
@@ -95,14 +95,12 @@
             <div class="orders__item">
                 <p class="orders-item__title paid">Оплачено</p>
                 <div class="orders__container">
+                    {%for paid_order in paid_orders%}
                     <div>
-                        <p class="item-id">ID заказа: <span>12</span></p>
-                        <p class="item-delivery-date">Дата заказа: <span>01.02.2000</span></p>
+                        <p class="item-id">ID заказа: <span>{{paid_order.id}}</span></p>
+                        <p class="item-delivery-date">Дата заказа: <span>{{paid_order.date|reverse_text}}</span></p>
                     </div>
-                    <div>
-                        <p class="item-id">ID заказа: <span>13</span></p>
-                        <p class="item-delivery-date">Дата заказа: <span>02.02.2000</span></p>
-                    </div>
+                    {%endfor%}
                 </div>
             </div>
             <div class="orders__item">

@@ -180,9 +180,9 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
 
         return Response(
             {
-                'unpaid_order': unpaid_serializer.data,
-                'paid_serializer': paid_serializer.data,
-                'delivery_serializer' : delivery_serializer.data
+                'unpaid_orders': unpaid_serializer.data,
+                'paid_orders': paid_serializer.data,
+                'delivery_orders': delivery_serializer.data
             }
 
         )

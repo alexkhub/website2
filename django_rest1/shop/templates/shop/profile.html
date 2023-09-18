@@ -83,12 +83,13 @@
 
         <div class="profile-info">
             <div class="profile-img__wrapper">
-                <img src="assets/img/profile/avatar.png" alt="">
+                <img src="{{profile.user_photo}}" alt="{{profile.user_photo}}">
                 <div class="profile-img-hover">
                     <i class="fas fa-edit"></i>
                 </div>
             </div>
-            <p class="registration-date">Дата регистрации: <span>01.01.2000</span></p>
+            <p class="registration-date">Дата регистрации: <span>{{profile.date_joined|reverse_text}}</span></p>
+
         </div>
 
         <div class="orders">

@@ -23,8 +23,7 @@ from .service import *
 from .tasks import *
 from .permissions import ProfilePermission
 from working_with_orders.models import Order_Points, Orders
-from working_with_orders.serializers import  OrderSerializer
-
+from working_with_orders.serializers import OrderSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -154,9 +153,6 @@ def add_comment(request):
         return redirect(url)
 
 
-
-
-
 class ProfileRetrieveAPIView(RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
@@ -167,26 +163,24 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     permission_classes = (ProfilePermission,)
 
     def retrieve(self, request, *args, **kwargs):
-        unpaid = Orders.objects.filter(
-            Q(user=request.user) & Q(paid_order = False) & Q(delivery = False)
-                                         )
+        user_profile = self.get_object()
+        unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
         paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
         delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
 
         unpaid_serializer = OrderSerializer(unpaid, many=True)
         paid_serializer = OrderSerializer(paid, many=True)
-        delivery_serializer = OrderSerializer(delivery, many = True)
-
+        delivery_serializer = OrderSerializer(delivery, many=True)
+        user_serializer = self.get_serializer(user_profile)
 
         return Response(
             {
                 'unpaid_orders': unpaid_serializer.data,
                 'paid_orders': paid_serializer.data,
-                'delivery_orders': delivery_serializer.data
+                'delivery_orders': delivery_serializer.data,
+                'profile': user_serializer.data
             }
-
         )
-
 
 
 @login_required(login_url='login')

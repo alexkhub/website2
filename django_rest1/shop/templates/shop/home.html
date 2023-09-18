@@ -34,9 +34,11 @@
         <div class="item">
             <h3>Категории</h3>
             {%for category in category_serializer%}
+            <a href="{%url 'product_category' category.slug%}">
             <div class="item__element"><img src="{{category.category_photo}}" alt="">
                 <p>{{category.name}}</p>
             </div>
+            </a>
             {%endfor%}
 
         </div>
@@ -73,9 +75,11 @@
         <div class="item">
             <h3>Производители</h3>
             {%for manufacturer in manufacturer_serializer%}
+            <a href="{%url 'product_manufacturer'  manufacturer.slug%}">
             <div class="item__element"><img src="{{manufacturer.photo}}" alt="">
                 <p>{{manufacturer.manufacturer_name}}</p>
             </div>
+            </a>
             {%endfor%}
 
         </div>

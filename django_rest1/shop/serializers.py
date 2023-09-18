@@ -23,9 +23,12 @@ class ProductImagesListSerializer(serializers.ModelSerializer):
         model = Product_Images
         fields = ('img', 'first_img', 'img_name')
 
+
 class ProductsListSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продуктов"""
     product_photos = ProductMainImagesListSerializer(many=True, read_only=True)
+    category = serializers.SlugRelatedField(slug_field='slug', read_only=True)
+    manufacturer = serializers.SlugRelatedField(slug_field='slug', read_only=True)
 
     class Meta:
         model = Products

@@ -156,7 +156,6 @@ def add_comment(request):
 class ProfileRetrieveAPIView(RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
-
     queryset = Users.objects.all()
     serializer_class = UserSerializer
     lookup_field = "slug"
@@ -181,6 +180,29 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
                 'profile': user_serializer.data
             }
         )
+
+
+class CategoryListAPIView(ListAPIView):
+    def list(self, request, *args, **kwargs):
+        products = Products.objects.filter(category__slug=request.resolver_match.kwargs['category_slug'])
+        product_serializer = ProductsListSerializer(products, many=True)
+        return Response(
+            {
+                'products' : product_serializer.data,
+            }
+        )
+
+class ManufacturerListAPIView(ListAPIView):
+    def list(self, request, *args, **kwargs):
+        products = Products.objects.filter( manufacturer__slug=request.resolver_match.kwargs['manufacturer_slug'])
+        product_serializer = ProductsListSerializer(products, many=True)
+        return Response(
+            {
+                'products' : product_serializer.data,
+            }
+        )
+
+
 
 
 @login_required(login_url='login')

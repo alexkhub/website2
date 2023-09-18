@@ -13,6 +13,9 @@ urlpatterns = [
     path('add_comment/', add_comment, name='add_comment'),
     path('add_product/<int:id>/', add_product, name='add_product'),
     path('search_product', SearchProductListView.as_view(), name='search_product'),
+    path('product_category/<slug:category_slug>/', CategoryListAPIView.as_view(), name='product_category'),
+    path('product_manufacturer/<slug:manufacturer_slug>/', ManufacturerListAPIView.as_view(), name='product_manufacturer'),
     path('test/<slug:product_slug>/', TestView.as_view(), name='test'),
+
 
 ]

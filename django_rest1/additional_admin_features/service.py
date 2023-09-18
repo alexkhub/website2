@@ -17,4 +17,7 @@ def yesterday():
     yesterday = day - timedelta(days=1)
     return yesterday
 
+
+
+
 #Users.objects.filter(last_login__contains =day ))

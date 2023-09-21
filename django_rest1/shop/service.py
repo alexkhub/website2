@@ -1,6 +1,8 @@
 from django.core.mail import send_mail
 from datetime import date, timedelta
 from PIL import Image, ImageDraw
+from django_filters import rest_framework as filters
+from .models import Products
 
 
 def update_photo(img):
@@ -14,6 +16,7 @@ def update_photo(img):
     result.paste(original, (0, 0), mask=mask)
     return result
 
+
 def send(user_email):
     send_mail(
         'Добро пожаловать',
@@ -21,7 +24,6 @@ def send(user_email):
         'aleksandrkhubaevwork@gmail.com',
         [user_email],
         fail_silently=False
-
     )
 
 
@@ -29,3 +31,15 @@ def yesterday():
     day = date.today()
     yesterday = day - timedelta(days=1)
     return yesterday
+
+
+class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
+    pass
+
+
+class ProductFilter(filters.FilterSet):
+    product_name = CharFilterInFilter(field_name='product_name', lookup_expr='in')
+
+    class Meta:
+        model = Products
+        fields = ['product_name']

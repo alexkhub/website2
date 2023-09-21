@@ -5,14 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Favicon -->
     <link rel="shortcut icon" href="{%static 'shop/img/favicon.svg'%}" type="image/x-icon">
 
     <!-- Sansation Font-->
-    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
-    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
-    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />
+<!--    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />-->
+<!--    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />-->
+<!--    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />-->
+
 
     <!-- M1 PLUS Code Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,96 +19,74 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
 
-    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/product.css' %}">
-    <link type="text/css"  rel="stylesheet" href="{% static 'css/media-query-product.css' %}">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/media-query-header.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/home.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'shop/css/media-query.css' %}">
 
-    <title>Название продукта</title>
+    <title>Главная</title>
+
 {%endblock headblock%}
 
-    {%block content%}
+    {%block content %}
 
     <main class="main">
-        <div class="product">
-             <div class="product-img">
-                 {%for img_item in product.product_photos%}
-                    {%if 'main' in img_item.img_name%}
-                <img src="{{img_item.img}}" alt="product__photo">
-                <div class="slider-line">
-                    <i class="fas fa-chevron-left"></i>
-                    <!-- Картинок можно запихнуть 2 - 5,
-                    ибо тогда отображаться будет не очень -->
+        <div class="item">
+            <h3>Категории</h3>
+            {%for category in category_serializer%}
+            <a href="{%url 'product_category' category.slug%}">
+            <div class="item__element"><img src="{{category.category_photo}}" alt="">
+                <p>{{category.name}}</p>
+            </div>
+            </a>
+            {%endfor%}
 
-                    <div class="slider__item active-slide"><img src="{{img_item.img}}" alt=""></div>
-                    {%else%}
-                    <div class="slider__item"><img src="{{img_item.img}}" alt=""></div>
-                    {%endif%}
-                {%endfor%}
-                    <div class="slider__item"><img src="{{img_item.img}}" alt=""></div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-            <div class="product-description">
-                <p class="product-title">{{product.product_name}}</p>
-                <p class="product-description__text">{{product.description}}</p>
-                    <div class="price">
-                        {%if product.discount > 0%}
-                         <p class="start-price">Цена: <span id="finish-price-number">{{product.last_price}}</span> <span id="start-price-number">{{product.first_price}}</span></p>
-                        {%else%}
-                         <p class="start-price">Цена: <span id="finish-price-number">{{product.last_price}}</span> </p>
-                        <p class="manufacturer">Производитель: {{product.manufacturer}}</p>
-                        {%endif%}
-                    </div>
-                    <div class="add-to-cart__button">
-                        <button type="button">Добавить в корзину</button>
-                    </div>
-            </div>
         </div>
-        <div class="comments">
-            <div class="users-comments">
-                   <div class="user-comments__wrapper">
-                       <div class="user-comments-title">
-                            <h3 id="users-comments__title">Комментарии</h3>
-                       </div>
-                        <div class="user-comments__button">
-                            <a href="#form-name"><button id="leave-a-comment__link">Оставьте комментарий</button></a>
-                        </div>
-                   </div>
-                    <div class="users-comments__item">
-                        {%for comment in product.comments%}
-                        <p class="user-name">{{comment.user}}</p>
-                        <p class="user-rating"> Оценка: {{comment.rating}}/10</p>
-                        <p class="comment-date">{{comment.date}}</p>
-                        <p class="comment-text">{{comment.text}}</p>
-                        <br>
-                        {%endfor%}
-                    </div>
-            </div>
-            <div class="leave-a-comment">
-                <form action="{% url 'add_comment'  %}" method="post" class="leave-a-comment__form">
-                    {%csrf_token%}
-                   <div class="name-rating-wrapper">
+        <div class="item">
+            <h3>Скидки</h3>
+            {%for product in products_with_discount_serializer%}
+                {%for img in product.product_photos%}
+                 <a href="{%url 'show_product' product.slug%}">
+                     <div class="item__element"><img src="{{img.img}}" alt="{{img.img_name}}">
 
-                        <input type="text" value="{{ user.username }}" name="username" class="field" id="form-name" placeholder="Введите имя и фамилию"  oninput="this.value=this.value.replace(/[^a-zA-Z А-ЯЁа-яё]/g,'');">
-                        <input type="number" name="rating" class="field" id="form-rating" placeholder="Введите вашу оценку (1-10)" data-min="1" data-max="50">
-                        <input type="number" name="product" class="field" id="product" value="{{product.id}}">
-                    </div>
-                    <textarea name="text" id="form-text" cols="30" rows="10" placeholder="Введите текст"></textarea>
+                    <p>{{product.product_name}}</p>
+                    <p>{{product.last_price}}</p>
+                     </div>
+                 </a>
+                {%endfor%}
+            {%endfor%}
 
-                    <button id="leave-a-comment__button" type="submit">Опубликовать</button>
-                </form>
+        </div>
+        <div class="item">
+            <h3>Товары</h3>
+             {%for product in  products_serializer%}
+                {%for img in product.product_photos%}
+                 <a href="{%url 'show_product' product.slug%}">
+                     <div class="item__element"><img src="{{img.img}}" alt="{{img.img_name}}">
+
+                    <p>{{product.product_name}}</p>
+                    <p>{{product.last_price}}</p>
+                     </div>
+                 </a>
+                {%endfor%}
+            {%endfor%}
+
+        </div>
+        <div class="item">
+            <h3>Производители</h3>
+            {%for manufacturer in manufacturer_serializer%}
+            <a href="{%url 'product_manufacturer'  manufacturer.slug%}">
+            <div class="item__element"><img src="{{manufacturer.photo}}" alt="">
+                <p>{{manufacturer.manufacturer_name}}</p>
             </div>
+            </a>
+            {%endfor%}
+
         </div>
     </main>
 
-
-
-    <script src="{%static 'shop/js/main.js'%}"></script>
-    <script src="{% static 'shop/js/product-js/product.js'%}"></script>
-    <script src="{% static 'shop/js/product-js/product-slider.js'%}"></script>
-<!--    <script src="{% static 'js/product-js/commentsButton.js'%}"></script>-->
-
+    <script src="{% static 'shop/js/main.js'%}"></script>
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
     {%endblock%}
+
+

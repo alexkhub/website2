@@ -14,6 +14,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
 from rest_framework.renderers import TemplateHTMLRenderer
+from django_filters.rest_framework import DjangoFilterBackend
+
 from django.contrib.auth.views import LoginView
 
 from .models import *
@@ -106,6 +108,8 @@ class RegistrationWizardForm(SessionWizardView):
 class SearchProductListView(ListAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         self.queryset = self.queryset.filter(product_name__contains=self.request.GET.get('header-search'))
@@ -117,18 +121,33 @@ def logout_user(request):
     return redirect('home')
 
 
-class TestView(APIView):
+class TestView(ListAPIView):
+    queryset = Products.objects.all()
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/test.html'
+    serializer_class = ProductsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProductFilter
 
-    def get(request, product_slug):
-        products = Products.objects.get(slug=product_slug)
-        form = CreateComment()
-        day = yesterday()
+    def list(self, request, **kwargs):
+        print(self.queryset)
+        products = self.queryset.filter(discount=0)  # товары без скидки
+        products_with_discount = self.queryset.filter(discount__gt=0)  # товары со скидкой
+        categories = Category.objects.all()
+        manufacturer = Manufacturer.objects.all()
 
-        product_serializer = ProductDetailSerializer(products)
+        manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
+        products_serializer = ProductsListSerializer(products, many=True)
+        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
+        category_serializer = CategoryListSerializer(categories, many=True)
 
-        return render(request, 'shop/test.html', {'form': form, 'product': product_serializer.data})
+        return Response(
+            {'products_serializer': products_serializer.data,
+             'products_with_discount_serializer': products_with_discount_serializer.data,
+             'category_serializer': category_serializer.data,
+             'manufacturer_serializer': manufacturer_serializer.data
+             }
+        )
 
 
 @login_required(login_url='login')
@@ -193,6 +212,7 @@ class CategoryListAPIView(ListAPIView):
         )
 
 class ManufacturerListAPIView(ListAPIView):
+
     def list(self, request, *args, **kwargs):
         products = Products.objects.filter( manufacturer__slug=request.resolver_match.kwargs['manufacturer_slug'])
         product_serializer = ProductsListSerializer(products, many=True)

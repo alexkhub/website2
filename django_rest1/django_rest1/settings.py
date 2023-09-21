@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'sortedm2m',
     'django_celery_results',
     'django_celery_beat',
+    'django_filters',
 
     'shop.apps.ShopConfig',
     'company_orders.apps.CompanyOrdersConfig',
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'shop.views.tr_handler403',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 MIDDLEWARE = [

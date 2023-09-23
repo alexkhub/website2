@@ -11,7 +11,7 @@ class Users(AbstractUser):
     birthday = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     mailing_list = models.BooleanField(default=False, blank=True, verbose_name='Рассылка')
     address = models.CharField(max_length=150, blank=True, verbose_name='Адрес', null=True)
-    user_photo = models.ImageField(upload_to='user_photo/%Y/%m/%d/', verbose_name='Изображение продукта', blank=True, null=True)
+    user_photo = models.ImageField(upload_to='user_photo/%Y/%m/%d/', verbose_name='Аватарка', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -88,7 +88,7 @@ class Discount_For_Product_Category(models.Model):
 
 
 class Product_Images(models.Model):
-    img_name = models.CharField(max_length=50, verbose_name='Картинка изображения', blank=True)
+    img_name = models.CharField(max_length=50, verbose_name='Название', blank=True)
     img = models.ImageField(upload_to='img_product/%Y/%m/%d/', verbose_name='Изображение продукта')
     first_img = models.BooleanField(default=False, verbose_name='Главная картинка')
     slug = models.SlugField(max_length=50, unique=True, db_index=True, verbose_name='URL')

@@ -79,6 +79,7 @@ class RegistrationWizardForm(SessionWizardView):
     template_name = 'shop/register_step1.html'
     success_url = reverse_lazy('home')
 
+
     def done(self, form_list, **kwargs):
         form1 = form_list[0].cleaned_data
         form2 = form_list[1].cleaned_data
@@ -91,7 +92,8 @@ class RegistrationWizardForm(SessionWizardView):
             email=form2['email'],
             phone=form2['phone'],
             mailing_list=form2['mailing_list'],
-            address=form2['address']
+            address=form2['address'],
+            user_photo=form2['user_photo'],
         )
         try:
             send_email.delay(form2['email'])
@@ -106,6 +108,8 @@ class RegistrationWizardForm(SessionWizardView):
 
 
 class SearchProductListView(ListAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/search_product.html'
     queryset = Products.objects.all()
     serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
@@ -114,6 +118,12 @@ class SearchProductListView(ListAPIView):
     def get_queryset(self):
         self.queryset = self.queryset.filter(product_name__contains=self.request.GET.get('header-search'))
         return self.queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer_products = self.get_serializer(queryset, many=True)
+
+        return Response({'products': serializer_products.data})
 
 
 def logout_user(request):
@@ -130,7 +140,6 @@ class TestView(ListAPIView):
     filterset_class = ProductFilter
 
     def list(self, request, **kwargs):
-        print(self.queryset)
         products = self.queryset.filter(discount=0)  # товары без скидки
         products_with_discount = self.queryset.filter(discount__gt=0)  # товары со скидкой
         categories = Category.objects.all()
@@ -207,22 +216,21 @@ class CategoryListAPIView(ListAPIView):
         product_serializer = ProductsListSerializer(products, many=True)
         return Response(
             {
-                'products' : product_serializer.data,
+                'products': product_serializer.data,
             }
         )
+
 
 class ManufacturerListAPIView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
-        products = Products.objects.filter( manufacturer__slug=request.resolver_match.kwargs['manufacturer_slug'])
+        products = Products.objects.filter(manufacturer__slug=request.resolver_match.kwargs['manufacturer_slug'])
         product_serializer = ProductsListSerializer(products, many=True)
         return Response(
             {
-                'products' : product_serializer.data,
+                'products': product_serializer.data,
             }
         )
-
-
 
 
 @login_required(login_url='login')

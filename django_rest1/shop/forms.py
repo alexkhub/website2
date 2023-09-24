@@ -36,14 +36,15 @@ class RegisterForm1(UserCreationForm):
 
 
 class RegisterForm2(forms.ModelForm):
+
     class Meta:
         model = Users
-        fields = ['email', 'phone', 'address', 'mailing_list',  ]
+        fields = ['email', 'phone', 'address', 'mailing_list', 'user_photo']
         widgets = {
             'email': forms.EmailInput(attrs={'placeholder': "Введите E-mail"}),
             'phone': forms.TextInput(attrs={'placeholder': "Введите номер телефона"}),
             'address': forms.TextInput(attrs={'placeholder': "Введите ваш адрес"}),
-            # 'user_photo': forms.FileInput(attrs={'placeholder': "Аватарка"})
+            'user_photo': forms.FileInput(attrs={'placeholder': "Аватарка"})
         }
 
 

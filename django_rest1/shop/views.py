@@ -1,4 +1,8 @@
 import logging
+import os
+
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage, DefaultStorage
 from django.db.models import Q
 from django.contrib.auth import logout, login
 from django.shortcuts import redirect, render
@@ -26,6 +30,8 @@ from .tasks import *
 from .permissions import ProfilePermission
 from working_with_orders.models import Order_Points, Orders
 from working_with_orders.serializers import OrderSerializer
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -78,11 +84,14 @@ class RegistrationWizardForm(SessionWizardView):
     form_list = [RegisterForm1, RegisterForm2]
     template_name = 'shop/register_step1.html'
     success_url = reverse_lazy('home')
-
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT,'user_photo'))
 
     def done(self, form_list, **kwargs):
         form1 = form_list[0].cleaned_data
         form2 = form_list[1].cleaned_data
+        # processed_image = update_photo(form2['user_photo'])
+
+
         user = Users.objects.create(
             first_name=form1['first_name'],
             last_name=form1['last_name'],
@@ -93,7 +102,9 @@ class RegistrationWizardForm(SessionWizardView):
             phone=form2['phone'],
             mailing_list=form2['mailing_list'],
             address=form2['address'],
-            user_photo=form2['user_photo'],
+            user_photo= form2['user_photo']
+
+
         )
         try:
             send_email.delay(form2['email'])

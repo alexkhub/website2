@@ -38,11 +38,14 @@ class CharFilterInFilter(filters.BaseInFilter, filters.CharFilter):
 
 
 class ProductFilter(filters.FilterSet):
-    product_name = CharFilterInFilter(field_name='product_name', lookup_expr='in')
+    last_price = filters.RangeFilter()
+    category = CharFilterInFilter(field_name='category__slug', lookup_expr='in')
+    manufacturer = CharFilterInFilter(field_name='manufacturer__slug', lookup_expr='in')
 
     class Meta:
         model = Products
-        fields = ['product_name']
+        fields = ['last_price', 'category', 'manufacturer']
+
 
 class ManufactureFilter(filters.FilterSet):
     last_price = filters.RangeFilter()
@@ -52,10 +55,11 @@ class ManufactureFilter(filters.FilterSet):
         model = Products
         fields = ['last_price', 'category']
 
+
 class CategoryFilter(filters.FilterSet):
     last_price = filters.RangeFilter()
-    category = CharFilterInFilter(field_name='manufacturer__slug', lookup_expr='in')
+    manufacturer = CharFilterInFilter(field_name='manufacturer__slug', lookup_expr='in')
 
     class Meta:
         model = Products
-        fields = ['last_price', 'category']
+        fields = ['last_price', 'manufacturer']

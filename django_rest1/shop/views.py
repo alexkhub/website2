@@ -31,8 +31,6 @@ from .permissions import ProfilePermission
 from working_with_orders.models import Order_Points, Orders
 from working_with_orders.serializers import OrderSerializer
 
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -84,13 +82,12 @@ class RegistrationWizardForm(SessionWizardView):
     form_list = [RegisterForm1, RegisterForm2]
     template_name = 'shop/register_step1.html'
     success_url = reverse_lazy('home')
-    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT,'user_photo'))
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'user_photo'))
 
     def done(self, form_list, **kwargs):
         form1 = form_list[0].cleaned_data
         form2 = form_list[1].cleaned_data
         # processed_image = update_photo(form2['user_photo'])
-
 
         user = Users.objects.create(
             first_name=form1['first_name'],
@@ -102,8 +99,7 @@ class RegistrationWizardForm(SessionWizardView):
             phone=form2['phone'],
             mailing_list=form2['mailing_list'],
             address=form2['address'],
-            user_photo= form2['user_photo']
-
+            user_photo=form2['user_photo']
 
         )
         try:
@@ -119,8 +115,8 @@ class RegistrationWizardForm(SessionWizardView):
 
 
 class SearchProductListView(ListAPIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/search_product.html'
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = 'shop/search_product.html'
     queryset = Products.objects.all()
     serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
@@ -134,7 +130,8 @@ class SearchProductListView(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)
 
-        return Response({'products': serializer_products.data})
+        # return Response({'products': serializer_products.data})
+        return Response(serializer_products.data)
 
 
 def logout_user(request):
@@ -222,19 +219,26 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
 
 
 class CategoryListAPIView(ListAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = CategoryFilter
+
+    def get_queryset(self):
+        self.queryset = self.queryset.filter(category__slug=self.request.resolver_match.kwargs['category_slug'])
+        return self.queryset
+
+
     def list(self, request, *args, **kwargs):
-        products = Products.objects.filter(category__slug=request.resolver_match.kwargs['category_slug'])
-        product_serializer = ProductsListSerializer(products, many=True)
-        return Response(
-            {
-                'products': product_serializer.data,
-            }
-        )
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer_products = self.get_serializer(queryset, many=True)
+        # return Response({'products': serializer_products.data})
+        return Response(serializer_products.data)
 
 
 class ManufacturerListAPIView(ListAPIView):
     queryset = Products.objects.all()
-    serializer_class= ProductsListSerializer
+    serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ManufactureFilter
 
@@ -242,13 +246,11 @@ class ManufacturerListAPIView(ListAPIView):
         self.queryset = self.queryset.filter(manufacturer__slug=self.request.resolver_match.kwargs['manufacturer_slug'])
         return self.queryset
 
-
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)
-        return Response({'products': serializer_products.data})
-
-
+        # return Response({'products': serializer_products.data})
+        return Response(serializer_products.data)
 
 @login_required(login_url='login')
 def add_product(request, id):

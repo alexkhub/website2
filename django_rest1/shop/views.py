@@ -233,15 +233,21 @@ class CategoryListAPIView(ListAPIView):
 
 
 class ManufacturerListAPIView(ListAPIView):
+    queryset = Products.objects.all()
+    serializer_class= ProductsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ManufactureFilter
+
+    def get_queryset(self):
+        self.queryset = self.queryset.filter(manufacturer__slug=self.request.resolver_match.kwargs['manufacturer_slug'])
+        return self.queryset
+
 
     def list(self, request, *args, **kwargs):
-        products = Products.objects.filter(manufacturer__slug=request.resolver_match.kwargs['manufacturer_slug'])
-        product_serializer = ProductsListSerializer(products, many=True)
-        return Response(
-            {
-                'products': product_serializer.data,
-            }
-        )
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer_products = self.get_serializer(queryset, many=True)
+        return Response({'products': serializer_products.data})
+
 
 
 @login_required(login_url='login')

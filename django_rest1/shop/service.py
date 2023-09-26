@@ -43,3 +43,11 @@ class ProductFilter(filters.FilterSet):
     class Meta:
         model = Products
         fields = ['product_name']
+
+class ManufactureFilter(filters.FilterSet):
+    last_price = filters.RangeFilter()
+    category = CharFilterInFilter(field_name='category__slug', lookup_expr='in')
+
+    class Meta:
+        model = Products
+        fields = ['last_price', 'category']

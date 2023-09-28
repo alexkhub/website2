@@ -9,8 +9,3 @@ def reverse_text(value):
 
     return f"{new_value[2]}.{new_value[1]}.{new_value[0]}"
 
-@register.filter
-def convert_to_int(value):
-    clean_value = type(value)
-
-    return clean_value

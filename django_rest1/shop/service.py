@@ -41,25 +41,30 @@ class ProductFilter(filters.FilterSet):
     last_price = filters.RangeFilter()
     category = CharFilterInFilter(field_name='category__slug', lookup_expr='in')
     manufacturer = CharFilterInFilter(field_name='manufacturer__slug', lookup_expr='in')
+    discount = filters.BooleanFilter(field_name='discount', lookup_expr='gte')
 
     class Meta:
         model = Products
-        fields = ['last_price', 'category', 'manufacturer']
+        fields = ['last_price', 'category', 'manufacturer', 'discount']
 
 
 class ManufactureFilter(filters.FilterSet):
     last_price = filters.RangeFilter()
     category = CharFilterInFilter(field_name='category__slug', lookup_expr='in')
+    discount = filters.BooleanFilter(field_name='discount', lookup_expr='gte')
+
+
 
     class Meta:
         model = Products
-        fields = ['last_price', 'category']
+        fields = ['last_price', 'category', 'discount']
 
 
 class CategoryFilter(filters.FilterSet):
     last_price = filters.RangeFilter()
     manufacturer = CharFilterInFilter(field_name='manufacturer__slug', lookup_expr='in')
+    discount = filters.BooleanFilter(field_name='discount', lookup_expr='gte')
 
     class Meta:
         model = Products
-        fields = ['last_price', 'manufacturer']
+        fields = ['last_price', 'manufacturer',  'discount']

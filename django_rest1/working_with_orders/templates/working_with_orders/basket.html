@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 {%load static%}
+{%load convert_to_int%}
 
 
 {%block headblock%}
@@ -61,7 +62,9 @@
                         </div>
                     </div>
                     <div class="item__price">
-                        <p class="price">Цена: <span class="price__text">{{item.price}} </span></p>
+
+                        <p class="price">Цена: <span class="price__text">{{item.product.last_price|convert_to_int }}</span></p>
+
                     </div>
                 </div>
 

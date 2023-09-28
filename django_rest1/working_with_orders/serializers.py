@@ -32,7 +32,7 @@ class Order_Point_ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Products
-        fields = ('product_name', 'description', 'product_photos')
+        fields = ('product_name', 'description', 'product_photos', 'last_price')
         read_only = ('owner.username',)
 
 

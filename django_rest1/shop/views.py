@@ -2,12 +2,15 @@ import logging
 import os
 
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage, DefaultStorage
+from django.core.files.storage import FileSystemStorage
 from django.db.models import Q
 from django.contrib.auth import logout, login
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -39,6 +42,8 @@ class ProductsListView(ListAPIView):
     template_name = 'shop/home.html'
     serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
+    @method_decorator(vary_on_cookie)
+    @method_decorator(cache_page(60 * 60))
     def list(self, request, **kwargs):
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
@@ -62,6 +67,7 @@ class ProductsListView(ListAPIView):
 class ProductDetailView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'
+
 
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
@@ -224,11 +230,13 @@ class CategoryListAPIView(ListAPIView):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CategoryFilter
 
+
     def get_queryset(self):
         self.queryset = self.queryset.filter(category__slug=self.request.resolver_match.kwargs['category_slug'])
         return self.queryset
 
-
+   
+    @method_decorator(cache_page(60 * 60))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)

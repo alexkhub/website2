@@ -27,7 +27,8 @@ urlpatterns = [
     path('', include('shop.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('additional_admin_features/', include('additional_admin_features.urls')),
-    path('shopping_cart/', include('working_with_orders.urls'))
+    path('shopping_cart/', include('working_with_orders.urls')),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 handler403 = 'shop.views.tr_handler403'

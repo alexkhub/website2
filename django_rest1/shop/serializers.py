@@ -13,10 +13,12 @@ class FilterImagesSerializer(serializers.ListSerializer):
 
 class ProductMainImagesListSerializer(serializers.ModelSerializer):
     '''вывод главной картинки '''
+
     class Meta:
         model = Product_Images
         fields = ('img', 'first_img', 'img_name')
         list_serializer_class = FilterImagesSerializer
+
 
 class ProductImagesListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,9 +35,7 @@ class ProductsListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        fields = '__all__'
-
-
+        exclude = ('numbers', 'product_characteristic', 'first_price',  'description')
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
@@ -50,9 +50,6 @@ class CreateCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = '__all__'
-
-
-
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -74,13 +71,15 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        exclude = ('numbers',)
+
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         read_only = ('owner.username',)
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address', 'user_photo' )
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address', 'user_photo')
+
 
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:

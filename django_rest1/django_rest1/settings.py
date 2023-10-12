@@ -216,7 +216,7 @@ LOGGING = {
     "handlers": {
 
         "console": {
-            "level": "INFO",
+            "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
@@ -236,7 +236,7 @@ LOGGING = {
     "loggers": {
         "django.db.backends": {
             "handlers": ['console'],
-            "level": "INFO",
+            "level": "DEBUG",
         },
         "shop.views": {
             "handlers": ['file'],

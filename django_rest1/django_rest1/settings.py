@@ -69,9 +69,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    'django.middleware.cache.UpdateCacheMiddleware',
+    #     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    #     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'django_rest1.urls'
@@ -109,15 +109,15 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
@@ -201,19 +201,51 @@ CELERY_RESULT_SERIALIZER = 'json'
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+
+
     "handlers": {
+
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+
+        },
         "file": {
             "level": "WARNING",
             "class": "logging.FileHandler",
-            "filename": "logging.log"
+            "filename": "logging.log",
+            "formatter" : "verbose"
 
         },
     },
     "loggers": {
-        "shop.views":{
-            "handlers" : ['file'],
+        "django.db.backends": {
+            "handlers": ['console'],
+            "level": "INFO",
+        },
+        "shop.views": {
+            "handlers": ['file'],
             "level": "WARNING",
             "propagate": True,
         },
+
+
     },
 }
+
+

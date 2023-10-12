@@ -42,13 +42,15 @@ class ProductsListView(ListAPIView):
     template_name = 'shop/home.html'
     serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    @method_decorator(vary_on_cookie)
-    @method_decorator(cache_page(60 * 60))
+    # @method_decorator(vary_on_cookie)
+    # @method_decorator(cache_page(60 * 60))
     def list(self, request, **kwargs):
+        logger.warning(msg='hi')
         products = Products.objects.filter(discount=0)  # товары без скидки
         products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
         categories = Category.objects.all()
         manufacturer = Manufacturer.objects.all()
+
 
         manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
         products_serializer = ProductsListSerializer(products, many=True)
@@ -236,7 +238,7 @@ class CategoryListAPIView(ListAPIView):
         return self.queryset
 
    
-    @method_decorator(cache_page(60 * 60))
+    # @method_decorator(cache_page(60 * 60))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)

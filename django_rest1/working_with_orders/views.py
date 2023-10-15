@@ -27,10 +27,11 @@ class BasketListView(LoginRequiredMixin, ListAPIView):
             }
         )
 
+
 @login_required(login_url='login')
 def order_point_remove(request, id):
     url = request.META.get('HTTP_REFERER')
-    order_point = Order_Points.objects.get(id= id)
+    order_point = Order_Points.objects.get(id=id)
     user = request.user
     if order_point.user == user:
         order_point.delete()
@@ -38,10 +39,4 @@ def order_point_remove(request, id):
     else:
         return redirect("home")
 
-class Unpaid_Orders(APIView):
-    def get(self, request):
-        queryset = Orders.objects.filter(
-            Q(user=request.user) & Q(paid_order=False) & Q(delivery = False)
-                                         )
-        serializer = OrderSerializer(queryset, many=True)
-        return Response(serializer.data)
+

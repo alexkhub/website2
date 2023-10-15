@@ -234,17 +234,11 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django.db.backends": {
-            "handlers": ['console'],
-            "level": "DEBUG",
-        },
         "shop.views": {
             "handlers": ['file'],
             "level": "WARNING",
             "propagate": True,
         },
-
-
     },
 }
 

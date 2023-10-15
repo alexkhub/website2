@@ -16,7 +16,7 @@ class ProductMainImagesListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product_Images
-        fields = ('img', 'first_img', 'img_name')
+        fields = ('img',)
         list_serializer_class = FilterImagesSerializer
 
 
@@ -28,14 +28,24 @@ class ProductImagesListSerializer(serializers.ModelSerializer):
 
 class ProductsListSerializer(serializers.ModelSerializer):
     """сериализатор для вывода продуктов"""
-    product_photos = ProductMainImagesListSerializer(many=True, read_only=True)
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
     category = serializers.SlugRelatedField(slug_field='slug', read_only=True)
     manufacturer = serializers.SlugRelatedField(slug_field='slug', read_only=True)
 
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        exclude = ('numbers', 'product_characteristic', 'first_price',  'description')
+        exclude = ('numbers', 'product_characteristic', 'first_price', 'description',)
+
+
+class HomeProductsListSerializer(serializers.ModelSerializer):
+    """сериализатор для вывода продуктов"""
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Products
+        read_only = ('owner.username',)
+        exclude = ('numbers', 'product_characteristic', 'first_price', 'description', 'manufacturer', 'category')
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
@@ -71,7 +81,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         read_only = ('owner.username',)
-
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -86,3 +96,16 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         model = Manufacturer
         read_only = ('owner.username',)
         fields = ("manufacturer_name", "slug", "photo")
+
+
+class TestSerializer(serializers.ModelSerializer):
+    """сериализатор для вывода продуктов"""
+
+    category = serializers.SlugRelatedField(slug_field='slug', read_only=True)
+    manufacturer = serializers.SlugRelatedField(slug_field='slug', read_only=True)
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Products
+        read_only = ('owner.username',)
+        fields = '__all__'

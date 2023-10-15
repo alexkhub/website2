@@ -45,14 +45,20 @@ class ProductsListView(ListAPIView):
     # @method_decorator(vary_on_cookie)
     # @method_decorator(cache_page(60 * 60))
     def list(self, request, **kwargs):
-        products = Products.objects.filter(discount=0)  # товары без скидки
-        products_with_discount = Products.objects.filter(discount__gt=0)  # товары со скидкой
+        products = Products.objects.filter(discount=0, numbers__gt=0).prefetch_related(
+            Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
+            'id', 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары без скидки
+
+        products_with_discount = Products.objects.filter(discount__gt=0, numbers__gt=0).prefetch_related(
+            Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
+            "id", 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары со скидкой
+
         categories = Category.objects.all()
         manufacturer = Manufacturer.objects.all()
 
         manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
-        products_serializer = ProductsListSerializer(products, many=True)
-        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
+        products_serializer = HomeProductsListSerializer(products, many=True)
+        products_with_discount_serializer = HomeProductsListSerializer(products_with_discount, many=True)
         category_serializer = CategoryListSerializer(categories, many=True)
 
         return Response(
@@ -70,7 +76,6 @@ class ProductDetailView(APIView):
 
     def get(self, request, product_slug):
         products = Products.objects.get(slug=product_slug)
-
         product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})
 
@@ -122,7 +127,14 @@ class RegistrationWizardForm(SessionWizardView):
 class SearchProductListView(ListAPIView):
     # renderer_classes = [TemplateHTMLRenderer]
     # template_name = 'shop/search_product.html'
-    queryset = Products.objects.all()
+    queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
+        Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
+        Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
+        Prefetch('category', queryset=Category.objects.all().only('slug'))
+    ).only(
+        'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
+        'product_name', 'last_price', 'slug')
+
     serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProductFilter
@@ -142,34 +154,6 @@ class SearchProductListView(ListAPIView):
 def logout_user(request):
     logout(request)
     return redirect('home')
-
-
-class TestView(ListAPIView):
-    queryset = Products.objects.all()
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/test.html'
-    serializer_class = ProductsListSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filterset_class = ProductFilter
-
-    def list(self, request, **kwargs):
-        products = self.queryset.filter(discount=0)  # товары без скидки
-        products_with_discount = self.queryset.filter(discount__gt=0)  # товары со скидкой
-        categories = Category.objects.all()
-        manufacturer = Manufacturer.objects.all()
-
-        manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
-        products_serializer = ProductsListSerializer(products, many=True)
-        products_with_discount_serializer = ProductsListSerializer(products_with_discount, many=True)
-        category_serializer = CategoryListSerializer(categories, many=True)
-
-        return Response(
-            {'products_serializer': products_serializer.data,
-             'products_with_discount_serializer': products_with_discount_serializer.data,
-             'category_serializer': category_serializer.data,
-             'manufacturer_serializer': manufacturer_serializer.data
-             }
-        )
 
 
 @login_required(login_url='login')
@@ -225,8 +209,8 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
 
 class CategoryListAPIView(ListAPIView):
     queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
-        Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug'))
-    ).prefetch_related(
+        Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
+        Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
         Prefetch('category', queryset=Category.objects.all().only('slug'))
     ).only(
         'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
@@ -249,8 +233,10 @@ class CategoryListAPIView(ListAPIView):
 
 
 class ManufacturerListAPIView(ListAPIView):
-    queryset = Products.objects.filter(numbers__gt=0).only('id', 'numbers', 'category', 'discount',
-                                                           'product_name', 'last_price', 'slug')
+    queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
+        Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
+        Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
+        Prefetch('category', queryset=Category.objects.all().only('slug')))
     serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ManufactureFilter

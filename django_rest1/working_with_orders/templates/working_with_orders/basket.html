@@ -35,59 +35,43 @@
 {%endblock headblock%}
 
 {%block content %}
-<body>
-
-
-
     <main>
         <div class="main-content__wrapper">
             {%for item in order_points%}
             <div class="item">
                 <div class="item__img-container">
-                    <img src="{{item.product.product_photos.0.img}}" alt="{{item.product.product_photos.0.img}}">
+                     <img src="{{item.product.product_photos.0.img}}" alt="{{item.product.product_photos.0.img}}">
                 </div>
-
-
                 <div class="item__text-container">
                     <p class="item__title">{{item.product.product_name}} </p>
                     <p class="item__description">{{item.product.description}}</p>
                     <div class="item__buttons-container">
                         <div class="item__counter-container">
                             <i class="fas fa-plus"></i>
-                            <p class="item__counter">{{item.amount}} </p>
-                            {% if item.amount == 1 %}
+                            <p class="item__counter">{{item.amount}}</p>
                             <i class="fas fa-minus"></i>
-                            {%else %}
-                            <i class="fas fa-minus"></i>
-                            {% endif%}
                         </div>
                         <div class="item__action-buttons-container">
+                            <i class="fas fa-save"></i>
                             <i class="fas fa-cart-arrow-down"></i>
-                            <a href="{%url 'order_point_remove' item.id%}"><i  class="fas fa-trash"></i></a>
+                            <a href="{%url 'order_point_remove' item.id%}"><i class="fas fa-trash"></i></a>
                         </div>
                     </div>
                     <div class="item__price">
-
-
                         <p class="price">Цена: <span class="price__text">{{item.price}}</span></p>
-
                     </div>
                 </div>
-
             </div>
             {%endfor%}
-
         </div>
-
         <div class="buy-action-wrapper">
             <p class="total">Итоговая цена: <span class="total__price"></span></p>
-            <a><button id="total__button">Заказать всё</button></a>
+            <button id="total__button">Заказать всё</button>
         </div>
-
     </main>
 
     <script src="{%static 'shop/js/main.js'%}"></script>
     <script src="{%static 'working_with_orders/js/basket.js'%}"></script>
-</body>
+
 
 {%endblock%}

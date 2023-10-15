@@ -50,7 +50,8 @@ class Manufacturer(models.Model):
     manufacturer_name = models.CharField(max_length=100, verbose_name="Наименование производителя", unique=True)
     country = models.CharField(max_length=40, verbose_name='Страна', blank=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
-    photo = models.ImageField(upload_to='img_category/%Y/%m/%d/', verbose_name='Фотография', default='shop/static/img/favicon.svg')
+    photo = models.ImageField(upload_to='img_category/%Y/%m/%d/', verbose_name='Фотография',
+                              default='shop/static/img/favicon.svg')
 
     def __str__(self):
         return self.manufacturer_name
@@ -111,9 +112,10 @@ class Products(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Категория')
     slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )
     description = models.TextField(verbose_name="О продукте", blank=True)
-    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель')
-    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения')
-    product_characteristic = SortedManyToManyField(Characteristic, verbose_name='Характеристики')
+    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель', related_name='manufaturer' )
+    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения', related_name='images')
+    product_characteristic = SortedManyToManyField(Characteristic, verbose_name='Характеристики',
+                                                   related_name='characteristics')
 
     def __str__(self):
         return self.product_name
@@ -122,12 +124,8 @@ class Products(models.Model):
         return reverse('home', kwargs={'product_slug': self.slug})
 
     def save(self, *args, **kwargs):
-        discount = self.discount
-        first_price = self.first_price
-        if discount > 0:
-            self.last_price = first_price * (1 - discount / 100)
-        else:
-            self.last_price = first_price
+        if self.discount > 0:
+            self.last_price = self.first_price * (1 - self.discount / 100)
 
         super(Products, self).save(*args, **kwargs)
 

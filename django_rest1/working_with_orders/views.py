@@ -8,23 +8,34 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .serializers import *
 from .models import *
-from django.db.models import Q
-from shop.models import Products
+from django.db.models import Prefetch
+
+from shop.models import Users, Products, Product_Images
 
 
 class BasketListView(LoginRequiredMixin, ListAPIView):
     queryset = Order_Points.objects.filter(in_orders=False)
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'working_with_orders/basket.html'
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = 'working_with_orders/basket.html'
     serializer_class = Order_PointsSerializer
+
+    def get_queryset(self):
+        self.queryset = self.queryset.all().prefetch_related(
+            Prefetch('product', queryset= Products.objects.all()),
+            Prefetch('user', queryset=Users.objects.all()),
+            Prefetch('product.photo')
+
+        )
+        return self.queryset
 
     def list(self, request, **kwargs):
         queryset = self.get_queryset()
-        serializers = Order_PointsSerializer(queryset.filter(user=request.user), many=True)
+        serializers = self.get_serializer(queryset, many=True)
         return Response(
-            {
-                'order_points': serializers.data
-            }
+            # {
+            #     'order_points': serializers.data
+            # }
+            serializers.data
         )
 
 
@@ -38,5 +49,3 @@ def order_point_remove(request, id):
         return redirect(url)
     else:
         return redirect("home")
-
-

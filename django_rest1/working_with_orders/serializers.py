@@ -4,23 +4,11 @@ from .models import *
 from shop.models import Products, Product_Images
 
 
-#вспомогательные сериализаторы
-class FilterImagesSerializer(serializers.ListSerializer):
-    def to_representation(self, data):
-        data = data.filter(first_img=True)
-        return super().to_representation(data)
-
-
-
-
-class ProductMainImagesListSerializer(serializers.ModelSerializer):
-    '''вывод главной картинки '''
+# вспомогательные сериализаторы
+class ProductImagesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product_Images
-        fields = ('img',)
-        list_serializer_class = FilterImagesSerializer
-
-
+        fields = ('img', 'first_img', 'img_name')
 
 
 
@@ -28,7 +16,7 @@ class ProductMainImagesListSerializer(serializers.ModelSerializer):
 
 class Order_Point_ProductSerializer(serializers.ModelSerializer):
     ''''создание вложенного сериализатора'''
-    product_photos = ProductMainImagesListSerializer(many=True, read_only=True)
+    product_photos = ProductImagesListSerializer(many=True, read_only=True)
 
     class Meta:
         model = Products
@@ -37,9 +25,10 @@ class Order_Point_ProductSerializer(serializers.ModelSerializer):
 
 
 class Order_PointsSerializer(serializers.ModelSerializer):
-    #серилизатор для вывода пунктов корзины
-    user = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    # серилизатор для вывода пунктов корзины
+    user = serializers.CharField(source='user.slug')
     product = Order_Point_ProductSerializer(many=False, read_only=True)
+
     # если у нас 1 объект писать many= False
 
     class Meta:
@@ -48,10 +37,7 @@ class Order_PointsSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Orders
         fields = ('id', 'date')
-        read_only= True
-
-
+        read_only = True

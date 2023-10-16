@@ -11,7 +11,6 @@ class ProductImagesListSerializer(serializers.ModelSerializer):
         fields = ('img', 'first_img', 'img_name')
 
 
-
 # сериализаторы отрисовки страниц
 
 class Order_Point_ProductSerializer(serializers.ModelSerializer):

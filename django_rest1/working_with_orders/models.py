@@ -8,8 +8,8 @@ from shop.models import Products, Users, Transactions
 # Create your models here.
 
 class Order_Points(models.Model):
-    user = models.ForeignKey('shop.Users', on_delete=models.PROTECT, verbose_name='Пользователь')
-    product = models.ForeignKey('shop.Products', on_delete=models.PROTECT, verbose_name='Продукт')
+    user = models.ForeignKey('shop.Users', on_delete=models.PROTECT, verbose_name='Пользователь', related_name='user')
+    product = models.ForeignKey('shop.Products', on_delete=models.PROTECT, verbose_name='Продукт', related_name='product')
 
     amount = models.IntegerField(verbose_name='Количество', default=1)
     price = models.IntegerField(verbose_name='Цена', blank=True)

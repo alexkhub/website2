@@ -15,27 +15,30 @@ from shop.models import Users, Products, Product_Images
 
 class BasketListView(LoginRequiredMixin, ListAPIView):
     queryset = Order_Points.objects.filter(in_orders=False)
-    # renderer_classes = [TemplateHTMLRenderer]
-    # template_name = 'working_with_orders/basket.html'
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'working_with_orders/basket.html'
     serializer_class = Order_PointsSerializer
 
     def get_queryset(self):
-        self.queryset = self.queryset.all().prefetch_related(
-            Prefetch('product', queryset= Products.objects.all()),
-            Prefetch('user', queryset=Users.objects.all()),
-            Prefetch('product.photo')
-
+        self.queryset = self.queryset.filter(user=self.request.user).prefetch_related(
+            Prefetch('product', queryset=Products.objects.all().prefetch_related(
+                Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)
+                         .only('img', 'first_img', 'img_name')))
+                     .only('id', 'numbers', 'product_photos', 'discount', 'product_name', 'description',
+                           'last_price',)
+                     ),
+            Prefetch('user', queryset=Users.objects.all().only('slug')),
         )
         return self.queryset
 
     def list(self, request, **kwargs):
         queryset = self.get_queryset()
-        serializers = self.get_serializer(queryset, many=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(
-            # {
-            #     'order_points': serializers.data
-            # }
-            serializers.data
+            {
+                'order_points': serializer.data
+            }
+
         )
 
 

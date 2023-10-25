@@ -1,5 +1,5 @@
 body {
-    color:  white;
+    color: white;
 }
 
 .profile-img__wrapper {
@@ -87,10 +87,24 @@ body {
 .profile-settings__container {
     position: absolute;
     width: 100%;
-    height: 100% ;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 998;
     display: none;
+}
+
+.profile-settings form i {
+    position: absolute;
+    font-size: 28px;
+    left: 90%;
+    top: 8%;
+    transition: .3s ease transform,
+        .3s ease color;
+}
+
+.profile-settings form i:hover {
+    transform: rotate(90deg);
+    color: gray;
 }
 
 .profile-settings__title {
@@ -122,8 +136,15 @@ body {
 
 .profile-settings form {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-settings form>div {
+    display: flex;
     flex-direction: column;
-    margin-top: 60px;
+    margin: 50px;
 }
 
 .profile-settings form input {
@@ -179,7 +200,7 @@ body {
     cursor: pointer;
     overflow: hidden;
     transition: .3s ease transform,
-                        .3s ease box-shadow;
+        .3s ease box-shadow;
 }
 
 #confirm:hover {
@@ -197,7 +218,7 @@ body {
     background-color: green;
     z-index: -1;
     transition: .3s ease border-radius,
-                        .3s ease-in-out bottom;
+        .3s ease-in-out bottom;
 }
 
 #confirm:hover::after {

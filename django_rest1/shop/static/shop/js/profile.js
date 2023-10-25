@@ -1,7 +1,7 @@
 const profileSettingsButton = document.querySelector('.fa-cogs');
 const profileSettingsContainer = document.querySelector('.profile-settings__container');
 const profileSettings = document.querySelector('.profile-settings');
-const confrimButton = document.querySelector('#confirm');
+const closeButtons = document.querySelectorAll('#confirm, .fa-times');
 const body = document.querySelector('body');
 
 profileSettingsButton.addEventListener('click', () => {
@@ -12,18 +12,20 @@ profileSettingsButton.addEventListener('click', () => {
     body.style.overflowY = 'hidden';
 });
 
-confrimButton.addEventListener('click', () => {
-    profileSettings.style.opacity = 0;
-    setTimeout(() => {
-        profileSettingsContainer.style.display = 'none';
-    }, 300);
-    body.style.overflowY = 'scroll';
+closeButtons.forEach(el => {
+    el.addEventListener('click', () => {
+        profileSettings.style.opacity = 0;
+        setTimeout(() => {
+            profileSettingsContainer.style.display = 'none';
+        }, 300);
+        body.style.overflowY = 'scroll';
 
-    confirmEmail.value = '';
-    email.value = '';
-    confirmPassword.value = '';
-    password.value = '';
-});
+        confirmEmail.value = '';
+        email.value = '';
+        confirmPassword.value = '';
+        password.value = '';
+    })
+})
 
 // Email validation
 const email = document.querySelector('#email__input');

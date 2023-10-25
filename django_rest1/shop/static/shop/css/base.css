@@ -26,14 +26,16 @@ header {
     padding: 20px 30px;
     max-width: 2560px;
     height: 60px;
+    border-bottom: 1px solid gray;
     transition: .3s linear;
 }
 
 /* MINIMIZED */
 
 .header-minimized {
-    z-index: 999;
     position: fixed;
+    top: 0;
+    z-index: 997;
     width: 100%;
     font-size: 20px;
     background-color: #171717;
@@ -70,14 +72,14 @@ header {
     transition: .3s ease-in-out;
 }
 
-.header-menu-minimized {
-    display: flex;
-    column-gap: 50px;
-    color: white;
-    font-size: 20px;
-    margin-right: 50px;
-    transition: .3s linear font-size;
-}
+    .header-menu-minimized {
+        display: flex;
+        column-gap: 50px;
+        color: white;
+        font-size: 20px;
+        margin-right: 50px;
+        transition: .3s linear font-size;
+    }
 /* --- */
 
 body::-webkit-scrollbar {
@@ -151,7 +153,6 @@ body::-webkit-scrollbar-thumb {
 .search-icon-right {
     position: absolute;
     left: 85.5%;
-    top: 2px;
 }
 
 .header-menu {

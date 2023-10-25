@@ -1,12 +1,184 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+    <!-- Sansation Font-->
+    <!-- <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />
+    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" /> -->
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'shop/css/catalog.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/media-query-catalog.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/media-query-header.css' %}">
+
 </head>
+
 <body>
-{%for product in products%}
-{{product.product_name}}
-{%endfor%}
+
+    <header class="header" id="header">
+        <div class="header-left-content__wrapper">
+            <div class="logo"><a href="index.html"><span id="logo" class="">Electron</span> <span class="logo-icon"><i class="fas fa-bolt"></i></span></a></div>
+            <div class="search">
+                <form class="search" action="search">
+                    <input type="search" name="header-search" class="header-search" placeholder="Введите название товара">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="header-menu">
+            <a href=""><i class="fas fa-sign-out-alt"></i></a>
+            <a href="/registration-first-step.html"><i class="fas fa-user-plus"></i></a>
+            <a href="/login.html"><i class="fas fa-user"></i></a>
+            <a href="/basket.html"><i class="fas fa-shopping-cart"></i></a>
+            <a href=""><i class="fas fa-headphones-alt"></i></a>
+        </div>
+    </header>
+
+    <main>
+
+        <div class="filters-icon__container">
+            <i class="fas fa-filter"></i>
+        </div>
+        <div class="filters-container">
+            <i class="fas fa-times"></i>
+            <div class="price filters__item">
+                <p class="filters__item-title">Ценовой диапазон:</p>
+                <div class="price-range__input">
+                    <input type="range" name="price-range" id="price-min__input" min="0" max="" value="0" step="1000">
+                    <input type="range" name="price-range" id="price-max__input" min="0" max="" value="" step="1000">
+                    <p class="price-range">
+                        <span id="">
+                            <input type="number" name="" id="price-range-min" value="0">
+                        </span>
+                        -
+                        <span id="">
+                            <input type="number" name="" id="price-range-max" value="0">
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="categories filters__item">
+                <p class="filters__item-title">Категории <i class="fas fa-chevron-right"></i></p>
+                <div class="filters__item-container">
+                    <ul class="filters__item-container-list">
+                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-tv"><label for="categorie-item-tv">ТВ и консоли</label></li>
+                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-accessories"><label for="categorie-item-accessories">Комплектующие для ПК</label></li>
+                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-network-hardware"><label for="categorie-item-network-hardware">Сетевое оборудование</label></li>
+                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-PC-notebooks"><label for="categorie-item-PC-notebooks">ПК, ноутбуки</label></li>
+                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-periphery"><label for="categorie-item-periphery">Периферия</label></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="manufacturer filters__item">
+                <p class="filters__item-title">Производитель <i class="fas fa-chevron-right"></i>
+                <p>
+                <div class="filters__item-container">
+                    <ul class="filters__item-container-list">
+                        <li><input type="checkbox" name="maufacturer-item-xiaomi" id="manufacturer-item-xiaomi"><label for="manufacturer-item-xiaomi">Xiaomi</label></li>
+                        <li><input type="checkbox" name="maufacturer-item-gigabyte" id="manufacturer-item-gigabyte"><label for="manufacturer-item-gigabyte">GIGABYTE</label></li>
+                        <li><input type="checkbox" name="maufacturer-item-amd" id="manufacturer-item-amd"><label for="manufacturer-item-amd">AMD</label></li>
+                        <li><input type="checkbox" name="maufacturer-item-intel" id="manufacturer-item-intel"><label for="manufacturer-item-intel">Intel</label></li>
+                        <li><input type="checkbox" name="maufacturer-item-nvidia" id="manufacturer-item-nvidia"><label for="manufacturer-item-nvidia">Nvidia</label></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sale manufacturer filters__item">
+                <p class="filters__item-title">Скидка <i class="fas fa-chevron-right"></i>
+                <p>
+                <div class="filters__item-container">
+                    <ul class="filters__item-container-list">
+                        <li><input type="radio" name="sale-item" id="sale-item-yes"><label for="sale-item-yes">Да</label></li>
+                        <li><input type="radio" name="sale-item" id="sale-item-no"><label for="sale-item-no">Нет</label></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="catalog-items">
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-cpu.webp" alt="">
+                <p>Процессор</p>
+                <p>7000 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-headphones-black.webp" alt="">
+                <p>Наушники</p>
+                <p>3000 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-headphones-pink.webp" alt="">
+                <p>Наушники</p>
+                <p>3000 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-headphones-white .webp" alt="">
+                <p>Наушники</p>
+                <p>3000 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-mouse.webp" alt="">
+                <p>Игровая мышь</p>
+                <p>2500 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-videocard.webp" alt="">
+                <p>Видеокарта</p>
+                <p>23000 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-mousepad.webp" alt="">
+                <p>Коврик для мыши</p>
+                <p>700 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+            <div class="item">
+                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
+                <img src="assets/img/catalog/product-img-videocard.webp" alt="">
+                <p>Видеокарта</p>
+                <p>13000 рублей</p>
+                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{%static 'shop/js/catalog/catalog.js' %}"></script>
+    <script src="{% static 'shop/js/catalog/priceFilter.js' %}"></script>
+    <script src="{% static 'shop/js/catalog/openFilters.js' %}"></script>
+    <script src="{% static 'shop/js/main.js' %}"></script>
 </body>
+
 </html>

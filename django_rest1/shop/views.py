@@ -125,8 +125,10 @@ class RegistrationWizardForm(SessionWizardView):
 
 
 class SearchProductListView(ListAPIView):
-    # renderer_classes = [TemplateHTMLRenderer]
-    # template_name = 'shop/search_product.html'
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/search_product.html'
+
     queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
         Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
         Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
@@ -147,8 +149,8 @@ class SearchProductListView(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)
 
-        # return Response({'products': serializer_products.data})
-        return Response(serializer_products.data)
+        return Response({'products': serializer_products.data})
+        # return Response(serializer_products.data)
 
 
 def logout_user(request):

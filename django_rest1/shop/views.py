@@ -125,9 +125,8 @@ class RegistrationWizardForm(SessionWizardView):
 
 
 class SearchProductListView(ListAPIView):
-
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/search_product.html'
+    template_name = 'shop/catalog.html'
 
     queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
         Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
@@ -150,34 +149,30 @@ class SearchProductListView(ListAPIView):
         serializer_products = self.get_serializer(queryset, many=True)
 
         return Response({'products': serializer_products.data})
+
+
+class CatalogListView(ListAPIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/catalog.html'
+
+    queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
+        Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
+        Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
+        Prefetch('category', queryset=Category.objects.all().only('slug', 'name'))
+    ).only(
+        'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
+        'product_name', 'last_price', 'slug')
+
+    serializer_class = ProductsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ProductFilter
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer_products = self.get_serializer(queryset, many=True)
+
+        return Response({'products': serializer_products.data})
         # return Response(serializer_products.data)
-
-
-def logout_user(request):
-    logout(request)
-    return redirect('home')
-
-
-@login_required(login_url='login')
-def add_comment(request):
-    if request.POST:
-
-        form = CreateComment(request.POST)
-        url = request.META.get('HTTP_REFERER')
-        if form.is_valid():
-            user = request.user
-            rating = form.data['rating']
-            product_1 = int(form.data['product'])
-            product = Products.objects.get(id=product_1)
-            text = form.data['text']
-            comment = Comments.objects.create(
-                user=user,
-                rating=rating,
-                product=product,
-                text=text
-            )
-
-        return redirect(url)
 
 
 class ProfileRetrieveAPIView(RetrieveAPIView):
@@ -213,7 +208,7 @@ class CategoryListAPIView(ListAPIView):
     queryset = Products.objects.filter(numbers__gt=0).prefetch_related(
         Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
         Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
-        Prefetch('category', queryset=Category.objects.all().only('slug'))
+        Prefetch('category', queryset=Category.objects.all().only('slug', 'name'))
     ).only(
         'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
         'product_name', 'last_price', 'slug')
@@ -252,6 +247,33 @@ class ManufacturerListAPIView(ListAPIView):
         serializer_products = self.get_serializer(queryset, many=True)
         # return Response({'products': serializer_products.data})
         return Response(serializer_products.data)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
+
+
+@login_required(login_url='login')
+def add_comment(request):
+    if request.POST:
+
+        form = CreateComment(request.POST)
+        url = request.META.get('HTTP_REFERER')
+        if form.is_valid():
+            user = request.user
+            rating = form.data['rating']
+            product_1 = int(form.data['product'])
+            product = Products.objects.get(id=product_1)
+            text = form.data['text']
+            comment = Comments.objects.create(
+                user=user,
+                rating=rating,
+                product=product,
+                text=text
+            )
+
+        return redirect(url)
 
 
 @login_required(login_url='login')

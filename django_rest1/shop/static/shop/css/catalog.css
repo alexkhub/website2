@@ -267,3 +267,39 @@ input::-webkit-inner-spin-button {
 .item:hover .item-view-link {
     bottom: 0;
 }
+
+.filters-container button {
+    position: relative;
+    margin-top: 10px;
+    cursor: pointer;
+    border: 2px solid #CC01FF;
+    background-color: transparent;
+    color: white;
+    padding: 5px 20px;
+    font-size: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: .3s ease box-shadow,
+                    .3s ease transform;
+}
+
+.filters-container button::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 100%;
+    background-color: #CC01FF;
+    left: 0;
+    transition: .3s ease top;
+    z-index: -1;
+}
+
+.filters-container button:hover::after {
+    top: 0;
+}
+
+.filters-container button:hover {
+    box-shadow: 0 0 1px 3px #CC01FF;
+    transform: scale(1.1);
+}

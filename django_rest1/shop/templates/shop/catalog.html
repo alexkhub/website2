@@ -91,65 +91,21 @@
                     </ul>
                 </div>
             </div>
+            <button>Применить</button>
         </div>
 
         <div class="catalog-items">
+            {%for product in  products%}
+                {%for img in product.product_photos%}
             <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-cpu.webp" alt="">
-                <p>Процессор</p>
-                <p>7000 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
+                <div class="item-add-to-cart-link"><a href="{%url 'add_product' product.id%}">В корзину</a></div>
+                <img src="{{img.img}}" alt="">
+                 <p>{{product.product_name}}</p>
+                    <p>{{product.last_price}}</p>
+                <div class="item-view-link"><a href="{%url 'show_product' product.slug%}">Просмотр</a></div>
             </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-headphones-black.webp" alt="">
-                <p>Наушники</p>
-                <p>3000 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-headphones-pink.webp" alt="">
-                <p>Наушники</p>
-                <p>3000 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-headphones-white .webp" alt="">
-                <p>Наушники</p>
-                <p>3000 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-mouse.webp" alt="">
-                <p>Игровая мышь</p>
-                <p>2500 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-videocard.webp" alt="">
-                <p>Видеокарта</p>
-                <p>23000 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-mousepad.webp" alt="">
-                <p>Коврик для мыши</p>
-                <p>700 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
-            <div class="item">
-                <div class="item-add-to-cart-link"><a href="">В корзину</a></div>
-                <img src="assets/img/catalog/product-img-videocard.webp" alt="">
-                <p>Видеокарта</p>
-                <p>13000 рублей</p>
-                <div class="item-view-link"><a href="/product.html">Просмотр</a></div>
-            </div>
+             {%endfor%}
+            {%endfor%}
         </div>
     </main>
 

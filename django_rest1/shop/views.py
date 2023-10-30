@@ -75,7 +75,16 @@ class ProductDetailView(APIView):
     template_name = 'shop/product.html'
 
     def get(self, request, product_slug):
-        products = Products.objects.get(slug=product_slug)
+        products = Products.objects.prefetch_related(
+            Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('manufacturer_name')),
+            Prefetch('category', queryset=Category.objects.all().only('name')),
+            Prefetch('comments', queryset=Comments.objects.all().prefetch_related(
+                Prefetch('user', queryset=Users.objects.all().only('username'))
+            )),
+        ).only(
+                'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
+                'product_name', 'last_price', 'slug').get(slug=product_slug)
+
         product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})
 

@@ -45,11 +45,11 @@ class ProductsListView(ListAPIView):
     # @method_decorator(vary_on_cookie)
     # @method_decorator(cache_page(60 * 60))
     def list(self, request, **kwargs):
-        products = Products.objects.filter(discount=0, numbers__gt=0).prefetch_related(
+        products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
             'id', 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары без скидки
 
-        products_with_discount = Products.objects.filter(discount__gt=0, numbers__gt=0).prefetch_related(
+        products_with_discount = Products.objects.filter(Q(discount__gt=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
             "id", 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары со скидкой
 
@@ -82,8 +82,8 @@ class ProductDetailView(APIView):
                 Prefetch('user', queryset=Users.objects.all().only('username'))
             )),
         ).only(
-                'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
-                'product_name', 'last_price', 'slug').get(slug=product_slug)
+            'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
+            'product_name', 'last_price', 'slug').get(slug=product_slug)
 
         product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})
@@ -194,20 +194,13 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         user_profile = self.get_object()
-        unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
-        paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
-        delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
-
-        unpaid_serializer = OrderSerializer(unpaid, many=True)
-        paid_serializer = OrderSerializer(paid, many=True)
-        delivery_serializer = OrderSerializer(delivery, many=True)
+        orders = Orders.objects.filter(user=request.user)
+        order_serializer = OrderSerializer(orders, many=True)
         user_serializer = self.get_serializer(user_profile)
 
         return Response(
             {
-                'unpaid_orders': unpaid_serializer.data,
-                'paid_orders': paid_serializer.data,
-                'delivery_orders': delivery_serializer.data,
+                'orders': order_serializer.data,
                 'profile': user_serializer.data
             }
         )

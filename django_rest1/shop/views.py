@@ -194,13 +194,21 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         user_profile = self.get_object()
-        orders = Orders.objects.filter(user=request.user)
-        order_serializer = OrderSerializer(orders, many=True)
+        unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
+        paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
+        delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
+
+        unpaid_serializer = OrderSerializer(unpaid, many=True)
+        paid_serializer = OrderSerializer(paid, many=True)
+        delivery_serializer = OrderSerializer(delivery, many=True)
+
         user_serializer = self.get_serializer(user_profile)
 
         return Response(
             {
-                'orders': order_serializer.data,
+                'unpaid_orders': unpaid_serializer.data,
+                'paid_orders': paid_serializer.data,
+                'delivery_orders': delivery_serializer.data,
                 'profile': user_serializer.data
             }
         )

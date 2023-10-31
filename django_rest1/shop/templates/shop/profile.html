@@ -39,44 +39,48 @@
         <div class="profile-settings__container">
             <div class="profile-settings">
                 <p class="profile-settings__title">Настройки профиля</p>
-                <form action="">
+                <form action="" method="get" >
                     <a href=""><i class="fas fa-times"></i></a>
-                    <div action="" class="profile-settings__form-item change-name__form">
+                    <div  class="profile-settings__form-item change-name__form">
                         <div>
-                            <input type="text" placeholder="Введите новое имя">
+                            <input type="text" name="first_name"  value="{{profile.first_name}}" placeholder="Введите новое имя">
                         </div>
                         <div>
-                            <input type="text" placeholder="Введите новую фамилию">
+                            <input type="text" name="last_name" value="{{profile.last_name}}" placeholder="Введите новую фамилию">
                         </div>
                         <div>
-                            <input type="text" placeholder="Введите новый никнейм">
-                        </div>
-                    </div>
-                    <div action="" class="profile-settings__form-item change-password__form">
-                        <div>
-                            <input type="password" name="" id="password__input" placeholder="Введите старый пароль">
-                        </div>
-                        <div>
-                            <input type="password" name="" id="password__input" placeholder="Введите новый пароль">
-                        </div>
-                        <div>
-                            <input type="password" name="" id="confirm-password__input" placeholder="Подтвердите новый пароль">
+                            <input type="text" name="username" value="{{profile.username}}" placeholder="Введите новый никнейм">
                         </div>
                     </div>
-                    <div action="" class="profile-settings__form-item change-email__form">
+                    <div  class="profile-settings__form-item change-password__form">
                         <div>
-                            <input type="email" name="" id="email__input" placeholder="Введите новый e-mail">
+                            <input type="password" name="last_password" id="password__input" placeholder="Введите старый пароль">
                         </div>
                         <div>
-                            <input type="email" name="" id="confirm-email__input" placeholder="Подтвердите новые e-mail">
+                            <input type="password" name="new_password" id="password__input" placeholder="Введите новый пароль">
+                        </div>
+                        <div>
+                            <input type="password" name="reenter_password" id="confirm-password__input" placeholder="Подтвердите новый пароль">
                         </div>
                     </div>
-                    <div action="" class="profile-settings__form-item change-other__form">
+                    <div class="profile-settings__form-item change-email__form">
                         <div>
-                            <input type="tel" name="" id="tel__input" placeholder="Изменить номер телефона">
+                            <input type="email" name="email" value="{{profile.email}}" id="email__input" placeholder="Введите новый e-mail">
                         </div>
                         <div>
-                            <input type="tel" name="" id="adress__input" placeholder="Изменить адрес доставки">
+                            <input type="email" name="reenter_email" id="confirm-email__input" placeholder="Подтвердите новые e-mail">
+                        </div>
+                    </div>
+                    <div  class="profile-settings__form-item change-other__form">
+                        <div>
+                            <input type="tel" name="phone" value="{{profile.phone}}" id="tel__input" placeholder="Изменить номер телефона">
+                        </div>
+                        <div>
+                            {%if profile.address%}
+                            <input type="tel" value="{{profile.address}}" name="address" id="adress__input" placeholder="Изменить адрес доставки">
+                            {%else%}
+                            <input type="tel" name="address" id="adress__input" placeholder="Изменить адрес доставки">
+                            {%endif%}
                         </div>
                     </div>
                     <button id="confirm">Подтвердить</button>

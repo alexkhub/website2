@@ -187,7 +187,8 @@ class CatalogListView(ListAPIView):
 class ProfileRetrieveAPIView(RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
-    queryset = Users.objects.all()
+    queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
+                                        'username', 'date_joined', 'phone', 'slug', 'address', 'user_photo')
     serializer_class = UserSerializer
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)

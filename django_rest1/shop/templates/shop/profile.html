@@ -109,7 +109,7 @@
                     {%for paid_order in paid_orders%}
 
                     <div>
-                        <p class="item-id">ID заказа: <span>{{paid_order.id}}</span></p>
+                        <a href="{%url 'order_details' paid_order.id%}"><p class="item-id">ID заказа: <span>{{paid_order.id}}</span></p></a>
                         <p class="item-delivery-date">Дата заказа: <span>{{paid_order.date|reverse_text}}</span></p>
                     </div>
                     {%endfor%}
@@ -123,7 +123,7 @@
 
                      {%for unpaid_order in unpaid_orders%}
                     <div>
-                        <p class="item-id">ID заказа: <span>{{unpaid_order.id}}</span></p>
+                        <a href="{%url 'order_details' unpaid_order.id%}"><p class="item-id">ID заказа: <span>{{unpaid_order.id}}</span></p></a>
                         <p class="item-delivery-date">Дата заказа: <span>{{unpaid_order.date|reverse_text}}</span></p>
                     </div>
                     {%endfor%}
@@ -136,7 +136,7 @@
                     {%for delivery_order in delivery_orders%}
 
                     <div>
-                        <p class="item-id">ID заказа: <span>{{delivery_order.id}}</span></p>
+                        <a href="{%url 'order_details' delivery_order.id%}"><p class="item-id">ID заказа: <span>{{delivery_order.id}}</span></p></a>
                         <p class="item-delivery-date">Дата заказа: <span>{{delivery_order.date|reverse_text}}</span></p>
 
                     </div>

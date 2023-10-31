@@ -40,3 +40,20 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Orders
         fields = ('id', 'date')
         read_only = True
+
+
+class Order_Details_Order_PointsSerializer(serializers.ModelSerializer):
+    product = serializers.CharField(source='product.product_name')
+
+    class Meta:
+        model = Order_Points
+        fields = ('id', 'price', 'amount', 'product')
+
+
+class Order_DetailsSerializer(serializers.ModelSerializer):
+    payment_method = serializers.CharField(source='payment_method.name', read_only=True)
+    order_points = Order_Details_Order_PointsSerializer(many=True)
+
+    class Meta:
+        model = Orders
+        fields = '__all__'

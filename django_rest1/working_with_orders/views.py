@@ -25,7 +25,7 @@ class BasketListView(LoginRequiredMixin, ListAPIView):
                 Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)
                          .only('img', 'first_img', 'img_name')))
                      .only('id', 'numbers', 'product_photos', 'discount', 'product_name', 'description',
-                           'last_price',)
+                           'last_price', )
                      ),
             Prefetch('user', queryset=Users.objects.all().only('slug')),
         )
@@ -41,8 +41,16 @@ class BasketListView(LoginRequiredMixin, ListAPIView):
 
         )
 
+
 class Order_Details(RetrieveAPIView):
-    pass
+    queryset = Orders.objects.all().prefetch_related(
+        Prefetch('payment_method', queryset=Payment_Method.objects.all().only('name')),
+        Prefetch('order_points', queryset=Order_Points.objects.all().only('id', 'price', 'amount', 'product', ).prefetch_related(
+            Prefetch('product', queryset=Products.objects.all().only('product_name'))
+        ))
+    )
+    serializer_class = Order_DetailsSerializer
+    lookup_field = 'id'
 
 
 @login_required(login_url='login')

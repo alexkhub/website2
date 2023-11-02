@@ -35,16 +35,16 @@
 {%block content %}
     <main>
 
-        <div class="filters-icon__container">
+       <div class="filters-icon__container">
             <i class="fas fa-filter"></i>
         </div>
-        <div class="filters-container">
+        <form class="filters-container">
             <i class="fas fa-times"></i>
             <div class="price filters__item">
                 <p class="filters__item-title">Ценовой диапазон:</p>
                 <div class="price-range__input">
-                    <input type="range" name="price-range" id="price-min__input" min="0" max="" value="0" step="1000">
-                    <input type="range" name="price-range" id="price-max__input" min="0" max="" value="" step="1000">
+                    <input type="range" name="last_price_min" id="price-min__input" min="0" max="" value="0" step="1000">
+                    <input type="range" name="last_price_max" id="price-max__input" min="0" max="" value="" step="1000">
                     <p class="price-range">
                         <span id="">
                             <input type="number" name="" id="price-range-min" value="0">
@@ -86,13 +86,13 @@
                 <p>
                 <div class="filters__item-container">
                     <ul class="filters__item-container-list">
-                        <li><input type="radio" name="sale-item" id="sale-item-yes"><label for="sale-item-yes">Да</label></li>
-                        <li><input type="radio" name="sale-item" id="sale-item-no"><label for="sale-item-no">Нет</label></li>
+                        <li><input type="radio" name="discount"  value="true" id="sale-item-yes"><label for="sale-item-yes">Да</label></li>
+                        <li><input type="radio" name="discount" value="false" id="sale-item-no"><label for="sale-item-no">Нет</label></li>
                     </ul>
                 </div>
             </div>
             <button>Применить</button>
-        </div>
+        </form>
 
         <div class="catalog-items">
             {%for product in  products%}

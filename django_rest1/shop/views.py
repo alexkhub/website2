@@ -16,7 +16,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from kombu.exceptions import OperationalError
 from rest_framework.exceptions import PermissionDenied
-
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
@@ -42,8 +41,8 @@ class ProductsListView(ListAPIView):
     template_name = 'shop/home.html'
     serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    # @method_decorator(vary_on_cookie)
-    # @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_cookie)
+    @method_decorator(cache_page(60 * 60))
     def list(self, request, **kwargs):
         products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(

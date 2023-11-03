@@ -65,7 +65,7 @@ class Category(models.Model):
     name = models.CharField(max_length=60, db_index=True, verbose_name="Название категории", )
     description = models.TextField(verbose_name="Описание", blank=True)
     slug = models.SlugField(max_length=100, unique=True, db_index=True, verbose_name='URL', )
-    category_photo = models.ImageField(upload_to='img_category/%Y/%m/%d/', verbose_name='Изображение продукта')
+    category_photo = models.ImageField(upload_to='img_category/%Y/%m/%d/', verbose_name='Изображение категории')
 
     def __str__(self):
         return self.name

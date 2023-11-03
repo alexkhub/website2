@@ -7,7 +7,6 @@ from .models import *
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'last_login', 'username', 'email', 'phone', 'is_staff', 'mailing_list')
     list_display_links = ('id', 'last_login', 'username', 'email', 'phone',)
-
     search_fields = ('id', 'username', 'phone', 'email')
     list_filter = ('is_staff',)
     list_editable = ('is_staff', 'mailing_list')
@@ -43,7 +42,7 @@ class CategoryAdmin(admin.ModelAdmin):
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.category_photo.url} width="60" height="60"')
 
-    get_image.short_description = "Изображение категории "
+    get_image.short_description = "Изображение категории"
 
 
 class Discount_For_Product_CategoryAdmin(admin.ModelAdmin):

@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -41,8 +41,8 @@ class ProductsListView(ListAPIView):
     template_name = 'shop/home.html'
     serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    @method_decorator(vary_on_cookie)
     @method_decorator(cache_page(60 * 60))
+    @method_decorator(vary_on_headers("Home", ))
     def list(self, request, **kwargs):
         products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
@@ -73,6 +73,8 @@ class ProductDetailView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'
 
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Products", ))
     def get(self, request, product_slug):
         products = Products.objects.prefetch_related(
             Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('manufacturer_name')),
@@ -152,6 +154,8 @@ class SearchProductListView(ListAPIView):
         self.queryset = self.queryset.filter(product_name__contains=self.request.GET.get('header-search'))
         return self.queryset
 
+    @method_decorator(cache_page(60 * 30))
+    @method_decorator(vary_on_headers("SearchProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)
@@ -175,6 +179,8 @@ class CatalogListView(ListAPIView):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProductFilter
 
+    @method_decorator(cache_page(60 * 30))
+    @method_decorator(vary_on_headers("CatalogProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)
@@ -231,7 +237,8 @@ class CategoryListAPIView(ListAPIView):
         self.queryset = self.queryset.filter(category__slug=self.request.resolver_match.kwargs['category_slug'])
         return self.queryset
 
-    # @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(60 * 30))
+    @method_decorator(vary_on_headers("CategoryProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)
@@ -252,6 +259,8 @@ class ManufacturerListAPIView(ListAPIView):
         self.queryset = self.queryset.filter(manufacturer__slug=self.request.resolver_match.kwargs['manufacturer_slug'])
         return self.queryset
 
+    @method_decorator(cache_page(60 * 30))
+    @method_decorator(vary_on_headers("ManufacturerProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)

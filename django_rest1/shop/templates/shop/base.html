@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load cache %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -26,10 +26,11 @@
            <a href="{%url 'profile' request.user.slug %}"><i class="fas fa-user"></i></a>
            <a href="{%url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
            <a href="{%url 'basket' %}"><i class="fas fa-shopping-cart"></i></a>
+           <a href=""><i class="fas fa-headphones-alt"></i></a>
            {%else%}
            <a href="{%url 'login'%}"><i class="fas fa-user-plus"></i></a>
-           {%endif%}
            <a href=""><i class="fas fa-headphones-alt"></i></a>
+           {%endif%}
        </div>
     </header>
     {%endblock menu%}

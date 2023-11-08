@@ -179,8 +179,8 @@ class CatalogListView(ListAPIView):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProductFilter
 
-    @method_decorator(cache_page(60 * 30))
-    @method_decorator(vary_on_headers("CatalogProducts", ))
+    # @method_decorator(cache_page(60 * 30))
+    # @method_decorator(vary_on_headers("CatalogProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)

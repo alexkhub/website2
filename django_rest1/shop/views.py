@@ -14,6 +14,7 @@ from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.core.cache import cache
 from kombu.exceptions import OperationalError
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -39,9 +40,8 @@ logger = logging.getLogger(__name__)
 class ProductsListView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/home.html'
-    serializer_class = [ProductsListSerializer, CategoryListSerializer]
 
-    @method_decorator(cache_page(60 * 60))
+    @method_decorator(cache_page(30))
     @method_decorator(vary_on_headers("Home", ))
     def list(self, request, **kwargs):
         products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
@@ -52,7 +52,13 @@ class ProductsListView(ListAPIView):
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
             "id", 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары со скидкой
 
+        # category_cache = cache.get('category_cache')
+        # if category_cache:
+        #     categories = category_cache
+        # else:
         categories = Category.objects.all()
+        #     cache.set('category_cache', categories, 30)
+
         manufacturer = Manufacturer.objects.all()
 
         manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)

@@ -220,7 +220,6 @@ LOGGING = {
         },
     },
 
-
     "handlers": {
 
         "console": {
@@ -237,7 +236,7 @@ LOGGING = {
             "level": "WARNING",
             "class": "logging.FileHandler",
             "filename": "logging.log",
-            "formatter" : "verbose"
+            "formatter": "verbose"
 
         },
     },
@@ -250,4 +249,8 @@ LOGGING = {
     },
 }
 
+CATEGORIES_CACHE = 'categories_cache'
+MANUFACTURERS_CACHE = 'manufacturers_cache'
+HOME_PRODUCT_CACHE = 'home_product_cache'
+HOME_PRODUCT_DISCOUNT_CACHE = 'home_product_discount_cache'
 

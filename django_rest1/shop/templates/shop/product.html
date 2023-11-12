@@ -60,8 +60,9 @@
                          <p class="start-price">Цена: <span id="finish-price-number">{{product.last_price}}</span> <span id="start-price-number">{{product.first_price}}</span></p>
                         {%else%}
                          <p class="start-price">Цена: <span id="finish-price-number">{{product.last_price}}</span> </p>
-                        <p class="manufacturer">Производитель: {{product.manufacturer}}</p>
+
                         {%endif%}
+                        <p class="manufacturer">Производитель: {{product.manufacturer}}</p>
                     </div>
                     <div class="add-to-cart__button">
                         {%if request.user.is_authenticated%}

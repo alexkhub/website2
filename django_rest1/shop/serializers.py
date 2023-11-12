@@ -1,9 +1,11 @@
+from abc import ABC
+
 from rest_framework import serializers
 from .models import *
 
 
 # вспомогательные сериализаторы
-class FilterImagesSerializer(serializers.ListSerializer):
+class FilterImagesSerializer(serializers.ListSerializer, ABC):
     def to_representation(self, data):
         data = data.filter(first_img=True)
         return super().to_representation(data)
@@ -12,7 +14,7 @@ class FilterImagesSerializer(serializers.ListSerializer):
 # сериализаторы отрисовки страниц
 
 class ProductMainImagesListSerializer(serializers.ModelSerializer):
-    '''вывод главной картинки '''
+    """вывод главной картинки """
 
     class Meta:
         model = Product_Images
@@ -53,7 +55,7 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('slug', 'category_photo', 'name')
 
 
 class CreateCommentSerializer(serializers.ModelSerializer):
@@ -81,7 +83,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        exclude = ('numbers', 'product_characteristic', 'first_price', 'description', )
+        exclude = ('numbers', 'product_characteristic',  )
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -98,14 +100,3 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         fields = ("manufacturer_name", "slug", "photo")
 
 
-class TestSerializer(serializers.ModelSerializer):
-    """сериализатор для вывода продуктов"""
-
-    category = serializers.SlugRelatedField(slug_field='slug', read_only=True)
-    manufacturer = serializers.SlugRelatedField(slug_field='slug', read_only=True)
-    product_photos = ProductImagesListSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Products
-        read_only = ('owner.username',)
-        fields = '__all__'

@@ -41,9 +41,10 @@ class ProductsListView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/home.html'
 
-    @method_decorator(cache_page(30))
-    @method_decorator(vary_on_headers("Home", ))
+    # @method_decorator(cache_page(30))
+    # @method_decorator(vary_on_headers("Home", ))
     def list(self, request, **kwargs):
+
         products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
             'id', 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары без скидки
@@ -52,15 +53,8 @@ class ProductsListView(ListAPIView):
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
             "id", 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары со скидкой
 
-        # category_cache = cache.get('category_cache')
-        # if category_cache:
-        #     categories = category_cache
-        # else:
-        categories = Category.objects.all()
-        #     cache.set('category_cache', categories, 30)
-
-        manufacturer = Manufacturer.objects.all()
-
+        categories = get_categories()
+        manufacturer = get_manufacturers()
         manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
         products_serializer = HomeProductsListSerializer(products, many=True)
         products_with_discount_serializer = HomeProductsListSerializer(products_with_discount, many=True)
@@ -90,7 +84,7 @@ class ProductDetailView(APIView):
             )),
         ).only(
             'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
-            'product_name', 'last_price', 'slug').get(slug=product_slug)
+            'product_name', 'last_price', 'description', 'first_price', 'slug').get(slug=product_slug)
 
         product_serializer = ProductDetailSerializer(products)
         return Response({'product': product_serializer.data})
@@ -189,9 +183,17 @@ class CatalogListView(ListAPIView):
     # @method_decorator(vary_on_headers("CatalogProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        categories = get_categories()
+        manufacturer = get_manufacturers()
         serializer_products = self.get_serializer(queryset, many=True)
+        manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
+        category_serializer = CategoryListSerializer(categories, many=True)
 
-        return Response({'products': serializer_products.data})
+        return Response({'products': serializer_products.data,
+                         'categories': category_serializer.data,
+                         'manufacturers': manufacturer_serializer.data
+                         }
+                        )
         # return Response(serializer_products.data)
 
 
@@ -204,6 +206,8 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)
 
+    @method_decorator(cache_page(60 * 30))
+    @method_decorator(vary_on_headers("Profile", ))
     def retrieve(self, request, *args, **kwargs):
         user_profile = self.get_object()
         unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
@@ -243,8 +247,6 @@ class CategoryListAPIView(ListAPIView):
         self.queryset = self.queryset.filter(category__slug=self.request.resolver_match.kwargs['category_slug'])
         return self.queryset
 
-    @method_decorator(cache_page(60 * 30))
-    @method_decorator(vary_on_headers("CategoryProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer_products = self.get_serializer(queryset, many=True)

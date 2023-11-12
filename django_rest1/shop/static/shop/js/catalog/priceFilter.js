@@ -15,80 +15,25 @@ maxPriceSlider.setAttribute('max', getMaxPrice);
 maxPriceSlider.setAttribute('value', getMaxPrice);
 maxPriceText.setAttribute('value', getMaxPrice);
 
-// Choose min & max prices && Show products that match the price
-minPriceText.addEventListener('input', () => {
-    minPriceSlider.value = minPriceText.value;
-
-    itemPrice.forEach(el => {
-        if (minPriceText.value / 1 > el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.transform = 'scale(0.1)';
-            setTimeout(() => {
-                el.parentElement.style.display = 'none';
-            }, 300);
-        } else if (minPriceText.value / 1 < el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'flex';
-        }
-
-    })
-});
-minPriceSlider.addEventListener('input', () => {
-    minPriceText.value = minPriceSlider.value;
-
-    itemPrice.forEach(el => {
-        if (minPriceSlider.value / 1 > el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.transform = 'scale(0.1)';
-            setTimeout(() => {
-                el.parentElement.style.display = 'none';
-            }, 300);
-        } else if (minPriceSlider.value / 1 < el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'flex';
-            setTimeout(() => {
-                el.parentElement.style.transform = 'scale(1)';
-            }, 0);
-        }
-        if (maxPriceSlider.value / 1 < el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'none';
-        } else if (maxPriceSlider.value / 1 > el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'flex';
+// Set input values on input
+function setInputValues(input) {
+    input.addEventListener('input', () => {
+        switch (input) {
+            case minPriceSlider:
+                minPriceText.value = minPriceSlider.value
+                break;
+            case minPriceText:
+                minPriceSlider.value = minPriceText.value;
+                break
+                case maxPriceSlider:
+                    maxPriceText.value = maxPriceSlider.value;
+            default:
+                maxPriceSlider.value = maxPriceText.value;
+                break;
         }
     })
-});
-maxPriceText.addEventListener('input', () => {
-    maxPriceSlider.value = maxPriceText.value;
-
-    itemPrice.forEach(el => {
-        if (maxPriceText.value / 1 < el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.transform = 'scale(0.1)';
-            setTimeout(() => {
-                el.parentElement.style.display = 'none';
-            }, 300);
-        } else if (maxPriceText.value / 1 > el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'flex';
-            setTimeout(() => {
-                el.parentElement.style.transform = 'scale(1)';
-            }, 0);
-        }
-    })
-});
-maxPriceSlider.addEventListener('input', () => {
-    maxPriceText.value = maxPriceSlider.value;
-
-    itemPrice.forEach(el => {
-        if (maxPriceSlider.value / 1 < el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.transform = 'scale(0.1)';
-            setTimeout(() => {
-                el.parentElement.style.display = 'none';
-            }, 300);
-        } else if (maxPriceSlider.value / 1 >= el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'flex';
-            setTimeout(() => {
-                el.parentElement.style.transform = 'scale(1)';
-            }, 0);
-        }
-        if (minPriceSlider.value / 1 > el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'none';
-        } else if (minPriceSlider.value / 1 <= el.textContent.split('рублей')[0] / 1) {
-            el.parentElement.style.display = 'flex';
-        }
-    })
-});
+}
+setInputValues(minPriceSlider);
+setInputValues(minPriceText);
+setInputValues(maxPriceSlider);
+setInputValues(maxPriceText);

@@ -60,11 +60,9 @@
                 <p class="filters__item-title">Категории <i class="fas fa-chevron-right"></i></p>
                 <div class="filters__item-container">
                     <ul class="filters__item-container-list">
-                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-tv"><label for="categorie-item-tv">ТВ и консоли</label></li>
-                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-accessories"><label for="categorie-item-accessories">Комплектующие для ПК</label></li>
-                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-network-hardware"><label for="categorie-item-network-hardware">Сетевое оборудование</label></li>
-                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-PC-notebooks"><label for="categorie-item-PC-notebooks">ПК, ноутбуки</label></li>
-                        <li class=""><input type="checkbox" name="categorie-item" id="categorie-item-periphery"><label for="categorie-item-periphery">Периферия</label></li>
+                        {%for category in categories%}
+                        <li class=""><input type="checkbox" name="category" value="{{category.slug}}" id="{{category.slug}}"><label for="{{category.slug}}">{{category.name}}</label></li>
+                        {%endfor%}
                     </ul>
                 </div>
             </div>
@@ -73,11 +71,9 @@
                 <p>
                 <div class="filters__item-container">
                     <ul class="filters__item-container-list">
-                        <li><input type="checkbox" name="maufacturer-item-xiaomi" id="manufacturer-item-xiaomi"><label for="manufacturer-item-xiaomi">Xiaomi</label></li>
-                        <li><input type="checkbox" name="maufacturer-item-gigabyte" id="manufacturer-item-gigabyte"><label for="manufacturer-item-gigabyte">GIGABYTE</label></li>
-                        <li><input type="checkbox" name="maufacturer-item-amd" id="manufacturer-item-amd"><label for="manufacturer-item-amd">AMD</label></li>
-                        <li><input type="checkbox" name="maufacturer-item-intel" id="manufacturer-item-intel"><label for="manufacturer-item-intel">Intel</label></li>
-                        <li><input type="checkbox" name="maufacturer-item-nvidia" id="manufacturer-item-nvidia"><label for="manufacturer-item-nvidia">Nvidia</label></li>
+                        {%for manufacturer in manufacturers%}
+                        <li class=""><input type="checkbox" name="manufacturer" value="{{manufacturer.slug}}" id="{{manufacturer.slug}}"><label for="{{manufacturer.slug}}">{{manufacturer.manufacturer_name}}</label></li>
+                        {%endfor%}
                     </ul>
                 </div>
             </div>

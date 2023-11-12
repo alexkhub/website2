@@ -70,7 +70,7 @@ class Product_ImagesAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category', 'manufacturer')
+        'id', 'product_name', 'first_price', 'last_price', 'numbers', 'discount', 'category', 'manufacturer')
     list_display_links = ('id', 'product_name')
     search_fields = ('product_name',)
     list_filter = ('discount', 'category', 'manufacturer', 'last_price',)

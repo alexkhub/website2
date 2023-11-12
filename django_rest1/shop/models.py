@@ -97,6 +97,12 @@ class Product_Images(models.Model):
     def __str__(self):
         return self.img_name
 
+    def save(self, *args, **kwargs ):
+        if self.first_img:
+            self.img_name = f'{self.img_name}-main'
+            self.slug = f'{self.slug}-main'
+        super(Product_Images, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Фотография продукта'
         verbose_name_plural = 'Фотографии продуктов'
@@ -108,15 +114,15 @@ class Products(models.Model):
                                     db_index=True)
     first_price = models.IntegerField(verbose_name='Первоначальная цена')
     discount = models.FloatField(verbose_name='Скидка', default=0, blank=True)
-    last_price = models.IntegerField(verbose_name='Конечная  цена', blank=True)
+    last_price = models.IntegerField(verbose_name='Конечная  цена', blank=True, null=True)
     numbers = models.IntegerField(verbose_name='Количество продуктов')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Категория')
     slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )
     description = models.TextField(verbose_name="О продукте", blank=True)
-    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель', related_name='manufaturer' )
-    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения', related_name='images')
+    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель', related_name='manufacturer' )
+    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения', related_name='images',  blank=True, )
     product_characteristic = SortedManyToManyField(Characteristic, verbose_name='Характеристики',
-                                                   related_name='characteristics')
+                                                   related_name='characteristics', blank=True, )
 
     def __str__(self):
         return self.product_name
@@ -126,8 +132,9 @@ class Products(models.Model):
 
     def save(self, *args, **kwargs):
         if self.discount > 0:
-            self.last_price = self.first_price * (1 - self.discount / 100)
-
+            self.last_price = int(self.first_price * (1 - self.discount / 100))
+        else:
+            self.last_price = self.first_price
         super(Products, self).save(*args, **kwargs)
 
     class Meta:

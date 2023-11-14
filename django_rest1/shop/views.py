@@ -10,14 +10,14 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_cookie, vary_on_headers
+from django.views.decorators.vary import vary_on_headers
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.core.cache import cache
 from kombu.exceptions import OperationalError
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -44,7 +44,6 @@ class ProductsListView(ListAPIView):
     # @method_decorator(cache_page(30))
     # @method_decorator(vary_on_headers("Home", ))
     def list(self, request, **kwargs):
-
         products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
             'id', 'numbers', 'product_photos', 'discount', 'product_name', 'last_price', 'slug')  # товары без скидки
@@ -69,14 +68,11 @@ class ProductsListView(ListAPIView):
         )
 
 
-class ProductDetailView(APIView):
+class ProductRetrieveView(RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/product.html'
-
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Products", ))
-    def get(self, request, product_slug):
-        products = Products.objects.prefetch_related(
+    lookup_field = "slug"
+    queryset = Products.objects.prefetch_related(
             Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('manufacturer_name')),
             Prefetch('category', queryset=Category.objects.all().only('name')),
             Prefetch('comments', queryset=Comments.objects.all().prefetch_related(
@@ -84,9 +80,11 @@ class ProductDetailView(APIView):
             )),
         ).only(
             'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
-            'product_name', 'last_price', 'description', 'first_price', 'slug').get(slug=product_slug)
+            'product_name', 'last_price', 'description', 'first_price', 'slug')
+    serializer_class =  ProductDetailSerializer
 
-        product_serializer = ProductDetailSerializer(products)
+    def retrieve(self, request, *args, **kwargs):
+        product_serializer = self.get_serializer(self.get_object())
         return Response({'product': product_serializer.data})
 
 
@@ -197,7 +195,7 @@ class CatalogListView(ListAPIView):
         # return Response(serializer_products.data)
 
 
-class ProfileRetrieveAPIView(RetrieveAPIView):
+class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
@@ -206,8 +204,6 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
     lookup_field = "slug"
     permission_classes = (ProfilePermission,)
 
-    @method_decorator(cache_page(60 * 30))
-    @method_decorator(vary_on_headers("Profile", ))
     def retrieve(self, request, *args, **kwargs):
         user_profile = self.get_object()
         unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
@@ -228,6 +224,9 @@ class ProfileRetrieveAPIView(RetrieveAPIView):
                 'profile': user_serializer.data
             }
         )
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 
 class CategoryListAPIView(ListAPIView):

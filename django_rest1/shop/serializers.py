@@ -78,12 +78,12 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field='name', read_only=True)
     manufacturer = serializers.SlugRelatedField(slug_field='manufacturer_name', read_only=True)
     product_photos = ProductImagesListSerializer(many=True, read_only=True)
-    comments = CommentSerializer(many=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Products
         read_only = ('owner.username',)
-        exclude = ('numbers', 'product_characteristic',  )
+        exclude = ('numbers', 'product_characteristic',)
 
 
 class UserSerializer(serializers.ModelSerializer):

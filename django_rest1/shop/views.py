@@ -225,8 +225,10 @@ class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
             }
         )
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def patch(self, request, *args, **kwargs):
+        # serializers = self.get_serializer(data=request.data)
+        # serializers.save()
+        return self.partial_update(request, *args, **kwargs)
 
 
 class CategoryListAPIView(ListAPIView):

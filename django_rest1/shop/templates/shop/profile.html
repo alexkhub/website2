@@ -39,7 +39,8 @@
         <div class="profile-settings__container">
             <div class="profile-settings">
                 <p class="profile-settings__title">Настройки профиля</p>
-                <form action="" method="post">
+                <form action="profile_update" method="post">
+                    {%csrf_token%}
                     <a href=""><i class="fas fa-times"></i></a>
                     <div  class="profile-settings__form-item change-name__form">
                         <div>

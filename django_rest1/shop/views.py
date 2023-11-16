@@ -17,14 +17,14 @@ from django.contrib.auth.hashers import make_password
 from django.core.cache import cache
 from kombu.exceptions import OperationalError
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
 from rest_framework.renderers import TemplateHTMLRenderer
 from django_filters.rest_framework import DjangoFilterBackend
-
+from django.contrib import messages
 from django.contrib.auth.views import LoginView
-
+from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .forms import *
 from .serializers import *
@@ -73,15 +73,15 @@ class ProductRetrieveView(RetrieveAPIView):
     template_name = 'shop/product.html'
     lookup_field = "slug"
     queryset = Products.objects.prefetch_related(
-            Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('manufacturer_name')),
-            Prefetch('category', queryset=Category.objects.all().only('name')),
-            Prefetch('comments', queryset=Comments.objects.all().prefetch_related(
-                Prefetch('user', queryset=Users.objects.all().only('username'))
-            )),
-        ).only(
-            'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
-            'product_name', 'last_price', 'description', 'first_price', 'slug')
-    serializer_class =  ProductDetailSerializer
+        Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('manufacturer_name')),
+        Prefetch('category', queryset=Category.objects.all().only('name')),
+        Prefetch('comments', queryset=Comments.objects.all().prefetch_related(
+            Prefetch('user', queryset=Users.objects.all().only('username'))
+        )),
+    ).only(
+        'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
+        'product_name', 'last_price', 'description', 'first_price', 'slug')
+    serializer_class = ProductDetailSerializer
 
     def retrieve(self, request, *args, **kwargs):
         product_serializer = self.get_serializer(self.get_object())
@@ -195,7 +195,7 @@ class CatalogListView(ListAPIView):
         # return Response(serializer_products.data)
 
 
-class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+class ProfileViewSet(ModelViewSet):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
@@ -226,9 +226,22 @@ class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         )
 
     def patch(self, request, *args, **kwargs):
-        # serializers = self.get_serializer(data=request.data)
-        # serializers.save()
-        return self.partial_update(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        url = request.META.get('HTTP_REFERER')
+        if (request.data['email'] == request.data['reenter_email']) and (request.data['reenter_email'] != '') and (
+                make_password(request.data['last_password']) == request.user.password and (
+                request.data['new_password'] != '') and (
+                        request.data['new_password'] == request.user.password['reenter_password']
+                )):
+
+            self.partial_update(request, *args, **kwargs)
+
+        else:
+
+            messages.error(request, 'Ошибка заполнения полей')
+        if request.user.password == request.data['last_password']:
+            print(True)
+        return redirect(url)
 
 
 class CategoryListAPIView(ListAPIView):
@@ -346,3 +359,38 @@ def tr_handler404(request, exception):
         'title': 'Страница не найдена: 404',
         'error_message': 'К сожалению такая страница была не найдена, или перемещена',
     })
+
+# class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'shop/profile.html'
+#     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
+#                                         'username', 'date_joined', 'phone', 'slug', 'address', 'user_photo')
+#     serializer_class = UserSerializer
+#     lookup_field = "slug"
+#     permission_classes = (ProfilePermission,)
+#
+#     def retrieve(self, request, *args, **kwargs):
+#         user_profile = self.get_object()
+#         unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
+#         paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
+#         delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
+#
+#         unpaid_serializer = OrderSerializer(unpaid, many=True)
+#         paid_serializer = OrderSerializer(paid, many=True)
+#         delivery_serializer = OrderSerializer(delivery, many=True)
+#
+#         user_serializer = self.get_serializer(user_profile)
+#
+#         return Response(
+#             {
+#                 'unpaid_orders': unpaid_serializer.data,
+#                 'paid_orders': paid_serializer.data,
+#                 'delivery_orders': delivery_serializer.data,
+#                 'profile': user_serializer.data
+#             }
+#         )
+#
+#     def patch(self, request, *args, **kwargs):
+#         serializers = self.get_serializer(data=request.data)
+#         serializers.save()
+#         return self.partial_update(request, *args, **kwargs)

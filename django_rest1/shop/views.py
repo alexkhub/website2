@@ -17,14 +17,12 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.cache import cache
 from kombu.exceptions import OperationalError
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
 from rest_framework.renderers import TemplateHTMLRenderer
 from django_filters.rest_framework import DjangoFilterBackend
-from django.contrib import messages
 from django.contrib.auth.views import LoginView
-from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .forms import *
 from .serializers import *
@@ -194,7 +192,7 @@ class CatalogListView(ListAPIView):
                         )
 
 
-class ProfileRetrieveUpdateAPIView(RetrieveAPIView):
+class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
@@ -223,6 +221,9 @@ class ProfileRetrieveUpdateAPIView(RetrieveAPIView):
                 'profile': user_serializer.data
             }
         )
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 
 class CategoryListAPIView(ListAPIView):

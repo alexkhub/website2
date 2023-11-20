@@ -9,7 +9,7 @@ urlpatterns = [
     path('registration/', RegistrationWizardForm.as_view(), name='registration'),
     path('logout/', logout_user, name='logout'),
     path('profile/<slug:slug>/', ProfileRetrieveUpdateAPIView.as_view(), name='profile'),
-    path('profile/<slug:slug>/profile_update', ProfileRetrieveUpdateAPIView.as_view(), name='profile_update'),
+
     path('add_comment/', add_comment, name='add_comment'),
     path('add_product/<int:id>/', add_product, name='add_product'),
     path('search_product', SearchProductListView.as_view(), name='search_product'),

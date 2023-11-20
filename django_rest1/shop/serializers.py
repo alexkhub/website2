@@ -90,7 +90,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         read_only = ('owner.username',)
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address', 'user_photo', )
+        fields = (
+        'id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address', 'user_photo',)
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get("username", instance.username)
@@ -100,8 +101,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.address = validated_data.get("address", instance.address)
         instance.save()
         return instance
-
-
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):

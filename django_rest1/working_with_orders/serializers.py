@@ -34,6 +34,12 @@ class Order_PointsSerializer(serializers.ModelSerializer):
         model = Order_Points
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        instance.amount = validated_data.get("amount", instance.amount)
+        instance.in_orders = validated_data.get("in_orders", instance.in_orders)
+        instance.save()
+        return instance
+
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
+from rest_framework.generics import RetrieveAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, get_object_or_404
 from rest_framework.renderers import TemplateHTMLRenderer
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -72,6 +72,20 @@ class BasketRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Order_Points.objects.filter(in_orders=False)
     serializer_class = Order_PointsSerializer
     lookup_field = 'id'
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset().prefetch_related(
+            Prefetch('product', queryset=Products.objects.all().prefetch_related(
+                Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)
+                         .only('img', 'first_img', 'img_name')))
+                     .only('id', 'numbers', 'product_photos', 'discount', 'product_name', 'description',
+                           'last_price', )
+                     ),
+            Prefetch('user', queryset=Users.objects.all().only('slug'))))
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        return obj
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

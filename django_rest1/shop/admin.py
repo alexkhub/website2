@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Prefetch
 from django.utils.safestring import mark_safe
 
 from .models import *
@@ -77,6 +78,14 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('first_price', 'last_price', 'numbers', 'discount')
     prepopulated_fields = {'slug': ('product_name',)}
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.prefetch_related(
+            'category',
+            'manufacturer',
+            'product_photos')
+        return queryset
+
 
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'product', 'text', 'rating', 'date')
@@ -94,6 +103,10 @@ class CharacteristicAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'characteristic_name')
 
 
+class Liked_ProductAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'date')
+
+
 admin.site.register(Users, UserAdmin)
 admin.site.register(Transactions, TransactionsAdmin)
 admin.site.register(Manufacturer, ManufacturerAdmin)
@@ -104,3 +117,4 @@ admin.site.register(Products, ProductAdmin)
 admin.site.register(Comments, CommentsAdmin)
 admin.site.register(Emails, EmailsAdmin)
 admin.site.register(Characteristic, CharacteristicAdmin)
+admin.site.register(Liked_Product, Liked_ProductAdmin)

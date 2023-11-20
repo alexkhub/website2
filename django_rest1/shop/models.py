@@ -165,3 +165,16 @@ class Emails(models.Model):
     class Meta:
         verbose_name = 'Неоправленное письмо'
         verbose_name_plural = 'Неоправленные письма'
+
+
+class Liked_Product(models.Model):
+    user = models.ForeignKey("Users", on_delete=models.CASCADE, verbose_name="Пользователь")
+    product = models.ForeignKey("Products", on_delete=models.CASCADE, verbose_name="Продукт")
+    date = models.DateField(auto_now_add=True, verbose_name="Дата")
+
+    def __str__(self):
+        return f"{self.user}-{self.product}-{self.date}"
+
+    class Meta:
+        verbose_name = 'Понравившийся продукты'
+        verbose_name_plural = 'Понравившиеся продукты'

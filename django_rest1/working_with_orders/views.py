@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.renderers import TemplateHTMLRenderer
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,9 +15,11 @@ from shop.models import Users, Products, Product_Images
 
 class BasketListView(LoginRequiredMixin, ListAPIView):
     queryset = Order_Points.objects.filter(in_orders=False)
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'working_with_orders/basket.html'
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = 'working_with_orders/basket.html'
     serializer_class = Order_PointsSerializer
+
+    # lookup_field = 'slug'
 
     def get_queryset(self):
         self.queryset = self.queryset.filter(user=self.request.user).prefetch_related(
@@ -35,19 +37,20 @@ class BasketListView(LoginRequiredMixin, ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(
-            {
-                'order_points': serializer.data
-            }
-
+            # {
+            #     'order_points': serializer.data
+            # }
+            serializer.data
         )
 
 
 class Order_Details(RetrieveAPIView):
     queryset = Orders.objects.all().prefetch_related(
         Prefetch('payment_method', queryset=Payment_Method.objects.all().only('name')),
-        Prefetch('order_points', queryset=Order_Points.objects.all().only('id', 'price', 'amount', 'product', ).prefetch_related(
-            Prefetch('product', queryset=Products.objects.all().only('product_name'))
-        ))
+        Prefetch('order_points',
+                 queryset=Order_Points.objects.all().only('id', 'price', 'amount', 'product', ).prefetch_related(
+                     Prefetch('product', queryset=Products.objects.all().only('product_name'))
+                 ))
     )
     serializer_class = Order_DetailsSerializer
     lookup_field = 'id'
@@ -63,3 +66,20 @@ def order_point_remove(request, id):
         return redirect(url)
     else:
         return redirect("home")
+
+
+class BasketRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Order_Points.objects.filter(in_orders=False)
+    serializer_class = Order_PointsSerializer
+    lookup_field = 'id'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)

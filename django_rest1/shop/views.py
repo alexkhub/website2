@@ -13,7 +13,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.core.cache import cache
 from kombu.exceptions import OperationalError
 from rest_framework.exceptions import PermissionDenied
@@ -192,10 +192,9 @@ class CatalogListView(ListAPIView):
                          'manufacturers': manufacturer_serializer.data
                          }
                         )
-        # return Response(serializer_products.data)
 
 
-class ProfileViewSet(ModelViewSet):
+class ProfileRetrieveUpdateAPIView(RetrieveAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/profile.html'
     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
@@ -224,24 +223,6 @@ class ProfileViewSet(ModelViewSet):
                 'profile': user_serializer.data
             }
         )
-
-    def patch(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        url = request.META.get('HTTP_REFERER')
-        if (request.data['email'] == request.data['reenter_email']) and (request.data['reenter_email'] != '') and (
-                make_password(request.data['last_password']) == request.user.password and (
-                request.data['new_password'] != '') and (
-                        request.data['new_password'] == request.user.password['reenter_password']
-                )):
-
-            self.partial_update(request, *args, **kwargs)
-
-        else:
-
-            messages.error(request, 'Ошибка заполнения полей')
-        if request.user.password == request.data['last_password']:
-            print(True)
-        return redirect(url)
 
 
 class CategoryListAPIView(ListAPIView):
@@ -360,9 +341,9 @@ def tr_handler404(request, exception):
         'error_message': 'К сожалению такая страница была не найдена, или перемещена',
     })
 
-# class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'shop/profile.html'
+# class ProfileViewSet(ModelViewSet):
+#     # renderer_classes = [TemplateHTMLRenderer]
+#     # template_name = 'shop/profile.html'
 #     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
 #                                         'username', 'date_joined', 'phone', 'slug', 'address', 'user_photo')
 #     serializer_class = UserSerializer
@@ -391,6 +372,14 @@ def tr_handler404(request, exception):
 #         )
 #
 #     def patch(self, request, *args, **kwargs):
-#         serializers = self.get_serializer(data=request.data)
-#         serializers.save()
+#         if (request.data['email'] == request.data['reenter_email']) and (request.data['reenter_email'] != '') and (
+#                 check_password(request.data['last_password'], request.user.password) and (
+#                 request.data['password'] != '') and (
+#                         request.data['password'] == request.data['reenter_password']
+#                 )):
+#             request.data['password'] = make_password(request.data['password'])
 #         return self.partial_update(request, *args, **kwargs)
+#
+#         else:
+#
+#         messages.error(request, 'Ошибка заполнения полей')

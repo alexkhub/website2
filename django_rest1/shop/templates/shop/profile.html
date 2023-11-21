@@ -39,7 +39,7 @@
         <div class="profile-settings__container">
             <div class="profile-settings">
                 <p class="profile-settings__title">Настройки профиля</p>
-                <form action="" id="update_profile" method="get">
+                <form action="/profile/{{request.user}}/" id="update_profile" method="post">
                     {%csrf_token%}
 
                     <a href=""><i class="fas fa-times"></i></a>
@@ -165,7 +165,9 @@
 
     <script src="{% static 'shop/js/main.js' %}"></script>
     <script src="{% static 'shop/js/profile.js' %}"></script>
-    <script src="{% static 'shop/js/profile_jquery.js' %}"></script>
+<!--    <script src="{% static 'shop/js/profile_jquery.js' %}"></script>-->
+    <script src="{% static 'shop/js/profile_update.js' %}"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
 
 {%endblock%}

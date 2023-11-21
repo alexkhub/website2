@@ -193,8 +193,8 @@ class CatalogListView(ListAPIView):
 
 
 class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/profile.html'
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = 'shop/profile.html'
     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
                                         'username', 'date_joined', 'phone', 'slug', 'address', 'user_photo')
     serializer_class = UserSerializer
@@ -223,6 +223,7 @@ class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         )
 
     def patch(self, request, *args, **kwargs):
+
         return self.partial_update(request, *args, **kwargs)
 
 

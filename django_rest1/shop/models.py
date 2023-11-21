@@ -97,7 +97,7 @@ class Product_Images(models.Model):
     def __str__(self):
         return self.img_name
 
-    def save(self, *args, **kwargs ):
+    def save(self, *args, **kwargs):
         if self.first_img:
             self.img_name = f'{self.img_name}-main'
             self.slug = f'{self.slug}-main'
@@ -109,7 +109,6 @@ class Product_Images(models.Model):
 
 
 class Products(models.Model):
-
     product_name = models.CharField(max_length=70, verbose_name='Название продукта', unique=True, blank=True,
                                     db_index=True)
     first_price = models.IntegerField(verbose_name='Первоначальная цена')
@@ -119,8 +118,10 @@ class Products(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Категория')
     slug = models.SlugField(max_length=70, unique=True, db_index=True, verbose_name='URL', )
     description = models.TextField(verbose_name="О продукте", blank=True)
-    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель', related_name='manufacturer' )
-    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения', related_name='images',  blank=True, )
+    manufacturer = models.ForeignKey('Manufacturer', on_delete=models.PROTECT, null=True, verbose_name='Производитель',
+                                     related_name='manufacturer')
+    product_photos = SortedManyToManyField(Product_Images, verbose_name='Изображения', related_name='images',
+                                           blank=True, )
     product_characteristic = SortedManyToManyField(Characteristic, verbose_name='Характеристики',
                                                    related_name='characteristics', blank=True, )
 
@@ -170,10 +171,16 @@ class Emails(models.Model):
 class Liked_Product(models.Model):
     user = models.ForeignKey("Users", on_delete=models.CASCADE, verbose_name="Пользователь")
     product = models.ForeignKey("Products", on_delete=models.CASCADE, verbose_name="Продукт")
+    slug = models.SlugField(verbose_name="URL", unique=True, blank=True)
     date = models.DateField(auto_now_add=True, verbose_name="Дата")
 
     def __str__(self):
         return f"{self.user}-{self.product}-{self.date}"
+
+    def save(self, *args, **kwargs):
+
+        self.slug = f"{self.user} {self.product}"
+        super(Liked_Product, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Понравившийся продукты'

@@ -32,8 +32,14 @@ def send(user_email):
 
 def yesterday():
     day = date.today()
-    yesterday = day - timedelta(days=1)
-    return yesterday
+    day_before = day - timedelta(days=1)
+    return day_before
+
+
+def get_last_month():
+    day = date.today()
+    last_month = day - timedelta(weeks=4, days=3)
+    return last_month
 
 
 def get_categories():

@@ -20,7 +20,12 @@ app.conf.beat_schedule = {
     },
     'sending_delayed_emails':{
         'task': 'shop.tasks.sending_delayed_emails',
-        'schedule': crontab(minute='*/15')
+        'schedule': crontab(hour='*/12')
+
+    },
+    'delete_liked_product': {
+        'task': 'shop.tasks.delete_liked_product',
+        'schedule': crontab(hour='1', minute='30')
 
     }
 

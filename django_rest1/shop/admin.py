@@ -104,7 +104,8 @@ class CharacteristicAdmin(admin.ModelAdmin):
 
 
 class Liked_ProductAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product', 'date')
+    list_display = ('id', 'user', 'product', 'date')
+    prepopulated_fields = {'slug': ('user', 'product')}
 
 
 admin.site.register(Users, UserAdmin)

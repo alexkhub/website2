@@ -5,6 +5,8 @@
 
 
 {%block headblock%}
+
+    <!-- Favicon -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +14,10 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
 
-    <!-- Sansation Font-->
-<!--    <link href="https://allfont.net/allfont.css?fonts=sansation-regular" rel="stylesheet" type="text/css" />-->
-<!--    <link href="https://allfont.net/allfont.css?fonts=sansation-bold" rel="stylesheet" type="text/css" />-->
-<!--    <link href="https://allfont.net/allfont.css?fonts=sansation-light" rel="stylesheet" type="text/css" />-->
+    <!-- Tektur Font Regular 400/Medium 500/Bold 700 -->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;700&display=swap" rel="stylesheet">-->
 
     <!-- M1 PLUS Code Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +47,7 @@
                 <div class="item__text-container">
                     <p class="item__title">{{item.product.product_name}} </p>
                     <p class="item__description">{{item.product.description}}</p>
-                    <div class="item__buttons-container">
+                     <div class="item__buttons-container">
                         <div class="item__counter-container">
                             <i class="fas fa-plus"></i>
                             <p class="item__counter">{{item.amount}}</p>
@@ -68,7 +70,7 @@
             <p class="total">Итоговая цена: <span class="total__price"></span></p>
             <button id="total__button">Заказать всё</button>
         </div>
-    </main>
+
     <div class="confirm-order-bg"></div>
         <div class="confirm-order">
             <h3>Подтверждение заказа</h3>
@@ -121,10 +123,11 @@
         </div>
 
 
-    <script src="{static 'working_with_orders/js/basket/confirmOrder.js' %}"></script>
+    <script src="{%static 'working_with_orders/js/basket/confirmOrder.js' %}"></script>
     <script src="{%static 'working_with_orders/js/basket/itemsForConfirmOrder.js' %}"></script>
     <script src="{%static 'shop/js/main.js'%}"></script>
     <script src="{%static 'working_with_orders/js/basket/basket.js'%}"></script>
+    </main>
 
 
 

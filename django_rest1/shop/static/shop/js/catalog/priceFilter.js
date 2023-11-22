@@ -5,15 +5,15 @@ const maxPriceText = document.querySelector('#price-range-max');
 const itemPrice = document.querySelectorAll('.item p:nth-of-type(2)');
 
 // Set input max value
-//let maxPrices = [];
-//itemPrice.forEach(el => {
-//    maxPrices.push(el.textContent.split('рублей')[0] / 1);
-//});
-//const getMaxPrice = Math.max(...maxPrices);
-//minPriceSlider.setAttribute('max', getMaxPrice);
-//maxPriceSlider.setAttribute('max', getMaxPrice);
-//maxPriceSlider.setAttribute('value', getMaxPrice);
-//maxPriceText.setAttribute('value', getMaxPrice);
+let maxPrices = [];
+itemPrice.forEach(el => {
+    maxPrices.push(el.textContent.split('рублей')[0] / 1);
+});
+const getMaxPrice = Math.max(...maxPrices);
+minPriceSlider.setAttribute('max', getMaxPrice);
+maxPriceSlider.setAttribute('max', getMaxPrice);
+maxPriceSlider.setAttribute('value', getMaxPrice);
+maxPriceText.setAttribute('value', getMaxPrice);
 
 // Set input values on input
 function setInputValues(input) {
@@ -25,8 +25,8 @@ function setInputValues(input) {
             case minPriceText:
                 minPriceSlider.value = minPriceText.value;
                 break
-                case maxPriceSlider:
-                    maxPriceText.value = maxPriceSlider.value;
+            case maxPriceSlider:
+                maxPriceText.value = maxPriceSlider.value;
             default:
                 maxPriceSlider.value = maxPriceText.value;
                 break;
@@ -37,3 +37,13 @@ setInputValues(minPriceSlider);
 setInputValues(minPriceText);
 setInputValues(maxPriceSlider);
 setInputValues(maxPriceText);
+
+// FOR MOZILA
+const browserName = window.navigator.userAgent.split(' ')[window.navigator.userAgent.split(' ').length - 1].split('/')[0];
+if (browserName == 'Firefox') {
+    minPriceSlider.value = 0;
+    minPriceText.value = 0;
+
+    maxPriceSlider.value = Math.max(...maxPrices);
+    maxPriceText.value = Math.max(...maxPrices);
+}

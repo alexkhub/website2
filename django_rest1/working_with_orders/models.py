@@ -46,12 +46,17 @@ class Payment_Method(models.Model):
 
 
 class Orders(models.Model):
+    status_field = (
+        ("Не оплачено", "Не оплачено" ),
+        ("Оплачено", "Оплачено"),
+        ("Доставка", "Доставка")
+    )
     user = models.ForeignKey('shop.Users', on_delete=models.PROTECT, verbose_name='Пользователь')
     order_points = SortedManyToManyField(Order_Points, verbose_name="Пункт заказа")
     payment_method = models.ForeignKey("Payment_Method", on_delete=models.PROTECT, verbose_name="Способ оплаты")
-    delivery = models.BooleanField(default=False, verbose_name="Доставка")
-    price = models.FloatField(blank=True, verbose_name='Цена заказа')
-    paid_order = models.BooleanField(default=False, verbose_name='Оплачен')
+
+    price = models.IntegerField(blank=True, verbose_name='Цена заказа')
+    status = models.CharField(max_length=50, verbose_name='Статус', default='Не оплачено', choices=status_field )
     date = models.DateTimeField(auto_now_add=True, verbose_name="Время заказа")
 
     # def save(self, *args, **kwargs):
@@ -89,23 +94,6 @@ class Paid_Orders(models.Model):
         return self.id
 
 
-# class Cancelled_Orders(models.Model):
-#     order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
-#     reason = models.TextField(verbose_name="Причина", blank=True)
-#
-#     class Meta:
-#         verbose_name = 'Отмененный заказ'
-#         verbose_name_plural = 'Отменные заказы'
-#
-#
-# class Installments(models.Model):
-#     order = models.ForeignKey('Orders', on_delete=models.PROTECT, verbose_name='Заказ')
-#     payment_per_month = models.FloatField(verbose_name='Месячная плата')
-#     transactions = SortedManyToManyField(Transactions, verbose_name='Транзакции')
-#
-#     class Meta:
-#         verbose_name = 'Заказ с рассрочкой'
-#         verbose_name_plural = 'Заказы с рассрочкой'
 
 
 class Orders_With_Delivery(models.Model):

@@ -1,0 +1,45 @@
+main {
+    padding: 40px 70px;
+    color: white;
+    font-size: 22px;
+}
+
+h3 {
+    font-size: 32px;
+    text-align: center;
+}
+
+.order-info__text,
+.order-products-list ul {
+    margin-top: 30px;
+}
+
+.order-status span {
+    color: #87BF53;
+}
+
+.order-products-list li {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.order-products-list li a {
+    transition: .3s ease color;
+}
+
+.order-products-list li a:hover {
+    color: rgba(245, 245, 245, 0.5);
+}
+
+main h3:last-child {
+    margin-top: 60px;
+}
+
+#support-link {
+    border-bottom: 1px solid white;
+    transition: .3s ease color;
+}
+
+#support-link:hover {
+    color: rgba(255, 255, 255, 0.5);
+}

@@ -44,16 +44,18 @@ class Order_PointsSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Orders
-        fields = ('id', 'date')
+        fields = ('id', 'date', 'status')
         read_only = True
 
 
 class Order_Details_Order_PointsSerializer(serializers.ModelSerializer):
     product = serializers.CharField(source='product.product_name')
+    product_slug = serializers.CharField(source='product.slug')
+
 
     class Meta:
         model = Order_Points
-        fields = ('id', 'price', 'amount', 'product')
+        fields = ('id', 'price', 'amount', 'product', 'product_slug' )
 
 
 class Order_DetailsSerializer(serializers.ModelSerializer):

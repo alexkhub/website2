@@ -193,8 +193,8 @@ class CatalogListView(ListAPIView):
 
 
 class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-    # renderer_classes = [TemplateHTMLRenderer]
-    # template_name = 'shop/profile.html'
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/profile.html'
     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
                                         'username', 'date_joined', 'phone', 'slug', 'address', 'user_photo')
     serializer_class = UserSerializer
@@ -203,9 +203,10 @@ class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         user_profile = self.get_object()
-        unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
-        paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
-        delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
+
+        unpaid = Orders.objects.filter(Q(user=request.user) & Q(status="Не оплачено"))
+        paid = Orders.objects.filter(Q(user=request.user) & Q(status="Оплачено"))
+        delivery = Orders.objects.filter(Q(user=request.user) & Q(status="Доставка"))
 
         unpaid_serializer = OrderSerializer(unpaid, many=True)
         paid_serializer = OrderSerializer(paid, many=True)
@@ -223,7 +224,6 @@ class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         )
 
     def patch(self, request, *args, **kwargs):
-
         return self.partial_update(request, *args, **kwargs)
 
 

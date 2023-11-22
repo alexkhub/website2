@@ -47,9 +47,12 @@ searchIcon.addEventListener('click', function() {
 window.onscroll = function() {myFunction()};
 let header = document.getElementById("header");
 let sticky = header.offsetTop;
+const body = document.querySelector('body');
 
 function myFunction() {
-if (window.pageYOffset > sticky) {
+if (window.scrollY > sticky) {
+
+    body.style.paddingTop = '100px';
 
     header.classList.add('header-minimized');
     header.classList.remove('header');
@@ -65,6 +68,8 @@ if (window.pageYOffset > sticky) {
     headerMenu.classList.remove('header-menu');
 
 } else {
+
+    body.style.paddingTop = '0';
 
     header.classList.remove("header-minimized");
     header.classList.add("header");

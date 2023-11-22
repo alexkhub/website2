@@ -15,8 +15,8 @@ from shop.models import Users, Products, Product_Images
 
 class BasketListView(LoginRequiredMixin, ListAPIView):
     queryset = Order_Points.objects.filter(in_orders=False)
-    # renderer_classes = [TemplateHTMLRenderer]
-    # template_name = 'working_with_orders/basket.html'
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'working_with_orders/basket.html'
     serializer_class = Order_PointsSerializer
 
     # lookup_field = 'slug'
@@ -37,10 +37,10 @@ class BasketListView(LoginRequiredMixin, ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(
-            # {
-            #     'order_points': serializer.data
-            # }
-            serializer.data
+            {
+                'order_points': serializer.data
+            }
+            # serializer.data
         )
 
 
@@ -48,13 +48,23 @@ class Order_Details(RetrieveAPIView):
     queryset = Orders.objects.all().prefetch_related(
         Prefetch('payment_method', queryset=Payment_Method.objects.all().only('name')),
         Prefetch('order_points',
-                 queryset=Order_Points.objects.all().only('id', 'price', 'amount', 'product', ).prefetch_related(
-                     Prefetch('product', queryset=Products.objects.all().only('product_name'))
+                 queryset=Order_Points.objects.all().only('id', 'price', 'amount', 'product',  ).prefetch_related(
+                     Prefetch('product', queryset=Products.objects.all().only('product_name', 'slug'))
                  ))
     )
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'working_with_orders/order.html'
     serializer_class = Order_DetailsSerializer
     lookup_field = 'id'
 
+    def retrieve(self, request, *args, **kwargs):
+
+        order_serializer = self.get_serializer(self.get_object())
+        return Response(
+            {
+                'order': order_serializer.data
+            }
+        )
 
 @login_required(login_url='login')
 def order_point_remove(request, id):

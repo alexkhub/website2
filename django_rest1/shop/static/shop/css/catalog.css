@@ -111,6 +111,11 @@ main {
     z-index: 0;
 }
 
+.price-range__input input[type="range"] {
+    height: 1px;
+    background-color: #CC01FF;
+}
+
 .price-range__input input::after {
     position: absolute;
     content: '';
@@ -130,7 +135,7 @@ main {
 
 .price-range__input input::-webkit-slider-thumb {
     position: relative;
-    background: red;
+    background: green;
     border: 1px solid #CC01FF;
     border-radius: 100%;
     cursor: pointer;
@@ -141,26 +146,34 @@ main {
     z-index: 2;
 }
 
+input[type=range]::-moz-range-thumb {
+    background: green;
+    cursor: pointer;
+    z-index: 2;
+    border: 2px solid white;
+}
+
+#price-max__input {
+    background-color: transparent;
+}
+
 .price-range {
     margin-top: 10px;
     margin-left: 4px;
+    z-index: 1;
 }
 
 #price-max__input {
     position: absolute;
     top: 14px;
     left: 0;
+    z-index: 0;
 }
 
 #price-max__input::-webkit-slider-runnable-track {
     background: transparent;
     z-index: 1;
     height: .1px;
-}
-
-#price-max__input::-webkit-slider-thumb {
-    background: green;
-    z-index: 2;
 }
 
 #price-range-min,
@@ -170,7 +183,6 @@ main {
     border: none;
     color: white;
     font-size: 14px;
-    z-index: 1;
     width: 50px;
 }
 
@@ -178,6 +190,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+input[type='number'] {
+    appearance: textfield;
 }
 
 .filters__item {

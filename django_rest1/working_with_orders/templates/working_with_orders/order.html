@@ -1,0 +1,57 @@
+{% extends 'shop/base.html' %}
+{%load static%}
+{%load reverse_text%}
+
+
+{%block headblock%}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+    <!-- Tektur Font Regular 400/Medium 500/Bold 700 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- M1 PLUS Code Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'working_with_orders/css/order.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'shop/css/media-query-header.css' %}">
+
+{%endblock headblock%}
+{%block content %}
+
+    <main>
+        <div class="order-info">
+            <h3>Информация о заказе</h3>
+            <div class="order-info__text">
+                <p class="order-id">ID заказа: <span>{{order.id}}</span></p>
+                <p class="order-date">Дата заказа: {{order.date|reverse_text}}</p>
+                <p class="order-status">Статус: <span>{{order.status}}</span></p>
+                <p class="order-adress">Адрес доставки: <span>ул. Какаято 81</span></p>
+                <p class="order-price">Стоимость заказа: <span>{{order.price}}</span> ₽</p>
+            </div>
+        </div>
+        <div class="order-products-list">
+            <h3>Список товаров</h3>
+            <ul>
+                {%for order_point in order.order_points%}
+                <li><a href="{%url 'show_product' order_point.product_slug %}">{{order_point.product}} </a>
+                {%endfor%}
+            </ul>
+        </div>
+        <h3>Появились вопросы? Напишите в <span><a href="" id="support-link">поддержку</a></span>!</h3>
+    </main>
+    <script src="{%static 'shop/js/main.js'%}"></script>
+{%endblock%}

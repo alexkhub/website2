@@ -69,9 +69,63 @@
             <button id="total__button">Заказать всё</button>
         </div>
     </main>
+    <div class="confirm-order-bg"></div>
+        <div class="confirm-order">
+            <h3>Подтверждение заказа</h3>
+            <div class="confirm-order-items">
+            </div>
+            <div class="confirm-order-buttons">
+                <button id="change-payment-method">Изменить способ оплаты</button>
+                <div class="payment-method-choice">
+                    <div>
+                        <a href="#" class="">
+                            <div class="payment-method-item cash"></div>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" class="">
+                            <div class="payment-method-item mastercard"></div>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" class="">
+                            <div class="payment-method-item visa"></div>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" class="">
+                            <div class="payment-method-item qiwi"></div>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" class="">
+                            <div class="payment-method-item mts"></div>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <button id="confirm">Подтвердить</button>
+                    <input type="checkbox" name="" id="delivery">
+                    <label for="delivery">Доставка</label>
+                </div>
+            </div>
+        </div>
 
+        <div class="order-is-accepted__popup">
+            <div class="check-circle">
+                <div></div>
+                <div></div>
+            </div>
+            <p>Ваш заказ принят!</p>
+            <button id="close-popup">Закрыть</button>
+        </div>
+
+
+    <script src="{static 'working_with_orders/js/basket/confirmOrder.js' %}"></script>
+    <script src="{%static 'working_with_orders/js/basket/itemsForConfirmOrder.js' %}"></script>
     <script src="{%static 'shop/js/main.js'%}"></script>
-    <script src="{%static 'working_with_orders/js/basket.js'%}"></script>
+    <script src="{%static 'working_with_orders/js/basket/basket.js'%}"></script>
+
 
 
 {%endblock%}

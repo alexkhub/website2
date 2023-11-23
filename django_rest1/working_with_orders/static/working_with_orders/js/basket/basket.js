@@ -17,17 +17,6 @@ for (i = 0; i < itemDescription.length; i++) {
     }
 }
 
-// Order button animation
-const orderButton = document.querySelector('#total__button');
-orderButton.addEventListener('click', () => {
-    orderButton.style.backgroundColor = 'green';
-    orderButton.textContent = 'Заказано!';
-    orderButton.setAttribute('disabled', '');
-    setTimeout(() => {
-        orderButton.style.backgroundColor = 'transparent';
-    }, 1000);
-});
-
 // Item counter const's
 const itemCountPlus = document.querySelectorAll('.fa-plus');
 const itemCountMinus = document.querySelectorAll('.fa-minus');

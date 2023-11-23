@@ -39,8 +39,6 @@ class ProductsListView(ListAPIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'shop/home.html'
 
-    # @method_decorator(cache_page(30))
-    # @method_decorator(vary_on_headers("Home", ))
     def list(self, request, **kwargs):
         products = Products.objects.filter(Q(discount=0) & Q(numbers__gt=0)).prefetch_related(
             Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True))).only(
@@ -236,6 +234,9 @@ class CategoryListAPIView(ListAPIView):
         'id', 'numbers', 'manufacturer', 'product_photos', 'category', 'discount',
         'product_name', 'last_price', 'slug')
 
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/catalog.html'
+
     serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CategoryFilter
@@ -246,9 +247,17 @@ class CategoryListAPIView(ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        categories = get_categories()
+        manufacturer = get_manufacturers()
+
+        manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
+        category_serializer = CategoryListSerializer(categories, many=True)
         serializer_products = self.get_serializer(queryset, many=True)
-        # return Response({'products': serializer_products.data})
-        return Response(serializer_products.data)
+        return Response({'products': serializer_products.data,
+                         'categories': category_serializer.data,
+                         'manufacturers': manufacturer_serializer.data
+                         })
+        # return Response(serializer_products.data)
 
 
 class ManufacturerListAPIView(ListAPIView):
@@ -256,6 +265,9 @@ class ManufacturerListAPIView(ListAPIView):
         Prefetch('product_photos', queryset=Product_Images.objects.filter(first_img=True)),
         Prefetch('manufacturer', queryset=Manufacturer.objects.all().only('slug')),
         Prefetch('category', queryset=Category.objects.all().only('slug')))
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/catalog.html'
     serializer_class = ProductsListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ManufactureFilter
@@ -264,13 +276,18 @@ class ManufacturerListAPIView(ListAPIView):
         self.queryset = self.queryset.filter(manufacturer__slug=self.request.resolver_match.kwargs['manufacturer_slug'])
         return self.queryset
 
-    @method_decorator(cache_page(60 * 30))
-    @method_decorator(vary_on_headers("ManufacturerProducts", ))
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        categories = get_categories()
+        manufacturer = get_manufacturers()
+
+        manufacturer_serializer = ManufacturerSerializer(manufacturer, many=True)
+        category_serializer = CategoryListSerializer(categories, many=True)
         serializer_products = self.get_serializer(queryset, many=True)
-        # return Response({'products': serializer_products.data})
-        return Response(serializer_products.data)
+        return Response({'products': serializer_products.data,
+                         'categories': category_serializer.data,
+                         'manufacturers': manufacturer_serializer.data
+                         })
 
 
 def logout_user(request):

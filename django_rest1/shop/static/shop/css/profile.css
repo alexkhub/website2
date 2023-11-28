@@ -194,7 +194,7 @@ body {
     border-bottom: 2.5px solid #CC00FF;
 }
 
-#confirm {
+.profile-settings form > div button, #confirm {
     position: relative;
     background-color: transparent;
     outline: none;
@@ -209,12 +209,12 @@ body {
         .3s ease box-shadow;
 }
 
-#confirm:hover {
+.profile-settings form > div button:hover, #confirm:hover {
     transform: scale(1.05);
     box-shadow: 0 0 0 3.5px green;
 }
 
-#confirm::after {
+.profile-settings form > div button::after, #confirm::after {
     position: absolute;
     content: '';
     width: 100%;
@@ -227,7 +227,21 @@ body {
         .3s ease-in-out bottom;
 }
 
-#confirm:hover::after {
+.profile-settings form > div button:hover:after, #confirm:hover::after {
     bottom: 0;
     border-radius: 30px;
+}
+
+.profile-settings form > div button {
+    white-space: nowrap;
+    width: 220px;
+}
+
+.change-email-password {
+    display: flex;
+    width: 500px;
+}
+
+#change-password__link {
+    margin-top: 20px;
 }

@@ -7,7 +7,6 @@ const count = document.querySelectorAll('.item__counter');
 const itemPrice = document.querySelectorAll('.price__text');
 const orderButton = document.querySelector('#total__button');
 
-
 orderButton.addEventListener('click', () => {
     // Clear container every click
     const orderItem = document.querySelectorAll('.confirm-order-item');
@@ -31,8 +30,8 @@ orderButton.addEventListener('click', () => {
         createTitle.classList.add('order-item-title');
         createTitle.textContent = title[i].textContent;
 
-        const createCount = document.createElement('span');
-        createCount.textContent = ` x${count[i].textContent}`;
+        // const createCount = document.createElement('span');
+        // createCount.textContent = ` x${count[i].textContent}`;
 
         const createDescr = document.createElement('p');
         createDescr.classList.add('order-item-description');
@@ -50,7 +49,7 @@ orderButton.addEventListener('click', () => {
         createItem.appendChild(createImg);
         createItem.appendChild(createTextContainer);
         createTextContainer.appendChild(createTitle);
-        createTitle.appendChild(createCount);
+        // createTitle.appendChild(createCount);
         createTextContainer.appendChild(createDescr);
         createTextContainer.appendChild(createPriceContainer);
         createPriceContainer.appendChild(createPrice);

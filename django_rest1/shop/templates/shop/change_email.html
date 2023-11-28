@@ -1,0 +1,50 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+
+
+{%block headblock%}
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Смена пароля</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="assets/img/favicon.svg" type="image/x-icon">
+
+        <!-- Tektur Font Regular 400/Medium 500/Bold 700 -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;700&display=swap" rel="stylesheet">
+
+        <!-- M1 PLUS Code Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@700&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="{% static 'shop/css/change-email.css' %}">
+        <link rel="stylesheet" href="{% static 'shop/css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'shop/css/media-query-header.css' %}">
+
+{%endblock headblock%}
+{%block content %}
+
+
+        <main>
+            <form action="" class="change-email__form" method="post">
+                {%csrf_token%}
+                <h3>Изменить почту</h3>
+                <input type="email" placeholder="Введите новый email">
+                <input type="email" placeholder="Подтвердите новый email">
+                <button type="submit">Подтвердить</button>
+            </form>
+        </main>
+
+        <script src="{% static 'shop/js/main.js' %}"></script>
+
+
+{%endblock%}

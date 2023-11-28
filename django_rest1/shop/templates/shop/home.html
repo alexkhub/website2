@@ -32,52 +32,71 @@
     {%block content %}
 
     <main class="main">
+
         <div class="item">
             <h3>Категории</h3>
-            {%for category in category_serializer%}
-            <a href="{%url 'product_category' category.slug%}">
-            <div class="item__element"><img src="{{category.category_photo}}" alt="">
-                <p>{{category.name}}</p>
-            </div>
-            </a>
-            {%endfor%}
+            <i class="fas fa-arrow-alt-circle-left"></i>
+                <div class="slider-line">
+                {%for category in category_serializer%}
+
+                    <a href="{%url 'product_category' category.slug%}">
+                    <div class="item__element"><img src="{{category.category_photo}}" alt="">
+                        <p>{{category.name}}</p>
+                    </div>
+                    </a>
+                {%endfor%}
+                </div>
+            <i class="fas fa-arrow-alt-circle-right"></i>
+
         </div>
 
         <div class="item">
             <h3>Скидки</h3>
-            {%for product in  products_with_discount_serializer%}
-                {%for img in product.product_photos%}
-            <div class="item__element"><img src="{{img.img}}" alt="">
-                <div class="item__element-add-to-cart-link"><a href="{%url 'add_product' product.id%}">В корзину</a></div>
-                    <p>{{product.product_name}}</p>
-                    <p>{{product.last_price}}</p>
-                <div class="item__element-view-link"><a href="{%url 'show_product' product.slug%}">Просмотр</a></div>
-            </div>
-             {%endfor%}
-            {%endfor%}
+             <i class="fas fa-arrow-alt-circle-left"></i>
+                <div class="slider-line">
+                    {%for product in  products_with_discount_serializer%}
+                        {%for img in product.product_photos%}
+                    <div class="item__element"><img src="{{img.img}}" alt="">
+                        <div class="item__element-add-to-cart-link"><a href="{%url 'add_product' product.id%}">В корзину</a></div>
+                            <p>{{product.product_name}}</p>
+                            <p>{{product.last_price}}</p>
+                        <div class="item__element-view-link"><a href="{%url 'show_product' product.slug%}">Просмотр</a></div>
+                    </div>
+                     {%endfor%}
+                    {%endfor%}
+                </div>
+            <i class="fas fa-arrow-alt-circle-right"></i>
         </div>
         <div class="item">
             <h3>Товары</h3>
-            {%for product in  products_serializer%}
-                {%for img in product.product_photos%}
-            <div class="item__element"><img src="{{img.img}}" alt="">
-                <div class="item__element-add-to-cart-link"><a href="{%url 'add_product' product.id%}">В корзину</a></div>
-                    <p>{{product.product_name}}</p>
-                    <p>{{product.last_price}}</p>
-                <div class="item__element-view-link"><a href="{%url 'show_product' product.slug%}">Просмотр</a></div>
-            </div>
-             {%endfor%}
-            {%endfor%}
+             <i class="fas fa-arrow-alt-circle-left"></i>
+                <div class="slider-line">
+                {%for product in  products_serializer%}
+                    {%for img in product.product_photos%}
+                <div class="item__element"><img src="{{img.img}}" alt="">
+                    <div class="item__element-add-to-cart-link"><a href="{%url 'add_product' product.id%}">В корзину</a></div>
+                        <p>{{product.product_name}}</p>
+                        <p>{{product.last_price}}</p>
+                    <div class="item__element-view-link"><a href="{%url 'show_product' product.slug%}">Просмотр</a></div>
+                </div>
+                 {%endfor%}
+                {%endfor%}
+                </div>
+            <i class="fas fa-arrow-alt-circle-right"></i>
         </div>
         <div class="item">
             <h3>Производители</h3>
-            {%for manufacturer in manufacturer_serializer%}
-            <a href="{%url 'product_manufacturer'  manufacturer.slug%}">
-            <div class="item__element"><img src="{{manufacturer.photo}}" alt="">
-                <p>{{manufacturer.manufacturer_name}}</p>
-            </div>
-            </a>
-            {%endfor%}
+             <i class="fas fa-arrow-alt-circle-left"></i>
+                <div class="slider-line">
+                    {%for manufacturer in manufacturer_serializer%}
+                    <a href="{%url 'product_manufacturer'  manufacturer.slug%}">
+                    <div class="item__element"><img src="{{manufacturer.photo}}" alt="">
+                        <p>{{manufacturer.manufacturer_name}}</p>
+                    </div>
+                    </a>
+                    {%endfor%}
+                </div>
+            <i class="fas fa-arrow-alt-circle-right"></i>
 
         </div>
 
@@ -89,6 +108,7 @@
 
 
     <script src="{% static 'shop/js/main.js'%}"></script>
+    <script src="{%static 'shop/js/home_slider.js' %}"></script>
     <script src="https://kit.fontawesome.com/8a2fbc0c4d.js" crossorigin="anonymous"></script>
 
 

@@ -1,31 +1,63 @@
 main {
-    padding: 20px 70px;
+    padding: 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .item {
-    padding: 20px 90px;
-    display: flex;
-    justify-content: space-between;
-    gap: 50px;;
     position: relative;
-    margin-top: 70px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 1250px;
+    overflow: hidden;
+}
+
+.slider-line {
+    position: relative;
+    display: flex;
+    right: 1px;
+    flex-shrink: 1;
+    overflow: hidden;
+    transition: .3s ease-in-out right;
+}
+
+.fa-arrow-alt-circle-right, .fa-arrow-alt-circle-left {
+    position: absolute;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+    z-index: 3;
+    display: none;
+}
+
+.fa-arrow-alt-circle-left {
+    left: 20px;
+    top: 140px;
+}
+
+.fa-arrow-alt-circle-right {
+    right: 0;
+    top: 140px;
 }
 
 .item h3 {
-    position: absolute;
     color: white;
     font-size: 32px;
     font-family: 'Sansation Light', arial;
-    top: -45px;
-    left: 0;
     border-image: linear-gradient(35deg, rgba(114,48,255,1) 0%, rgba(255,48,48,1) 100%);
     border-image-slice: 1;
     border-bottom: 2px solid black;
+    display: inline;
 }
 
 .item__element {
     width: 195px;
     height: 195px;
+    min-width: 195px;
     border-radius: 20px;
     background: #252525;
     display: flex;
@@ -38,6 +70,9 @@ main {
     .3s ease transform;
     color: white;
     font-size: 14px;
+    margin: 30px;
+    position: relative;
+    overflow: hidden;
 }
 
 .item__element img {
@@ -48,11 +83,6 @@ main {
 .item__element:hover {
     box-shadow: none;
     transform: translateY(-7px);
-}
-
-.item__element {
-    position: relative;
-    overflow: hidden;
 }
 
 .item__element-add-to-cart-link, .item__element-view-link {

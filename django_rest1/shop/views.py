@@ -290,6 +290,29 @@ class ManufacturerListAPIView(ListAPIView):
                          })
 
 
+class ChangePassword(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/change_password.html'
+
+    def get(self, request):
+        return Response(None)
+
+    def post(self, request, format=None):
+        print(request.data)
+        return redirect("home")
+
+class ChangeEmail(APIView):
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'shop/change_email.html'
+
+    def get(self, request):
+        return Response(None)
+
+    def post(self, request, format=None):
+        print(request.data)
+        return redirect("home")
+
+
 def logout_user(request):
     logout(request)
     return redirect('home')
@@ -359,46 +382,3 @@ def tr_handler404(request, exception):
         'title': 'Страница не найдена: 404',
         'error_message': 'К сожалению такая страница была не найдена, или перемещена',
     })
-
-# class ProfileViewSet(ModelViewSet):
-#     # renderer_classes = [TemplateHTMLRenderer]
-#     # template_name = 'shop/profile.html'
-#     queryset = Users.objects.all().only('id', 'first_name', 'password', 'last_name',
-#                                         'username', 'date_joined', 'phone', 'slug', 'address', 'user_photo')
-#     serializer_class = UserSerializer
-#     lookup_field = "slug"
-#     permission_classes = (ProfilePermission,)
-#
-#     def retrieve(self, request, *args, **kwargs):
-#         user_profile = self.get_object()
-#         unpaid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=False) & Q(delivery=False))
-#         paid = Orders.objects.filter(Q(user=request.user) & Q(paid_order=True))
-#         delivery = Orders.objects.filter(Q(user=request.user) & Q(delivery=True))
-#
-#         unpaid_serializer = OrderSerializer(unpaid, many=True)
-#         paid_serializer = OrderSerializer(paid, many=True)
-#         delivery_serializer = OrderSerializer(delivery, many=True)
-#
-#         user_serializer = self.get_serializer(user_profile)
-#
-#         return Response(
-#             {
-#                 'unpaid_orders': unpaid_serializer.data,
-#                 'paid_orders': paid_serializer.data,
-#                 'delivery_orders': delivery_serializer.data,
-#                 'profile': user_serializer.data
-#             }
-#         )
-#
-#     def patch(self, request, *args, **kwargs):
-#         if (request.data['email'] == request.data['reenter_email']) and (request.data['reenter_email'] != '') and (
-#                 check_password(request.data['last_password'], request.user.password) and (
-#                 request.data['password'] != '') and (
-#                         request.data['password'] == request.data['reenter_password']
-#                 )):
-#             request.data['password'] = make_password(request.data['password'])
-#         return self.partial_update(request, *args, **kwargs)
-#
-#         else:
-#
-#         messages.error(request, 'Ошибка заполнения полей')

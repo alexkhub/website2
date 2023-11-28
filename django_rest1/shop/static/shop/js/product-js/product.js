@@ -15,8 +15,8 @@ for (i = 0; i < rating.length; i++) {
     const splitDate = dateToday.toLocaleString().split(',')
     const currentDate = dateText[i].textContent = splitDate[0];
     // Random rating
-    const randomRating = Math.random() * 10;
-    rating[i].textContent = `Оценка: ${Math.round(randomRating)}/10`;
+//    const randomRating = Math.random() * 10;
+//    rating[i].textContent = `Оценка: ${Math.round(randomRating)}/10`;
 }
 
 // Change add to cart button text and styles on click

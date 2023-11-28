@@ -1,0 +1,60 @@
+main {
+    height: calc(100vh - 101px);
+}
+
+main, .change-email__form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.change-email__form h3 {
+    color: white;
+    font-size: 32px;
+    text-align: center;
+}
+
+.change-email__form input {
+    background-color: transparent;
+    box-shadow: 0 0 2px 2px #CC00FF;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-size: 16px;
+    color: white;
+
+    transition: .3s ease background-color;
+}
+
+.change-email__form input::placeholder {
+    color: white;
+    transition: .3s ease transform;
+}
+
+.change-email__form input:focus::placeholder {
+    transform: translateY(-115%);
+}
+
+.change-email__form input:hover {
+    background-color: black;
+}
+
+.change-email__form button {
+    background-color: transparent;
+    outline: none;
+    border: 2px solid #CC00FF;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 5px 20px;
+    color: white;
+    cursor: pointer;
+
+    transition: .3s ease background-color;
+}
+
+.change-email__form button:hover {
+    background-color: #cc00ff74;
+}

@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.vary import vary_on_headers
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.decorators import login_required
@@ -220,8 +221,9 @@ class ProfileRetrieveUpdateAPIView(RetrieveUpdateAPIView):
                 'profile': user_serializer.data
             }
         )
-
-    def patch(self, request, *args, **kwargs):
+    @csrf_protect
+    def put(self, request, *args, **kwargs):
+        print(request.data)
         return self.partial_update(request, *args, **kwargs)
 
 
@@ -301,15 +303,25 @@ class ChangePassword(APIView):
         print(request.data)
         return redirect("home")
 
+
 class ChangeEmail(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/change_email.html'
+    # renderer_classes = [TemplateHTMLRenderer]
+    # template_name = 'shop/change_email.html'
+
+    def get_object(self):
+        return Users.objects.get(slug=self.request.user.slug)
 
     def get(self, request):
-        return Response(None)
+        serializer = UpdateEmailSerializer(self.get_object())
+        return Response(serializer.data)
 
     def post(self, request, format=None):
-        print(request.data)
+        if request.data['email']:
+            instance = Users.objects.get(user__slug=request.user)
+            serializer = UpdateEmailSerializer(request.data, instance)
+            serializer.is_valid()
+            print(serializer.data, instance)
+            serializer.update(instance=instance, validated_data=request.data)
         return redirect("home")
 
 

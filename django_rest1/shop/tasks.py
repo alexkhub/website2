@@ -14,6 +14,7 @@ def sending_delayed_emails():
     if emails:
         for email in emails:
             send(email)
+            email.delete()
 
 
 @app.task

@@ -46,7 +46,7 @@ $("#confirm").on("click",function() {
          form = $(this).closest("form"),
          formData  = form.serialize()
          $.ajax({
-             type:'PUT',
+             type:'PATCH',
              url: url,
              data: formData,
              success: function (data) {

@@ -39,8 +39,7 @@
         <div class="profile-settings__container">
             <div class="profile-settings">
                 <p class="profile-settings__title">Настройки профиля</p>
-                <form action="/profile/{{request.user}}/" id="update_profile" method="post">
-                    {%csrf_token%}
+                <form action="/profile/{{request.user}}/" id="update_profile" method="post" data-method="PUT">{%csrf_token%}
 
                     <a href=""><i class="fas fa-times"></i></a>
                     <div  class="profile-settings__form-item change-name__form">
@@ -68,7 +67,7 @@
                         </div>
                     </div>
                     <div class="change-email-password">
-                        <a href="/change-email.html"><button type="button">Изменить почту</button></a>
+                        <a href="{%url 'change_email' %}"><button type="button">Изменить почту</button></a>
                         <a href="/change-password.html" id="change-password__link"><button type="button">Изменить пароль</button></a>
                     </div>
                     <button type="submit"   id="confirm">Подтвердить</button>
@@ -149,12 +148,13 @@
 
 
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script src="{% static 'shop/js/main.js' %}"></script>
     <script src="{% static 'shop/js/profile.js' %}"></script>
-<!--    <script src="{% static 'shop/js/profile_jquery.js' %}"></script>-->
+    <script src="{% static 'shop/js/profile_jquery.js' %}"></script>
 <!--    <script src="{% static 'shop/js/profile_update.js' %}"></script>-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
 
 
 {%endblock%}

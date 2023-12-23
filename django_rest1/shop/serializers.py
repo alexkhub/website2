@@ -91,7 +91,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = Users
         read_only = ('owner.username',)
         fields = (
-        'id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address', 'user_photo',)
+            'id', 'username', 'first_name', 'last_name', 'email', 'date_joined', 'phone', 'address', 'user_photo',)
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get("username", instance.username)
@@ -108,3 +108,18 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         model = Manufacturer
         read_only = ('owner.username',)
         fields = ("manufacturer_name", "slug", "photo")
+
+
+class UpdateEmailSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+
+    class Meta:
+        model = Users
+        read_only = ('owner.username',)
+        fields = ("email", )
+
+    def update(self, instance, validated_data,):
+
+        instance.email = validated_data.get("email", instance.email)
+        instance.save()
+        return instance

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     'django_filters',
+    "corsheaders",
 
     'shop.apps.ShopConfig',
     'company_orders.apps.CompanyOrdersConfig',
@@ -70,15 +71,16 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    #     'django.middleware.cache.UpdateCacheMiddleware',
+
     'django.middleware.common.CommonMiddleware',
-    #     'django.middleware.cache.FetchFromCacheMiddleware',
+
 ]
 
 ROOT_URLCONF = 'django_rest1.urls'
@@ -116,6 +118,23 @@ INTERNAL_IPS = [
     "127.0.0.1",
     "localhost",
 ]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://127.0.0.1:8000",
+
+]
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
 
 CACHES = {
     'default': {

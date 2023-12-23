@@ -38,8 +38,8 @@
             <form action="" class="change-email__form" method="post">
                 {%csrf_token%}
                 <h3>Изменить почту</h3>
-                <input type="email" placeholder="Введите новый email">
-                <input type="email" placeholder="Подтвердите новый email">
+                <input name="email" type="email" placeholder="Введите новый email">
+                <input name="repeat_email" type="email" placeholder="Подтвердите новый email">
                 <button type="submit">Подтвердить</button>
             </form>
         </main>

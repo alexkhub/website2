@@ -292,16 +292,6 @@ class ManufacturerListAPIView(ListAPIView):
                          })
 
 
-class ChangePassword(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'shop/change_password.html'
-
-    def get(self, request):
-        return Response(None)
-
-    def post(self, request, format=None):
-        print(request.data)
-        return redirect("home")
 
 
 class ChangeEmail(APIView):

@@ -16,7 +16,7 @@ urlpatterns = [
     path('product_manufacturer/<slug:manufacturer_slug>/', ManufacturerListAPIView.as_view(),
          name='product_manufacturer'),
     path('catalog/', CatalogListView.as_view(), name='catalog'),
-    path('change_password/', ChangePassword.as_view(), name='change_password'),
+    
     path('change_email/', ChangeEmail.as_view(), name='change_email'),
 
 
